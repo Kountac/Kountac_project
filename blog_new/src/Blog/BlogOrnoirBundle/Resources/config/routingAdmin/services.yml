@@ -1,0 +1,30 @@
+adminServices:
+    pattern:  /
+    defaults: { _controller: "BlogOrnoirBundle:Services:index" }
+
+adminServices_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "BlogOrnoirBundle:Services:show" }
+
+adminServices_new:
+    pattern:  /new
+    defaults: { _controller: "BlogOrnoirBundle:Services:new" }
+
+adminServices_create:
+    pattern:  /create
+    defaults: { _controller: "BlogOrnoirBundle:Services:create" }
+    requirements: { _method: post }
+
+adminServices_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "BlogOrnoirBundle:Services:edit" }
+
+adminServices_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "BlogOrnoirBundle:Services:update" }
+    requirements: { _method: post|put }
+
+adminServices_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "BlogOrnoirBundle:Services:delete" }
+    requirements: { _method: post|delete }

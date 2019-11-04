@@ -1,0 +1,7 @@
+parameters:
+#    blog_ornoir.example.class: Blog\BlogOrnoirBundle\Example
+
+services:
+#    blog_ornoir.example:
+#        class: %blog_ornoir.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

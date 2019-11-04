@@ -1,0 +1,7 @@
+BlogOrnoirBundle_recherche_blog:
+    pattern:  /articles
+    defaults: { _controller: BlogOrnoirBundle:Recherche:rechercheTraitementBlog }
+    
+BlogOrnoirBundle_recherche_service:
+    pattern:  /services
+    defaults: { _controller: BlogOrnoirBundle:Recherche:rechercheTraitementService }

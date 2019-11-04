@@ -1,0 +1,31 @@
+{% extends "FOSUserBundle::layout.html.twig" %}
+
+{% block fos_user_content %}
+    
+    <div id="bannerWide" class="subBanner"> <img src="{{ asset('img/sub-banner.png') }}" alt="" class="bannerBg">
+        <div class="bannerCon">
+            <h2><span class="blue">Connexion</span> </h2>
+            <p><a href="{{ path('blog_ornoir_homepage') }}">Accueil</a> » <a href="{{ path('fos_user_security_login') }}">Connexion</a> </p>
+        </div>
+    </div>
+        <div class="sep"></div>
+    <form action="{{ path("fos_user_security_check") }}" method="post">
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+        
+        <input type="text" class="textField"  placeholder="{{ 'security.login.username'|trans({}, 'FOSUserBundle') }}" id="username" name="_username" value="{{ last_username }}" required="required" />
+        <br>
+        <br>
+        <input type="password" id="password" placeholder="{{ 'security.login.password'|trans({}, 'FOSUserBundle') }}" name="_password" class="textField" required="required" />
+        <br>
+        <br>
+        <input type="checkbox" id="remember_me" name="_remember_me" value="on" />
+        <label for="remember_me">{{ 'security.login.remember_me'|trans({}, 'FOSUserBundle') }}</label>
+        <br><br>
+        <br>
+        <input type="submit" id="_submit" class="button" name="_submit" value="{{ 'security.login.submit'|trans({}, 'FOSUserBundle') }}" />
+    </form>
+    <br><br>
+       
+                <h4>Créez votre compte éditeur <a href="{{ path('fos_user_registration_register') }}">ici</h4>
+
+{% endblock fos_user_content %}

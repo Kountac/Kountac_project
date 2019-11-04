@@ -1,0 +1,79 @@
+{% extends "::base.html.twig" %}
+
+{% block body %}
+
+    <div class="circleSep">
+        <div class="circleLeft"></div>
+        <div class="circleRight"></div>
+        <div class="sep"></div>
+    </div>
+
+    <!-- Begin Sub Page Banner -->
+    <div id="bannerWide" class="subBanner"> <img src="{{ asset('img/sub-banner.png') }}" alt="" class="bannerBg">
+        <div class="bannerCon">
+            <h2> Services</h2>
+            <p><a href="{{ path('blog_ornoir_homepage') }}">Accueil</a> » <a href="{{ path('blog_ornoir_service_all') }}">Services</a></p>
+        </div>
+        <div class="searchCon">
+            <form>
+                <input name="search" type="text" class="textField" placeholder="search">
+                <input name="submitSearch" type="submit" class="searchBtn">
+            </form>
+        </div>
+    </div>
+    <!-- End Sub Page Banner -->
+
+    <div class="sep"></div>
+
+    <!-- Begin Main Container -->
+    <div id="mainContainer">
+        <div id="mainContent">
+
+            <!-- Services -->
+            <section class="clearfix">
+                <h2 class="title"><span class="blue">What</span> We Do </h2>
+                <p>Sed est pede, ultrices id, tempor suscipit, ornare et, nisl. Aliquam in sapien. Etiam eu ipsum eu urna tincidunt dignissim. Maecenas quis mauris. Nam nunc. In quam tortor, aliquet ac, dictum sed, ultricies in, libero. Nam magna odio, venenatis non, venenatis quis, iaculis eget, mauris. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos hymenaeos. Nunc ante nibh, porttitor quis, egestas ut, malesuada auctor, tellus. Integer scelerisque urna in sapien. Curabitur dignissim. Nullam libero libero, vestibulum ut. </p>
+
+
+                <!-- List of Services -->
+                <h2><span class="blue">Listes</span> des Services OrNoir</h2>
+                <div class="staff clearfix noMarginTop">
+                    <div class="staffImg floatRight">
+                        <div class="frame_round"><img src="img/temp/staff3.png" alt=""></div>
+                    </div>
+                    <div class="content noBorder noMarginBottom left">
+                        <p> Sed est pede, ultrices id, tempor suscipit, ornare et, nisl. Aliquam in sapien. Etiam eu ipsum eu urna tincidunt dignissim. Maecenas quis mauris. Nam nunc. In quam tortor, aliquet ac, dictum sed, ultricies in, libero. </p>
+                        <p>Praesent lobortis, lectus at ullamcorper lacinia, diam nibh euismod metus, sed semper turpis nisi et sapien. Aliquam fermentum nunc nec felis. In sit amet quam in mi mattis ullamcorper. Suspendisse vel neque. Nullam eu ante. Sed tempor dolor. </p>
+                        <p>Duis ut neque eu nulla consequat semper. Donec malesuada. Pellentesque cursus mauris sit amet nisl. Nullam aliquet tellus ac ipsum. Maecenas suscipit commodo diam. Curabitur imperdiet. </p>
+                        <p>Fusce porta. Aliquam a risus. Praesent mauris massa, imperdiet </p>
+                        <br>
+                    </div>
+                </div>
+                <section class="columns clearfix mainServices" id="services">
+                    {% for service in services%}
+                    <article class="one_third">
+                        <h2><span class="blue"></span> {{ service.titre }}</h2>
+                        <div class="frame_round"><img src="{{ asset(service.image.AssetPath) }}" alt="Image non disponible"></div>
+                        <div class="content">
+                            <p class="shortDesc"></p>
+                            <a href="{{ path('blog_ornoir_service_single', {'id' : service.id}) }}" class="emboss_button">Lire plus </a> </div>
+                    </article>
+                    {% endfor %}
+                </section>
+                <!-- End Services --> 
+
+            </section>
+
+            <article class="call_out blue clearfix">
+                <div class="content">
+                    <h2>BESOIN <span class="blue">D'AIDE ?</span></h2>
+                    <p>Besoin de nous contacter? cliquez sur le lien.</p>
+                </div>
+                <a href="{{ path('blog_ornoir_contact') }}" class="button_round">Contacter-nous</a> </article>
+
+            <div class="sep"></div>
+
+        </div>
+
+
+    {% endblock %}

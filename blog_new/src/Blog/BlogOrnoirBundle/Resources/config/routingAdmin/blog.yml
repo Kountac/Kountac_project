@@ -1,0 +1,30 @@
+adminBlog:
+    pattern:  /
+    defaults: { _controller: "BlogOrnoirBundle:Blog:index" }
+
+adminBlog_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "BlogOrnoirBundle:Blog:show" }
+
+adminBlog_new:
+    pattern:  /new
+    defaults: { _controller: "BlogOrnoirBundle:Blog:new" }
+
+adminBlog_create:
+    pattern:  /create
+    defaults: { _controller: "BlogOrnoirBundle:Blog:create" }
+    requirements: { _method: post }
+
+adminBlog_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "BlogOrnoirBundle:Blog:edit" }
+
+adminBlog_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "BlogOrnoirBundle:Blog:update" }
+    requirements: { _method: post|put }
+
+adminBlog_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "BlogOrnoirBundle:Blog:delete" }
+    requirements: { _method: post|delete }

@@ -1,0 +1,55 @@
+blog_ornoir_homepage:
+    pattern:  /
+    defaults: { _controller: BlogOrnoirBundle:Default:index }
+
+blog_ornoir_about:
+    pattern:  /about_us
+    defaults: { _controller: BlogOrnoirBundle:Default:aboutUs }
+
+blog_ornoir_contact:
+    pattern:  /contact_us
+    defaults: { _controller: BlogOrnoirBundle:Default:contactUs }
+    
+blog_ornoir_blog_all:
+    pattern:  /tous_les_blogs
+    defaults: { _controller: BlogOrnoirBundle:Default:blogAll }
+    
+blog_ornoir_blog_single:
+    pattern:  /tous_les_blogs/blog/{id}
+    defaults: { _controller: BlogOrnoirBundle:Default:blogSingle }
+    
+blog_ornoir_service_all:
+    pattern:  /tous_les_services
+    defaults: { _controller: BlogOrnoirBundle:Default:serviceAll }
+    
+blog_ornoir_service_single:
+    pattern:  /tous_les_services/service/{id}
+    defaults: { _controller: BlogOrnoirBundle:Default:serviceSingle }
+    
+blog_ornoir_registration_adresse:
+    pattern:  /register_info
+    defaults: { _controller: UtilisateursBundle:Registration:adresseRegistration }
+    
+BlogOrnoirBundle_adminServices:
+    resource: "@BlogOrnoirBundle/Resources/config/routingAdmin/services.yml"
+    prefix: /adminServices
+    
+BlogOrnoirBundle_adminBlog:
+    resource: "@BlogOrnoirBundle/Resources/config/routingAdmin/blog.yml"
+    prefix: /adminBlog
+    
+BlogOrnoirBundle_adminCommentaires:
+    resource: "@BlogOrnoirBundle/Resources/config/routingAdmin/blogcommentaires.yml"
+    prefix: /adminCommentaires
+    
+BlogOrnoirBundle_recherche:
+    resource: "@BlogOrnoirBundle/Resources/config/routingRecherche.yml"
+    prefix: /recherche
+    
+BlogOrnoirBundle_profile_registration_adresse:
+    pattern:  /profile/registration/adresse
+    defaults: { _controller: UtilisateursBundle:Editeur:registrationAdresse }
+    
+BlogOrnoirBundle_profile_edit_adresse:
+    pattern:  /profile/edit/adresse
+    defaults: { _controller: UtilisateursBundle:Editeur:editAdresse }

@@ -1,0 +1,89 @@
+{% extends "::base.html.twig" %}
+
+{% block body %}
+
+    <div class="circleSep">
+        <div class="circleLeft"></div>
+        <div class="circleRight"></div>
+        <div class="sep"></div>
+    </div>  
+
+    <!-- Sub Page Banner -->
+    <div id="bannerWide" class="subBanner"> <img src="{{ asset('img/sub-banner.png') }}" alt="" class="bannerBg">
+        <div class="bannerCon">
+            <h2>Blog</h2>
+            <p><a href="{{ path('blog_ornoir_homepage') }}">Accueil</a> » <a href="{{ path('blog_ornoir_blog_all') }}">Blog</a></p>
+        </div>
+        <div class="searchCon">            
+            {% render(controller('BlogOrnoirBundle:Recherche:recherche')) %}
+        </div>
+            
+    </div>
+    <!-- End of Sub Page Banner -->
+
+    <div class="sep"></div>
+
+    <!-- Start Main Container -->
+    <div id="mainContainer">
+
+        <!-- Start Blog Post -->
+        <div id="mainContent" class="blogMain">
+
+            {% for blog in blogs %}
+            <article class="post">
+                <header>
+                    <h2 class="title"><a href="#"><span class="blue">BLOG</span> {{ blog.titre }}</a></h2>
+                    <div class="metaData">
+                        <p><span class="blogDate metaIcon">{{ blog.dateAjout|date('d M Y') }} Ajouté par <a href="#">{{ blog.editeur }}</a></span><span class="metaIcon comments"><a href="#">{{ blog.blogcommentaire|length }} Commentaires</a></span></p>
+                    </div>
+                </header>
+                <div class="content">
+                    <div class="frame_round floatLeft" ><em><img src="{{ asset(blog.image.AssetPath) }}" width="200" alt=""></em></div>
+                    <p>{{ blog.description|truncate(100, false, ' ...') }}</p>
+                </div>
+                <footer class="blogFooter clearfix">
+                    <div class="border_bottom"> 
+                        <div class="socialBlog floatLeft">
+                            <p>Partager :</p>
+                            <div class="tweet"> <a href="http://twitter.com/share" class="twitter-share-button" data-count="horizontal">Tweeter</a>
+                            </div>
+
+                            <div class="facebookLike">
+                                <div class="fb-like" data-send="false" data-layout="button_count" data-width="74" data-show-faces="false"></div>
+                            </div>
+
+                            <div class="google+"> <g:plusone size="medium"></g:plusone>
+                            </div>
+                            <br class="clearBoth">
+                        </div>
+
+                        <a href="{{ path('blog_ornoir_blog_single', {'id' : blog.id}) }}" title="Continue Reading" class="button">Continuer de lire...</a></div>
+                </footer>
+            </article>
+            {% endfor %}
+            
+            <!-- Start Pagination -->
+            
+            <!-- End of Pagination -->
+        </div>    
+        <!-- End of Blog Post -->
+<div class="sep"></div>
+        <!-- Start Sidebar -->
+        <aside id="sidebar">
+            <!-- Popular Post widgets -->
+            <div class="widget">
+                <div class="border_bottom">
+                    <h2>Articles <span class="blue"> Populaires</span></h2>
+                    {% for populaire in blogsPopulaires %}
+                    <div class="popularPosts">
+                        <div class="frame_round floatLeft"> <img width="50" src="{{ asset(populaire.image.AssetPath) }}" alt=""> </div>
+                        <h3><a href="{{ path('blog_ornoir_blog_single', {'id' : populaire.id}) }}">{{ populaire.description|truncate(25, false, ' ...') }}</a></h3>
+                        <p class="date">{{ populaire.dateAjout|date('d, M Y') }}</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </aside>   
+    </div>
+    <!-- End of Main Container -->
+{% endblock %}

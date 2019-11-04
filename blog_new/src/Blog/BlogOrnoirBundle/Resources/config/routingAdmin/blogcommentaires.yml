@@ -1,0 +1,30 @@
+adminCommentaires:
+    pattern:  /
+    defaults: { _controller: "BlogOrnoirBundle:BlogCommentaires:index" }
+
+adminCommentaires_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "BlogOrnoirBundle:BlogCommentaires:show" }
+
+adminCommentaires_new:
+    pattern:  /new
+    defaults: { _controller: "BlogOrnoirBundle:BlogCommentaires:new" }
+
+adminCommentaires_create:
+    pattern:  /create
+    defaults: { _controller: "BlogOrnoirBundle:BlogCommentaires:create" }
+    requirements: { _method: post }
+
+adminCommentaires_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "BlogOrnoirBundle:BlogCommentaires:edit" }
+
+adminCommentaires_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "BlogOrnoirBundle:BlogCommentaires:update" }
+    requirements: { _method: post|put }
+
+adminCommentaires_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "BlogOrnoirBundle:BlogCommentaires:delete" }
+    requirements: { _method: post|delete }

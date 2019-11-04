@@ -1,0 +1,12 @@
+{% extends "FOSUserBundle::layout.html.twig" %}
+
+{% block fos_user_content %}
+<div id="bannerWide" class="subBanner"> <img src="{{ asset('img/sub-banner.png') }}" alt="" class="bannerBg">
+    <div class="bannerCon">
+        <h2><span class="blue">Confirmation compte</span> </h2>
+        <p><a href="{{ path('blog_ornoir_homepage') }}">Accueil</a></p>
+    </div>
+</div>
+<div class="sep"></div>
+    <p>{{ 'registration.check_email'|trans({'%email%': user.email}, 'FOSUserBundle') }}</p>
+{% endblock fos_user_content %}

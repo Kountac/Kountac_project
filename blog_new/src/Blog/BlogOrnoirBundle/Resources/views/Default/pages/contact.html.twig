@@ -1,0 +1,88 @@
+{% extends "::base.html.twig" %}
+
+{% block body %}
+    
+    <div class="circleSep">
+    <div class="circleLeft"></div>
+    <div class="circleRight"></div>
+    <div class="sep"></div>
+  </div>
+  
+  <!-- Begin Sub page Banner -->
+  <div id="bannerWide" class="subBanner"> <img src="{{ asset('img/sub-banner.png') }}" alt="" class="bannerBg">
+    <div class="bannerCon">
+      <h2>Contactez nous ici</h2>
+      <p><a href="{{ path('blog_ornoir_homepage') }}">Accueil</a> » <a href="{{ path('blog_ornoir_contact') }}">Contactez nous</a></p>
+    </div>
+    
+  </div>
+   <!-- End Sub Page Banner -->  
+   
+  <div class="sep"></div>
+  
+  <!-- Begin Main Container -->
+  <div id="mainContainer">
+  
+  <!-- Appointment -->
+    <div id="mainContent" class="contact appointment">
+     
+      <div class="clearfix columns noBorder noMarginBottom">
+      
+      <!-- Appointment Form -->
+        <article class="two_third">
+          <h2>Formulaire de <span class="blue">Contact</span></h2>
+          <form action="{{ path('blog_ornoir_contact') }}" method="post" style="line-height: 60px;">
+              
+            {{ form_widget(form) }}
+            <p>
+              <input name="submit" type="submit" class="submitBtn" value="Envoyer">
+            </p>
+          </form>
+        </article>
+        
+        <!-- Contact Address -->
+        <article class="one_third last">
+          <h2><span class="blue">Contact</span> Address</h2>
+          <p>12 rue de Valois,<br>
+            91940 Les Ulis,<br>
+            France, FR</p>
+          <p>(+33)7 83 77 03 22</p>
+          <p> contact@kountac.fr </p>
+        </article>
+      </div>
+      
+      
+      <div class="sep"></div>
+      
+      <article class="clearfix columns noBorder beInTouch">
+                        <h2>ILS PARLENT!! <span class="blue"> SOYEZ PARMI EUX !!</span></h2>
+                        <article class="two_third">
+                            <h3>Ce que disent <span class="blueBlod">les clients</span></h3>
+
+                            <!-- Testimonials -->
+                            <div id="testimonial">
+                                <div class="coda-slider" id="slider-id">
+                                    {% for commentaire in commentaires %}
+                                    <div>
+                                        <h2 class="title"></h2>
+                                        <blockquote>
+                                            <p>{{ commentaire.commentaire|raw }}</p>
+                                            <p class="author">- {{ commentaire.pseudo|upper}}</p>
+                                        </blockquote>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                                <div class="arrow"></div>
+                            </div>
+                        </article>
+        
+        <!-- Recent Tweets -->
+        <article class="one_third last recentTweet">
+          <h3><span class="blueBlod">Commentaires</span> récents</h3>
+        <ul id="twitter_update_list"></ul>  
+        </article>
+      </article>
+    </div>   
+  </div>
+  
+  {% endblock %}

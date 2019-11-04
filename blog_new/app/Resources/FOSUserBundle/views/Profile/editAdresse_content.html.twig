@@ -1,0 +1,13 @@
+<div id="bannerWide" class="subBanner"> <img src="{{ asset('img/sub-banner.png') }}" alt="" class="bannerBg">
+    <div class="bannerCon">
+        <h2><span class="blue">Modification compte</span> </h2>
+        <p><a href="{{ path('blog_ornoir_homepage') }}">Accueil</a> » <a href="{{ path('fos_user_profile_show') }}">Mon compte</a> » <a href="{{ path('fos_user_profile_edit') }}">Modification</a> » <a href="{{ path('BlogOrnoirBundle_profile_edit_adresse') }}">Modification adresse</a>  </p>
+    </div>
+</div>
+<div class="sep"></div>
+<form action="{{ path('BlogOrnoirBundle_profile_edit_adresse') }}" {{ form_enctype(form) }} method="POST" class="BlogOrnoirBundle_profile_edit_adresse" style="line-height: 60px;">
+    {{ form_widget(form) }}
+    <div>
+        <input type="submit" class="button" value="Mettre à jour" />
+    </div>
+</form>

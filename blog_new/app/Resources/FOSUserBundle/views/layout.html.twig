@@ -1,0 +1,43 @@
+        
+{% extends "::base.html.twig" %}
+
+{% block body %}
+
+    <div class="circleSep">
+        <div class="circleLeft"></div>
+        <div class="circleRight"></div>
+        <div class="sep"></div>
+    </div>
+    <div id="mainContainer">
+        {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+            {{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }} |
+            <a href="{{ path('fos_user_security_logout') }}">
+                {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
+            </a>
+        {% endif %}
+    </div>
+
+    {% for type, messages in app.session.flashBag.all %}
+        {% for message in messages %}
+            <div class="{{ type }}">
+                {{ message|trans({}, 'FOSUserBundle') }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+
+    <div>
+        {% block fos_user_content %}
+        {% endblock fos_user_content %}
+    </div>
+    <br><br><br>
+    <div class="sep"></div>
+    <article class="call_out blue clearfix">
+        <div class="content">
+            <h2>BESOIN <span class="blue">D'AIDE ?</span></h2>
+            <p>Besoin de nous contacter? cliquez sur le lien.</p>
+        </div>
+        <a href="{{ path('blog_ornoir_contact') }}" class="button_round">Contacter-nous</a> </article>
+
+    <div class="sep"></div>   
+
+{% endblock %}

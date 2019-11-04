@@ -1,0 +1,17 @@
+{% extends "FOSUserBundle::layout.html.twig" %}
+
+{% block fos_user_content %}
+<div id="bannerWide" class="subBanner"> <img src="{{ asset('img/sub-banner.png') }}" alt="" class="bannerBg">
+    <div class="bannerCon">
+        <h2><span class="blue">Compte activé</span> </h2>
+        <p><a href="{{ path('blog_ornoir_homepage') }}">Accueil</a></p>
+    </div>
+</div>
+<div class="sep"></div>
+    <p>{{ 'registration.confirmed'|trans({'%username%': user.username}, 'FOSUserBundle') }}</p>
+    {% if app.session is not empty %}
+        {% set targetUrl = app.session.get('_security.' ~ app.security.token.providerKey ~ '.target_path') %}
+        {% if targetUrl is not empty %}<p><a href="{{ targetUrl }}">{{ 'registration.back'|trans({}, 'FOSUserBundle') }}</a></p>{% endif %}
+    {% endif %}
+    <h4>Voir profil <a href="{{ path('fos_user_profile_show') }}">ici</a></h4>
+{% endblock fos_user_content %}

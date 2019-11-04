@@ -1,0 +1,32 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <div class="circleSep">
+    <div class="circleLeft"></div>
+    <div class="circleRight"></div>
+    <div class="sep"></div>
+  </div>
+  
+  <!-- Begin Sub page Banner -->
+  <div id="bannerWide" class="subBanner"> <img src="{{ asset('img/sub-banner.png') }}" alt="" class="bannerBg">
+    <div class="bannerCon">
+      <h2>Ajouter<span class="blue"> un Article</span></h2>
+      <p><a href="{{ path('blog_ornoir_homepage') }}">Accueil</a> » <a href="{{ path('fos_user_profile_show') }}">Mon Profil</a> » <a href="{{ path('adminBlog') }}">Tous Les Articles</a> » <a href="{{ path('adminBlog_new') }}">Ajouter</a></p>
+    </div>    
+  </div>
+      <form action="{{ path('adminBlog_create') }}" method="post" {{ form_enctype(form) }} style="line-height: 50px;">
+        {{ form_widget(form) }}
+        <br><br>
+        <p>
+            <button class="button" type="submit">Ajouter</button>
+        </p>
+    </form>
+
+        <ul class="record_actions">
+    <li>
+        <a href="{{ path('adminBlog') }}">
+            VOIR LA LISTE D'ARTICLE
+        </a>
+    </li>
+</ul>
+{% endblock %}

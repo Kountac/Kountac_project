@@ -1,0 +1,57 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+  <div class="circleSep">
+    <div class="circleLeft"></div>
+    <div class="circleRight"></div>
+    <div class="sep"></div>
+  </div>
+  
+  <!-- Begin Sub page Banner -->
+  <div id="bannerWide" class="subBanner"> <img src="{{ asset('img/sub-banner.png') }}" alt="" class="bannerBg">
+    <div class="bannerCon">
+      <h2>Tous mes <span class="blue">Articles</span></h2>
+      <p><a href="{{ path('blog_ornoir_homepage') }}">Accueil</a> » <a href="{{ path('fos_user_profile_show') }}">Mon Profil</a> » <a href="{{ path('adminBlog') }}">Tous Les Articles</a></p>
+    </div>    
+  </div>
+    
+    <table class="records_list">
+        <thead>
+            <tr>
+                <th>Titre</th>
+                <th>Contenu</th>
+                <th>Date d'ajout</th>
+                <th>Dernière mise à jour</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td style="width:100px; text-align: center">{{ entity.titre }}</td>
+                <td style="width:300px;">{{ entity.description }}</td>
+                <td style="width:200px; text-align: center">{% if entity.dateAjout %}{{ entity.dateAjout|date('Y-m-d') }}{% endif %}</td>
+                <td style="width:200px; text-align: center">{% if entity.dateUpdate %}{{ entity.dateUpdate|date('Y-m-d') }}{% endif %}</td>
+                <td>
+                <ul>
+                    <li>
+                        <a href="{{ path('adminBlog_show', { 'id': entity.id }) }}">Voir</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('adminBlog_edit', { 'id': entity.id }) }}">Modifier</a>
+                    </li>
+                </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+        <ul>
+        <li>
+            <a href="{{ path('adminBlog_new') }}" class="">
+                AJOUTER UN ARTICLE
+            </a>
+        </li>
+    </ul>
+    {% endblock %}

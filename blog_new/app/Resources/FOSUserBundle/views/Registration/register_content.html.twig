@@ -1,0 +1,27 @@
+<div id="bannerWide" class="subBanner"> <img src="{{ asset('img/sub-banner.png') }}" alt="" class="bannerBg">
+    <div class="bannerCon">
+        <h2><span class="blue">Enregistrement</span> </h2>
+        <p><a href="{{ path('blog_ornoir_homepage') }}">Accueil</a></p>
+    </div>
+</div>
+<div class="sep"></div>
+
+<form action="{{ path('fos_user_registration_register') }}" {{ form_enctype(form) }} method="POST" class="fos_user_registration_register">
+
+    <label>{{ form_widget(form.username) }}</label>
+    <br>
+    <br>
+    <label>{{ form_widget(form.email) }}</label>
+    <br>
+    <br>
+    <label>{{ form_widget(form.plainPassword.first) }}</label>
+    <br>
+    <br>
+    <label>{{ form_widget(form.plainPassword.second) }}</label>
+    <br>
+    <br>   
+    {{ form_widget(form) }}
+            <div>
+                <input type="submit" class="button" value="{{ 'registration.submit'|trans({}, 'FOSUserBundle') }}" />
+            </div>
+            </form>

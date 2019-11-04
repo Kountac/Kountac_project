@@ -1,0 +1,43 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <div class="circleSep">
+    <div class="circleLeft"></div>
+    <div class="circleRight"></div>
+    <div class="sep"></div>
+  </div>
+  
+  <!-- Begin Sub page Banner -->
+  <div id="bannerWide" class="subBanner"> <img src="{{ asset('img/sub-banner.png') }}" alt="" class="bannerBg">
+    <div class="bannerCon">
+      <h2>Modification<span class="blue"> {{ entity.titre }}</span></h2>
+      <p><a href="{{ path('blog_ornoir_homepage') }}">Accueil</a> » <a href="{{ path('fos_user_profile_show') }}">Mon Profil</a> » <a href="{{ path('adminServices') }}">Tous Les Services</a> » <a href="{{ path('adminServices_update', { 'id': entity.id }) }}">Modification {{ entity.titre }}</a></p>
+      
+    </div>    
+  </div>
+      <form action="{{ path('adminServices_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }} style="line-height: 50px;">
+        <input type="hidden" name="_method" value="PUT" />
+        {{ form_widget(edit_form) }}
+        <p>
+            <button type="submit" class="button">Modifier</button>
+        </p>
+    </form>
+
+        <ul class="record_actions">
+    <li>
+        <a href="{{ path('adminServices') }}">
+            VOIR LA LISTE DES SERVICES
+            <br>
+        </a>
+    </li>
+    <br>
+    <li>
+        <form action="{{ path('adminServices_delete', { 'id': entity.id }) }}" method="post">
+            <input type="hidden" name="_method" value="DELETE" />
+            {{ form_widget(delete_form) }}
+            
+            <button type="submit" class="button">Effacer</button>
+        </form>
+    </li>
+</ul>
+{% endblock %}

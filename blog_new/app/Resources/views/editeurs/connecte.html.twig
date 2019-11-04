@@ -1,0 +1,21 @@
+<li class="current"><a href="{{ path('fos_user_profile_show') }}">Connecté</a><span class="desc">En tant que {{ user.username }}</span>
+    <ul>
+        <li><a href="{{ path('fos_user_profile_show') }}" class="parent">Voir son profil</a>
+            <ul>
+                <li><a href="{{ path('fos_user_security_logout') }}" class="parent">Deconnexion</a></li>
+            </ul>
+        </li>
+        <li><a href="{{ path('adminBlog') }}" class="parent">Gérer mes articles</a>
+            <ul>
+                <li><a href="{{ path('adminBlog') }}" class="parent">Voir tout</a></li>
+                <li><a href="{{ path('adminBlog_new') }}" class="parent">Ajouter</a></li>
+            </ul>
+        </li>
+        <li><a href="{{ path('adminServices') }}" class="parent">Gérer mes services</a>
+            <ul>
+                <li><a href="{{ path('adminServices') }}" class="parent">Voir tout</a></li>
+                <li><a href="{{ path('adminServices_new') }}" class="parent">Ajouter</a></li>
+            </ul>
+        </li>
+    </ul>
+</li>

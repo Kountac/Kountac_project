@@ -1,0 +1,34 @@
+<div id="bannerWide" class="subBanner"> <img src="{{ asset('img/sub-banner.png') }}" alt="" class="bannerBg">
+    <div class="bannerCon">
+        <h2><span class="blue">Mon compte</span> </h2>
+        <p><a href="{{ path('blog_ornoir_homepage') }}">Accueil</a> » <a href="{{ path('fos_user_profile_show') }}">Mon compte</a> </p>
+    </div>
+</div>
+<div class="sep"></div>
+<div class="fos_user_user_show">
+    {% if user.adresse %}
+        {% if user.adresse.image %}
+    <div class="content">
+        <div class="frame_round floatRight" ><em><img src="{{ asset(user.adresse.image.AssetPath) }}" width="200" alt=""></em></div>
+        <p></p>
+    </div>
+        {% endif %}
+    {% endif %}
+    
+    {% if user.adresse %}
+        <h2>
+            <u>Noms</u>: <span class="blue">{{ user.adresse.nom|upper }}</span><br>
+            <u>Prénom(s)</u>: <span class="blue">{{ user.adresse.prenom }}</span><br>
+            <u>Pays</u>: <span class="blue">{{ user.adresse.pays }}</span><br>
+            <u>Téléphone</u>: <span class="blue">{{ user.adresse.telephone }}</span><br>
+            <u>A propos de moi</u>: <span class="blue">{{ user.adresse.bibliographie }}</span><br>
+        </h2>
+    {% else %}
+        <h3><a href="{{ path('BlogOrnoirBundle_profile_registration_adresse') }}">Ajouter vos informations</a></h3>
+    {% endif %}
+    <h2>
+        <u>{{ 'profile.show.username'|trans({}, 'FOSUserBundle') }}</u>: <span class="blue">{{ user.username }}</span><br>
+        <u>{{ 'profile.show.email'|trans({}, 'FOSUserBundle') }}</u>: <span class="blue">{{ user.email }}</span>
+    </h2>   
+        <a href="{{ path('fos_user_profile_edit') }}">Modifier informations de connexion</a>
+</div>

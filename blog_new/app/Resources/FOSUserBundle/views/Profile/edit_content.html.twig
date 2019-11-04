@@ -1,0 +1,24 @@
+<div id="bannerWide" class="subBanner"> <img src="{{ asset('img/sub-banner.png') }}" alt="" class="bannerBg">
+    <div class="bannerCon">
+        <h2><span class="blue">Modification compte</span> </h2>
+        <p><a href="{{ path('blog_ornoir_homepage') }}">Accueil</a> » <a href="{{ path('fos_user_profile_show') }}">Mon compte</a> » <a href="{{ path('fos_user_profile_edit') }}">Modification</a> </p>
+    </div>
+</div>
+<div class="sep"></div>
+<form action="{{ path('fos_user_profile_edit') }}" {{ form_enctype(form) }} method="POST" class="fos_user_profile_edit">
+    <label>{{ form_widget(form.username) }}</label>
+    <br>
+    <br>
+    <label>{{ form_widget(form.email) }}</label>
+    <br>
+    <br>
+    <label>{{ form_widget(form.current_password) }}</label>
+    <br>
+    <br>
+    {{ form_widget(form) }}
+    <div>
+        <input type="submit" class="button" value="{{ 'profile.edit.submit'|trans({}, 'FOSUserBundle') }}" />
+    </div>
+    <br>
+    <a href="{{ path('BlogOrnoirBundle_profile_edit_adresse') }}">Modifier informations personnelles</a>
+</form>

@@ -1,0 +1,51 @@
+{% extends "::base.html.twig" %}
+
+{% block body %}
+
+    <div class="circleSep">
+        <div class="circleLeft"></div>
+        <div class="circleRight"></div>
+        <div class="sep"></div>
+    </div>
+
+    <!-- Begin Sub Page Banner -->
+    <div id="bannerWide" class="subBanner"> <img src="{{ asset('img/sub-banner.png') }}" alt="" class="bannerBg">
+        <div class="bannerCon">
+            <h2><span class="blue">Service</span> {{ service.titre }}</h2>
+            <p><a href="{{ path('blog_ornoir_homepage') }}">Accueil</a> » <a href="{{ path('blog_ornoir_service_all') }}">Services</a> » <a href="{{ path('blog_ornoir_service_single', {'id' : service.id}) }}">Service {{ service.titre }}</a></p>    </div>
+    </div>
+    <!-- End Sub Page Banner -->
+
+    <div class="sep"></div>
+
+    <!-- Begin Main Container -->
+    <div id="mainContainer">
+        <div id="mainContent">
+            <section class="clearfix columns">
+                             
+                <!-- Single Services --> 
+                <div class="staff clearfix">
+                    <div class="staffImg">
+                        <div class="frame_round"><img src="{{ asset(service.image.AssetPath) }}" alt=""></div>
+                    </div>
+                    <div class="content noBorder">
+                        <h3>{{ service.titre }}</h3>
+                        <p class="desc">Auteur: {{service.editeur.adresse.nom}}</p>
+                        <p>{{ service.description|raw }}</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CallOut Box -->
+            <article class="call_out blue clearfix">
+                <div class="content">
+                    <h2>BESOIN <span class="blue">D'AIDE ?</span></h2>
+                    <p>Besoin de nous contacter? cliquez sur le lien.</p>
+                </div>
+                <a href="{{ path('blog_ornoir_contact') }}" class="button_round">Contacter-nous</a> </article>
+
+            <div class="sep"></div>   
+        </div>
+        <!-- End Main Container -->
+
+    {% endblock %}

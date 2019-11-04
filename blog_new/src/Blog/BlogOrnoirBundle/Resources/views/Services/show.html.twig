@@ -1,0 +1,64 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+      <div class="circleSep">
+    <div class="circleLeft"></div>
+    <div class="circleRight"></div>
+    <div class="sep"></div>
+  </div>
+  
+  <!-- Begin Sub page Banner -->
+  <div id="bannerWide" class="subBanner"> <img src="{{ asset('img/sub-banner.png') }}" alt="" class="bannerBg">
+    <div class="bannerCon">
+      <h2>Détail service <span class="blue">{{ entity.titre }}</span></h2>
+      <p><a href="{{ path('blog_ornoir_homepage') }}">Accueil</a> » <a href="{{ path('fos_user_profile_show') }}">Mon Profil</a> » <a href="{{ path('adminBlog') }}">Tous Les Articles</a> » <a href="{{ path('adminServices_show', {'id' : entity.id}) }}">Service {{ entity.titre }}</a></p>
+    </div>    
+  </div>
+    
+    
+   <table class="record_properties">
+        <tbody  style="text-align: left">
+            <tr>
+                <th  style="width:300px; height: 50px;">Titre</th>
+                <td>{{ entity.titre }}</td>
+            </tr>
+            <tr>
+                <th  style="width:300px; height: 50px;">Contenu</th>
+                <td>{{ entity.description }}</td>
+            </tr>
+            {% if entity.dateAjout %}
+            <tr>
+                <th  style="width:300px; height: 50px;">Date d'ajout</th>
+                <td>{{ entity.dateAjout|date('Y-m-d') }}</td>
+            </tr>
+            {% endif %}
+            {% if entity.dateUpdate %}
+            <tr>
+                <th  style="width:300px; height: 50px;">Dernière mise à jour</th>
+                <td>{{ entity.dateUpdate|date('Y-m-d') }}</td>
+            </tr>
+            {% endif %}            
+        </tbody>
+    </table>
+        <ul class="record_actions">
+    <li>
+        <a href="{{ path('adminServices') }}">
+            VOIR LA LISTE DES SERVICES
+        </a>
+    </li>
+    <br>
+    <li>
+        <a href="{{ path('adminServices_edit', { 'id': entity.id }) }}">
+            MODIFIER
+        </a>
+    </li>
+    <br>
+    <li>
+        <form action="{{ path('adminServices_delete', { 'id': entity.id }) }}" method="post">
+            <input type="hidden" name="_method" value="DELETE" />
+            {{ form_widget(delete_form) }}
+            <button class="button" type="submit">SUPPRIMER</button>
+        </form>
+    </li>
+</ul>
+{% endblock %}

@@ -1,0 +1,64 @@
+{% extends "::base.html.twig" %}
+
+{% block body %}
+
+    <div class="circleSep">
+        <div class="circleLeft"></div>
+        <div class="circleRight"></div>
+        <div class="sep"></div>
+    </div>
+
+    <!-- Begin Sub Page Banner -->
+    <div id="bannerWide" class="subBanner"> <img src="{{ asset('img/sub-banner.png') }}" alt="" class="bannerBg">
+        <div class="bannerCon">
+            <h2> Services</h2>
+            <p><a href="{{ path('blog_ornoir_homepage') }}">Accueil</a> » <a href="{{ path('blog_ornoir_service_all') }}">Services</a></p>
+        </div>
+        <div class="searchCon">
+            {% render(controller('BlogOrnoirBundle:Recherche:recherche')) %}
+        </div>
+    </div>
+    <!-- End Sub Page Banner -->
+
+    <div class="sep"></div>
+
+    <!-- Begin Main Container -->
+    <div id="mainContainer">
+        <div id="mainContent">
+
+            <!-- Services -->
+            <section class="clearfix">
+                
+                <!-- List of Services -->
+                <h2><span class="blue">Listes</span> des Services Kountac</h2>
+                <div class="staff clearfix noMarginTop">
+                                        
+                </div>
+                <section class="columns clearfix mainServices" id="services">
+                    {% for service in services%}
+                    <article class="one_third">
+                        <h2><span class="blue"></span> {{ service.titre }}</h2>
+                        <div class="frame_round"><img src="{{ asset(service.image.AssetPath) }}" alt="Image non disponible"></div>
+                        <div class="content">
+                            
+                            <a href="{{ path('blog_ornoir_service_single', {'id' : service.id}) }}" class="emboss_button">Lire plus </a> </div>
+                    </article>
+                    {% endfor %}
+                </section>
+                <!-- End Services --> 
+
+            </section>
+
+            <article class="call_out blue clearfix">
+                <div class="content">
+                    <h2>BESOIN <span class="blue">D'AIDE ?</span></h2>
+                    <p>Besoin de nous contacter? cliquez sur le lien.</p>
+                </div>
+                <a href="{{ path('blog_ornoir_contact') }}" class="button_round">Contacter-nous</a> </article>
+
+            <div class="sep"></div>
+
+        </div>
+
+
+    {% endblock %}
