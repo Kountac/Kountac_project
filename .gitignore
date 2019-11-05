@@ -1,0 +1,15 @@
+/web/bundles/
+/web/uploadProduits
+/web/Motifs
+/web/media
+/web/Mannequins
+/app/bootstrap.php.cache
+/app/cache/*
+/app/config/parameters.yml
+/app/logs/*
+!app/cache/.gitkeep
+!app/logs/.gitkeep
+/app/phpunit.xml
+/build/
+/bin/
+/composer.phar
