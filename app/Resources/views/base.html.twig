@@ -51,7 +51,7 @@
                     <ul class="menu">
                         <li  {% block accueil_class %} class="current" {% endblock %} ><a href="{{ path('blog_ornoir_homepage') }}">Accueil</a><span class="desc">Bienvenue</span></li>
                         <li {% block about_class %} {% endblock %}><a href="{{ path('blog_ornoir_about') }}">A Propos</a><span class="desc">Kountac</span></li>
-                        <li {% block blog_class %} class="current" {% endblock %}><a href="{{ path('blog_ornoir_blog_all') }}">Blog</a><span class="desc">Les Articles</span></li>
+                        <li {% block blog_class %} {% endblock %}><a href="{{ path('blog_ornoir_blog_all') }}">Blog</a><span class="desc">Les Articles</span></li>
                         <li {% block marques_class %} {% endblock %}><a href="{{
                         path('blog_ornoir_service_all')
                         }}">Marques</a><span class="desc">Revues sur
@@ -59,9 +59,9 @@
                         {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                             {% render(controller('UtilisateursBundle:Editeur:utilisateurMenu')) %}
                         {% else %}
-                            <li {% block connect_class %} class="current" {% endblock %}><a href="{{ path('fos_user_security_login') }}">Se Connecter</a><span class="desc">Espace pour éditeurs</span></li>
+                            <li {% block connect_class %} {% endblock %}><a href="{{ path('fos_user_security_login') }}">Se Connecter</a><span class="desc">Espace pour éditeurs</span></li>
                         {% endif %}
-                        <li {% block contact_class %} class="current" {%
+                        <li {% block contact_class %} {%
                         endblock %} class="last"><a href="{{ path('blog_ornoir_contact') }}">Contact</a><span class="desc">Besoin d'aide</span></li>
                     </ul>
                 </nav>

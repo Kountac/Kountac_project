@@ -1,12 +1,19 @@
 {% extends "::base.html.twig" %}
 
+{% block accueil_class %} {% endblock %}
+{% block about_class %} {% endblock %}
+{% block blog_class %} class="current" {% endblock %}
+{% block marques_class %} {% endblock %}
+{% block connect_class %} {% endblock %}
+{% block contact_class %} {% endblock}
+
 {% block body %}
 
     <div class="circleSep">
         <div class="circleLeft"></div>
         <div class="circleRight"></div>
         <div class="sep"></div>
-    </div>  
+    </div>
 
     <!-- Sub Page Banner -->
     <div id="bannerWide" class="subBanner"> <img src="{{ asset('img/sub-banner.png') }}" alt="" class="bannerBg">
@@ -14,10 +21,10 @@
             <h2>Blog</h2>
             <p><a href="{{ path('blog_ornoir_homepage') }}">Accueil</a> » <a href="{{ path('blog_ornoir_blog_all') }}">Blog</a></p>
         </div>
-        <div class="searchCon">            
+        <div class="searchCon">
             {% render(controller('BlogOrnoirBundle:Recherche:recherche')) %}
         </div>
-            
+
     </div>
     <!-- End of Sub Page Banner -->
 
@@ -42,7 +49,7 @@
                     <p>{{ blog.description|truncate(100, false, ' ...') }}</p>
                 </div>
                 <footer class="blogFooter clearfix">
-                    <div class="border_bottom"> 
+                    <div class="border_bottom">
                         <div class="socialBlog floatLeft">
                             <p>Partager :</p>
                             <div class="tweet"> <a href="http://twitter.com/share" class="twitter-share-button" data-count="horizontal">Tweeter</a>
@@ -61,11 +68,11 @@
                 </footer>
             </article>
             {% endfor %}
-            
+
             <!-- Start Pagination -->
-            
+
             <!-- End of Pagination -->
-        </div>    
+        </div>
         <!-- End of Blog Post -->
 <div class="sep"></div>
         <!-- Start Sidebar -->
@@ -83,7 +90,7 @@
                     {% endfor %}
                 </div>
             </div>
-        </aside>   
+        </aside>
     </div>
     <!-- End of Main Container -->
 {% endblock %}
