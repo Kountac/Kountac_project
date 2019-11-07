@@ -5,7 +5,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <link rel="icon" type="image/png" href="favicon.png">
-        <title>Kountac Magazine</title>
+        <title>Blog Kountac</title>
         <meta name="description" content="">
         <meta name="author" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -23,7 +23,7 @@
         <!-- Desktop -->
         <link href="{{ asset('css/desktop.css') }}" rel="stylesheet" type="text/css" media="only screen and (min-width:769px) and (max-width:1000px)" class="cssfx">
         <link href="{{ asset('css/theme_setting.css') }}" rel="stylesheet" type="text/css">
-        
+
         <script src="{{ asset('js/libs/modernizr-2.5.3.min.js') }}"></script>
     </head>
     <body>
@@ -39,9 +39,10 @@
                 <div id="logoCon">
                     <!-- Logo -->
                     <br><br>
-                    
-                    <h1><a href="{{ path('blog_ornoir_homepage') }}">Kountac - <span class="gery">Mag</span></a></h1>
-                    <p class="des">Beauté africaine</p>
+
+                    <h1><a href="{{ path('blog_ornoir_homepage')
+                    }}">Kountac - <span class="gery">Blog</span></a></h1>
+                    <p class="des">Tout sur le 100% Made in Africa et autre</p>
                 </div>
 
                 <!-- Begin Main Navigation -->
@@ -51,7 +52,10 @@
                         <li  class="current"><a href="{{ path('blog_ornoir_homepage') }}">Accueil</a><span class="desc">Bienvenue</span></li>
                         <li><a href="{{ path('blog_ornoir_about') }}">A Propos</a><span class="desc">Kountac</span></li>
                         <li><a href="{{ path('blog_ornoir_blog_all') }}">Blog</a><span class="desc">Les Articles</span></li>
-                        <li><a href="{{ path('blog_ornoir_service_all') }}">Services</a><span class="desc">Les Services Kountac</span></li>
+                        <li><a href="{{
+                        path('blog_ornoir_service_all')
+                        }}">Marques</a><span class="desc">Revues sur
+                        les marques</span></li>
                         {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                             {% render(controller('UtilisateursBundle:Editeur:utilisateurMenu')) %}
                         {% else %}
@@ -66,7 +70,7 @@
 
     <body>
         {% block body %}{% endblock %}
-        
+
             <div class="circleSep">
                 <div class="circleLeft"></div>
                 <div class="circleRight"></div>
@@ -81,18 +85,17 @@
                     <p>Kountac, la plateforme du 100% fabriqué en Afrique.</p>
                 </div>
                 <div class="one_fourth widget">
-                    <h3>SERVICES</h3>
+                    <h3>CATÉGORIES</h3>
                     <ul>
-                        <li><a href="#">Massage</a></li>
-                        <li><a href="#">Facial and Hair Treatments</a></li>
-                        <li><a href="#">Skin Care</a></li>
-                        <li><a href="#">Body Treatments &amp; Massage</a></li>
-                        <li><a href="#">Nail</a></li>
-                        <li><a href="#">Spa Rest</a></li>
+                        <li><a href="#">Le Made in Africa</a></li>
+                        <li><a href="#">Focus Mode</a></li>
+                        <li><a href="#">Les rêveurs du continent</a></li>
+                        <li><a href="#">La musique comme elle s'écoute</a></li>
+                        <li><a href="#">Idées et débats de notre temps</a></li>
                     </ul>
                 </div>
                 <div class="one_fourth widget">
-                    <h3>CONTACT DETAILS</h3>
+                    <h3>CONTACT</h3>
                     <ul class="address-details">
                         <li class="name">KOUNTAC SA</li>
                         <li class="address">12 rue de Valois,<br>
@@ -103,14 +106,13 @@
                     </ul>
                 </div>
                 <div class="one_fourth last widget">
-                    <h3>BLOG CATEGORY</h3>
+                    <h3>REVUES SUR LES MARQUES</h3>
                     <ul>
-                        <li><a href="#">Massage</a></li>
-                        <li><a href="#">Facial and Hair Treatments</a></li>
-                        <li><a href="#">Skin Care</a></li>
-                        <li><a href="#">Body Treatments &amp; Massage</a></li>
-                        <li><a href="#">Nail</a></li>
-                        <li><a href="#">Spa Rest</a></li>
+                        <li><a href="#">Les Tops</a></li>
+                        <li><a href="#">Nouveautés de la saison</a></li>
+                        <li><a href="#">Les incontournables</a></li>
+                        <li><a href="#">Découvertes</a></li>
+                        <li><a href="#">Rencontres</a></li>
                     </ul>
                 </div>
             </footer>
@@ -126,13 +128,13 @@
         <!-- End Copyright -->
 
         {% block javascripts %}
-        
+
         <script src="{{ asset('ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js') }}"></script>
         <script>window.jQuery || document.write('<script src="{{ asset('js/libs/jquery-1.7.2.min.html') }}"><\/script>')</script>
-        <script src="{{ asset('js/plugins.js') }}"></script> 
-        <script src="{{ asset('js/script.js') }}"></script> 
-        <script src="{{ asset('bundles/blogornoir/ckeditor/ckeditor.js') }}"></script> 
-        
+        <script src="{{ asset('js/plugins.js') }}"></script>
+        <script src="{{ asset('js/script.js') }}"></script>
+        <script src="{{ asset('bundles/blogornoir/ckeditor/ckeditor.js') }}"></script>
+
         <script>
             var _gaq = [['_setAccount', 'UA-24743401-1'], ['_trackPageview']];
             (function (d, t) {

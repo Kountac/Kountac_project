@@ -1,7 +1,7 @@
 {% extends "::base.html.twig" %}
 
 {% block body %}
-    
+
     <div class="circleSep">
                 <div class="circleLeft"></div>
                 <div class="circleRight"></div>
@@ -14,7 +14,7 @@
                     <div id="sequence">
                         <ul>
                             <li>
-                                <h2 class="title animate-in"><span class="blue">BIENVENU SUR</span> KOUNTAC</h2>
+                                <h2 class="title animate-in"><span class="blue">BIENVENUE SUR</span> KOUNTAC</h2>
                                 <p class="subtitle animate-in">Site de vente dédié aux créateurs et producteurs Africains</p>
                                 <img class="model animate-in" src="{{ asset('img/slider/slide2.jpg') }}" alt="Responsive Layout" > </li>
                             <li>
@@ -26,8 +26,9 @@
                                 <p class="subtitle">Commandez vos modèles sur mesures personnalisées ou les modèles du site</p>
                                 <img class="model" src="{{ asset('img/slider/slide1.jpg') }}" alt="Model 3"> </li>
                             <li>
-                                <h2 class="title"><span class="blue">VOLORISEZ VOS</span> CREATIONS</h2>
-                                <p class="subtitle">Les dernières tendance de la mode et arts en Afrique</p>
+                                <h2 class="title"><span class="blue">VALORISEZ VOS</span> CREATIONS</h2>
+                                <p class="subtitle">Les dernières
+                                tendance mode, art et décoration d'Afrique</p>
                                 <img class="model" src="{{ asset('img/slider/slide3.jpg') }}" alt="Model 3"> </li>
                         </ul>
                     </div>
@@ -63,7 +64,7 @@
                         {% endfor %}
                     </section>
 
-              
+
                     <!-- Services -->
                     <section class="columns clearfix" id="services">
                         <h2><a href="{{ path('blog_ornoir_service_all') }}">Services </a> Kountac</h2>
@@ -80,20 +81,20 @@
                         </article>
                         {% endfor %}
                     </section>
-                
+
                     <!-- CallOut Box -->
                     <article class="call_out blue clearfix">
                         <div class="content">
                             <h2>BESOIN <span class="blue">D'AIDE ?</span></h2>
                             <p>Besoin de nous contacter? cliquez sur le lien.</p>
                         </div>
-                        <a href="{{ path('blog_ornoir_contact') }}" class="button_round">Contacter-nous</a> </article>
+                        <a href="{{ path('blog_ornoir_contact') }}" class="button_round">Contactez-nous</a> </article>
 
                     <div class="sep"></div>
 
 
                     <article class="clearfix columns noBorder beInTouch">
-                        <h2>ILS PARLENT!! <span class="blue"> SOYEZ PARMI EUX !!</span></h2>
+                        <h2>ILS PARLENT ! <span class="blue"> SOYEZ PARMI EUX !</span></h2>
                         <article class="two_third">
                             <h3>Ce que disent <span class="blueBlod">les clients</span></h3>
 
@@ -117,7 +118,7 @@
                         <!-- Recent Tweets -->
                         <article class="one_third last recentTweet">
                             <h3><span class="blueBlod">Commentaires</span> récents</h3>
-                            <ul id="twitter_update_list"></ul>  
+                            <ul id="twitter_update_list"></ul>
                         </article>
 
                     </article>
