@@ -1,5 +1,13 @@
 {% extends "::base.html.twig" %}
 
+
+{% block accueil_class %} {% endblock %}
+{% block about_class %} {% endblock %}
+{% block blog_class %} {% endblock %}
+{% block marques_class %} class="current" {% endblock %}
+{% block connect_class %} {% endblock %}
+{% block contact_class %} {% endblock %}
+
 {% block body %}
 
     <div class="circleSep">
@@ -11,8 +19,8 @@
     <!-- Begin Sub Page Banner -->
     <div id="bannerWide" class="subBanner"> <img src="{{ asset('img/sub-banner.png') }}" alt="" class="bannerBg">
         <div class="bannerCon">
-            <h2> Services</h2>
-            <p><a href="{{ path('blog_ornoir_homepage') }}">Accueil</a> » <a href="{{ path('blog_ornoir_service_all') }}">Services</a></p>
+            <h2>Marques</h2>
+            <p><a href="{{ path('blog_ornoir_homepage') }}">Accueil</a> » <a href="{{ path('blog_ornoir_service_all') }}">Marques</a></p>
         </div>
         <div class="searchCon">
             <form>
@@ -29,14 +37,14 @@
     <div id="mainContainer">
         <div id="mainContent">
 
-            <!-- Services -->
+            <!-- Marques -->
             <section class="clearfix">
                 <h2 class="title"><span class="blue">What</span> We Do </h2>
                 <p>Sed est pede, ultrices id, tempor suscipit, ornare et, nisl. Aliquam in sapien. Etiam eu ipsum eu urna tincidunt dignissim. Maecenas quis mauris. Nam nunc. In quam tortor, aliquet ac, dictum sed, ultricies in, libero. Nam magna odio, venenatis non, venenatis quis, iaculis eget, mauris. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos hymenaeos. Nunc ante nibh, porttitor quis, egestas ut, malesuada auctor, tellus. Integer scelerisque urna in sapien. Curabitur dignissim. Nullam libero libero, vestibulum ut. </p>
 
 
-                <!-- List of Services -->
-                <h2><span class="blue">Listes</span> des Services OrNoir</h2>
+                <!-- List of Marques -->
+                <h2><span class="blue">Liste</span> des Marques OrNoir</h2>
                 <div class="staff clearfix noMarginTop">
                     <div class="staffImg floatRight">
                         <div class="frame_round"><img src="img/temp/staff3.png" alt=""></div>
@@ -60,7 +68,7 @@
                     </article>
                     {% endfor %}
                 </section>
-                <!-- End Services --> 
+                <!-- End Marques -->
 
             </section>
 

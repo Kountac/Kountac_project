@@ -1,12 +1,19 @@
 {% extends "::base.html.twig" %}
 
+{% block accueil_class %} {% endblock %}
+{% block about_class %} {% endblock %}
+{% block blog_class %} class="current" {% endblock %}
+{% block marques_class %} {% endblock %}
+{% block connect_class %} {% endblock %}
+{% block contact_class %} {% endblock %}
+
 {% block body %}
 
     <div class="circleSep">
         <div class="circleLeft"></div>
         <div class="circleRight"></div>
         <div class="sep"></div>
-    </div>  
+    </div>
 
     <!-- Sub Page Banner -->
     <div id="bannerWide" class="subBanner"> <img src="{{ asset('img/sub-banner.png') }}" alt="" class="bannerBg">
@@ -44,7 +51,7 @@
                     <p>{{ blog.description }}</p>
                 </div>
                 <footer class="blogFooter clearfix">
-                    <div class="border_bottom"> 
+                    <div class="border_bottom">
                         <div class="socialBlog floatLeft">
                             <p>Partager :</p>
                             <div class="tweet"> <a href="http://twitter.com/share" class="twitter-share-button" data-count="horizontal">Tweeter</a>
@@ -63,7 +70,7 @@
                 </footer>
             </article>
             {% endfor %}
-            
+
             <!-- Start Pagination -->
             <aside id="pagination" class="pagination filterNav clearfix">
                 <h2 class="visuallyhidden">Pagination</h2>
@@ -82,7 +89,7 @@
                 </ul>
             </aside>
             <!-- End of Pagination -->
-        </div>    
+        </div>
         <!-- End of Blog Post -->
 <div class="sep"></div>
         <!-- Start Sidebar -->
@@ -100,7 +107,7 @@
                     {% endfor %}
                 </div>
             </div>
-        </aside>   
+        </aside>
     </div>
     <!-- End of Main Container -->
 {% endblock %}

@@ -1,5 +1,13 @@
 {% extends "::base.html.twig" %}
 
+
+{% block accueil_class %} {% endblock %}
+{% block about_class %} {% endblock %}
+{% block blog_class %} {% endblock %}
+{% block marques_class %} class="current" {% endblock %}
+{% block connect_class %} {% endblock %}
+{% block contact_class %} {% endblock %}
+
 {% block body %}
 
     <div class="circleSep">
@@ -11,8 +19,8 @@
     <!-- Begin Sub Page Banner -->
     <div id="bannerWide" class="subBanner"> <img src="{{ asset('img/sub-banner.png') }}" alt="" class="bannerBg">
         <div class="bannerCon">
-            <h2><span class="blue">Service</span> {{ service.titre }}</h2>
-            <p><a href="{{ path('blog_ornoir_homepage') }}">Accueil</a> » <a href="{{ path('blog_ornoir_service_all') }}">Services</a> » <a href="{{ path('blog_ornoir_service_single', {'id' : service.id}) }}">Service {{ service.titre }}</a></p>    </div>
+            <h2><span class="blue">Marques</span> {{ service.titre }}</h2>
+            <p><a href="{{ path('blog_ornoir_homepage') }}">Accueil</a> » <a href="{{ path('blog_ornoir_service_all') }}">Marques</a> » <a href="{{ path('blog_ornoir_service_single', {'id' : service.id}) }}">Marques {{ service.titre }}</a></p>    </div>
     </div>
     <!-- End Sub Page Banner -->
 
@@ -22,8 +30,8 @@
     <div id="mainContainer">
         <div id="mainContent">
             <section class="clearfix columns">
-                             
-                <!-- Single Services --> 
+
+                <!-- Single Marques -->
                 <div class="staff clearfix">
                     <div class="staffImg">
                         <div class="frame_round"><img src="{{ asset(service.image.AssetPath) }}" alt=""></div>
@@ -44,7 +52,7 @@
                 </div>
                 <a href="{{ path('blog_ornoir_contact') }}" class="button_round">Contacter-nous</a> </article>
 
-            <div class="sep"></div>   
+            <div class="sep"></div>
         </div>
         <!-- End Main Container -->
 
