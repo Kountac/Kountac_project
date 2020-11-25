@@ -12,6 +12,7 @@
             <file>file:/C:/xampp/htdocs/Kountac_project/app/Resources/FOSUserBundle/views/Profile/edit_content.html.twig</file>
             <file>file:/C:/xampp/htdocs/Kountac_project/src/Utilisateurs/UtilisateursBundle/Controller/ProfileController.php</file>
             <file>file:/C:/xampp/htdocs/Kountac_project/src/Utilisateurs/UtilisateursBundle/Controller/RegistrationController.php</file>
+            <file>file:/C:/xampp/htdocs/Kountac_project/src/Kountac/KountacBundle/Resources/views/Default/index2.html.twig</file>
             <file>file:/C:/xampp/htdocs/Kountac_project/src/Utilisateurs/UtilisateursBundle/Controller/ProduitProController.php</file>
         </group>
     </open-files>
