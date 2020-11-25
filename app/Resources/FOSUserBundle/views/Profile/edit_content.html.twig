@@ -48,15 +48,17 @@
                         <div class="col-sm-6">
                             <label class="required">Image de profil</label>
                             {{ form_widget(form.image.file) }}
-                            <br><img src="{{ user.image.AssetPath|imagine_filter('commandeThumb') }}" alt="">
+                            {% if user.image %}<br><img src="{{ user.image.AssetPath|imagine_filter('commandeThumb') }}" alt="">{% endif %}
                         </div>
                         <div class="col-sm-6">
                             <label class="required">Image de couverture (facultatif)</label>
                             {{ form_widget(form.image.file2) }}
+                            {% if user.image %}
                             {% if user.image.path2 %}
                             <br>
                             <img src="{{ user.image.AssetPath2|imagine_filter('commandeThumb') }}" alt="">
-                             {% endif %}               
+                            {% endif %}
+                            {% endif %}               
                         </div><!--/ [col] -->
                     </li>
                     <br>

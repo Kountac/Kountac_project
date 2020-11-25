@@ -229,6 +229,48 @@
             </div>
         </div>
     </div>
+                 
+    <!-- Beginning of the popup -->
+    <span id="timer"></span></h5>
+
+      <!-- Modal -->
+      <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog">
+
+          <!-- Modal content-->
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title">Modal Header</h4>
+            </div>
+            <div class="modal-body">
+              <p>Some text in the modal.</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    <!-- End Pop up -->
+    
+    <!-- Begin Corresponding JS code -->
+    <script type="text/javascript">
+        var count=-1; // initially -1 as we are having a delay of 1000ms
+        var counter=setInterval(timer, 1000); //1000 will  run it every 1 second
+        function timer()
+        {
+          count=count+1;
+          if (count >=6) {//+1 than the req time as we have a delay of 1000ms
+            clearInterval(counter);
+            $("#myModal").modal();
+            return;
+          }
+            document.getElementById("timer").innerHTML=count + " secs"; // watch for spelling
+        }
+    
+    </script>                         
     <div class="container new-layout"  style="margin-top: 30px;">
         <div class="special-products">
             <div class="home-tab">

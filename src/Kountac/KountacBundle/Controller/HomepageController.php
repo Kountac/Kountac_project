@@ -8,6 +8,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use DOMDocument;
 use Utilisateurs\UtilisateursBundle\Repository\UtilisateursRepository;
+use Utilisateurs\UtilisateursBundle\Form\RegistrationPopUpType;
+
 
 class HomepageController extends Controller
 {  
@@ -348,7 +350,9 @@ class HomepageController extends Controller
                 array_push($newDernieresVentes, $tab);
             }
         }
-
+        // form for pop up enrolment 
+        $form_popup = $this->createForm(new RegistrationPopUpType());
+        
         shuffle($newPopulaires);
         shuffle($newReductions);
         shuffle($newNouveaux);
@@ -359,6 +363,7 @@ class HomepageController extends Controller
                                                                             'nouveaux' => $newNouveaux,
                                                                             'images' => $images,
                                                                             'mannequins' => $mannequins,
+                                                                            'form' => $form_popup->createView(),
                                                                             'reductions' => $newReductions,
                                                                             'produits2' => $produits2,
                                                                             'dernieresVentes' => $newDernieresVentes,
