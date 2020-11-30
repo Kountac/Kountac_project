@@ -190,6 +190,7 @@
             </div>
         </div>
     </div>
+   {% if popup|length == 0 %}
      <!-- Beginning of the popup -->
      <!-- Modal -->
       <div class="modal fade" id="myModal" role="dialog">
@@ -206,28 +207,28 @@
               {{ form_start(form) }} 
               {{ form_errors(form) }}
                 <div class="col-sm-5">
-                    <label>Votre identifiant*:</label>
+                    <label>Votre identifiant</label><span class="required">*</span>
                 </div><!--/ [col] -->
                 <div class="col-sm-7">
                     {{ form_widget(form.username) }}
                 </div><!--/ [col] -->
-                <br><br><br>
+                <br><br>
                 <div class="col-sm-5">
-                    <label>Adresse email*:</label>
+                    <label>Adresse email</label><span class="required">*</span>
                 </div><!--/ [col] -->
                 <div class="col-sm-7">
                     {{ form_widget(form.email) }}
                 </div><!--/ [col] -->
-                <br><br><br>
+                <br><br>
                 <div class="col-sm-5">
-                    {{ form_label(form.plainPassword.first) }}
+                    {{ form_label(form.plainPassword.first) }}<span class="required">*</span>
                 </div>
                 <div class="col-sm-7">
                     {{ form_widget(form.plainPassword.first) }}
                 </div>
-                <br><br><br>
+                <br><br>
                 <div class="col-sm-5">
-                    {{ form_label(form.plainPassword.second) }}
+                    {{ form_label(form.plainPassword.second) }}<span class="required">*</span>
                 </div>
                 <div class="col-sm-7">
                     {{ form_widget(form.plainPassword.second) }}
@@ -247,7 +248,7 @@
                 <br><br><br>
                 <button class="button" type="submit"><span>Créez votre compte</span>&nbsp;<i class="icon-check"></i> </button>
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                Déjà un Compte ? &nbsp;<label><a href="{{ path("fos_user_security_login") }}">Se connecter</a></label>
+                Déjà un Compte ? <label><a href="{{ path("fos_user_security_login") }}">Se connecter</a></label>
                </form>
             </div>
            
@@ -256,7 +257,7 @@
         </div>
       </div>
     <!-- End Pop up -->
-    
+    {% endif %}
     <!-- Begin Corresponding JS code -->
     <script type="text/javascript">
         var count=-1; // initially -1 as we are having a delay of 1000ms

@@ -168,6 +168,9 @@ class RegistrationController extends BaseController
 
     public function registerPopUPAction(Request $request)
     {
+        $session = $this->getRequest()->getSession();
+        
+        
         $path = __DIR__."/../../../../web/fichier.txt";
         $chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $code = '';
@@ -254,6 +257,8 @@ class RegistrationController extends BaseController
         if ($request->getMethod() == 'POST') 
         { 
             if ($form->isSubmitted()) {
+            if (!$session->has('popup'))
+                $session->set('popup', '1');
             $event = new FormEvent($form, $request);
             $dispatcher->dispatch(FOSUserEvents::REGISTRATION_SUCCESS, $event);
             $codeParrain = $user->getCodeparrain();
@@ -286,10 +291,12 @@ class RegistrationController extends BaseController
             $dispatcher->dispatch(FOSUserEvents::REGISTRATION_COMPLETED, new FilterUserResponseEvent($user, $request, $response));
 
             //return $response;
-            $this->get('session')->getFlashBag()->add('success','Votre nouveau compte Kountac a été créé avec succès');
-                return $this->redirectToRoute('fos_user_registration_check_email');
+            
+            $this->get('session')->getFlashBag()->add('success','Pour activer votre compte, rendez vous dans votre boite email');
+                return $this->redirectToRoute('kountac_homepage_index');
         }
         }
+        
         return $this->render('FOSUserBundle:Registration:registerPro.html.twig', array(
             'form' => $form2->createView(),
         ));

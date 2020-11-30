@@ -357,7 +357,8 @@ class HomepageController extends Controller
         shuffle($newReductions);
         shuffle($newNouveaux);
         shuffle($newDernieresVentes);
-
+        
+        //var_dump($session->get('popup'));die();
         return $this->render('KountacBundle:Default:index2.html.twig', array('produits' => $produits,'user' => $this->getUser(),
                                                                             'populaires' => $newPopulaires,
                                                                             'nouveaux' => $newNouveaux,
@@ -370,6 +371,7 @@ class HomepageController extends Controller
                                                                             'panier' => $panier,
                                                                             'euro' => $session->get('euro'),
                                                                             'all' => $session->get('all'),
+                                                                            'popup' => $session->get('popup'),  
                                                                             'usa' => $session->get('usa'),
                                                                             'livre' => $session->get('livre'),
                                                                             'naira' => $session->get('naira'),
