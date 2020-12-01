@@ -4,16 +4,14 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/xampp/htdocs/Kountac_project/src/Utilisateurs/UtilisateursBundle/Form/RegistrationPopUpType.php</file>
-            <file>file:/C:/xampp/htdocs/Kountac_project/app/Resources/FOSUserBundle/views/Registration/registerPro_content.html.twig</file>
-            <file>file:/C:/xampp/htdocs/Kountac_project/src/Utilisateurs/UtilisateursBundle/Form/MesuresType.php</file>
+            <file>file:/C:/xampp/htdocs/Kountac_project/src/Kountac/KountacBundle/Controller/PanierController.php</file>
             <file>file:/C:/xampp/htdocs/Kountac_project/src/Kountac/KountacBundle/Resources/views/Default/index_cfa.html.twig</file>
-            <file>file:/C:/xampp/htdocs/Kountac_project/app/Resources/FOSUserBundle/views/Security/login_content.html.twig</file>
-            <file>file:/C:/xampp/htdocs/Kountac_project/src/Utilisateurs/UtilisateursBundle/Resources/config/routing/pro-registration.xml</file>
+            <file>file:/C:/xampp/htdocs/Kountac_project/src/Kountac/KountacBundle/Resources/views/Default/index.html.twig</file>
             <file>file:/C:/xampp/htdocs/Kountac_project/app/Resources/FOSUserBundle/views/Profile/edit_content.html.twig</file>
-            <file>file:/C:/xampp/htdocs/Kountac_project/src/Utilisateurs/UtilisateursBundle/Controller/ProfileController.php</file>
             <file>file:/C:/xampp/htdocs/Kountac_project/src/Utilisateurs/UtilisateursBundle/Controller/RegistrationController.php</file>
+            <file>file:/C:/xampp/htdocs/Kountac_project/src/Kountac/KountacBundle/Controller/DeviseController.php</file>
             <file>file:/C:/xampp/htdocs/Kountac_project/src/Kountac/KountacBundle/Resources/views/Default/index2.html.twig</file>
-            <file>file:/C:/xampp/htdocs/Kountac_project/src/Utilisateurs/UtilisateursBundle/Controller/ProduitProController.php</file>
+            <file>file:/C:/xampp/htdocs/Kountac_project/src/Kountac/KountacBundle/Controller/HomepageController.php</file>
         </group>
     </open-files>
 </project-private>
