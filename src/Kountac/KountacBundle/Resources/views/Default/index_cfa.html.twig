@@ -190,7 +190,7 @@
             </div>
         </div>
     </div>
-   {% if popup|length == 0 %}
+   {% if popup|length != 0 %}
      <!-- Beginning of the popup -->
      <!-- Modal -->
     <div class="modal fade" id="myModal" role="dialog">
@@ -218,6 +218,13 @@
                 </div><!--/ [col] -->
                 <div class="col-sm-7">
                     {{ form_widget(form.email) }}
+                </div><!--/ [col] -->
+                <br><br>
+                <div class="col-sm-5">
+                    <label>Code Parrain</label>
+                </div><!--/ [col] -->
+                <div class="col-sm-7">
+                    {{ form_widget(form.codeparrain) }}
                 </div><!--/ [col] -->
                 <br><br>
                 <div class="col-sm-5">

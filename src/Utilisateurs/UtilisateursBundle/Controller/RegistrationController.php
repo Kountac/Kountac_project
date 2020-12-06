@@ -16,6 +16,9 @@ use Utilisateurs\UtilisateursBundle\Form\RegistrationProType;
 use Utilisateurs\UtilisateursBundle\Form\RegistrationPopUpType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
+use Kountac\KountacBundle\Entity\Newsletters;
+use Kountac\KountacBundle\Entity\Promotions;
+
 class RegistrationController extends BaseController
 {
 
@@ -172,33 +175,48 @@ class RegistrationController extends BaseController
         
         
         $path = __DIR__."/../../../../web/fichier.txt";
+        $path_promo = __DIR__."/../../../../web/promotion.txt";
         $chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $code = '';
+        $promo = '';
         for($i=0; $i<7; $i++){
             $code .= $chars[rand(0, strlen($chars)-1)];
+            $promo .= $chars[rand(0, strlen($chars)-1)];
         }
 
         $codebd = "";
         $lignes = file($path);
+        $lignes_promo = file($path_promo);
         $fin = false;
-
+        $fin_promo = false;
         foreach($lignes as $ligne){
             if(strstr($ligne,$code)){ //Tu peux utiliser strpos aussi
                 $fin = true;
                 break;
             }
         }
+        
+        foreach($lignes_promo as $ligne_promo){
+            if(strstr($ligne_promo,$promo)){ //Tu peux utiliser strpos aussi
+                $fin_promo = true;
+                break;
+            }
+        }
 
-        if($fin === true){
-            while ($fin === true) {
+        if(($fin === true) || ($fin_promo === true)){
+            while (($fin === true) || ($fin_promo === true)) {
 
                 $chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
                 $code = '';
+                $promo = '';
                 for($i=0; $i<7; $i++){
                     $code .= $chars[rand(0, strlen($chars)-1)];
+                    $promo .= $chars[rand(0, strlen($chars)-1)];
                 }
                 $lignes = file($path);
+                $lignes_promo = file($path_promo);
                 $fin = false;
+                $fin_promo = false;
 
                 foreach($lignes as $ligne){
                     if(strstr($ligne,$code)){ //Tu peux utiliser strpos aussi
@@ -206,24 +224,43 @@ class RegistrationController extends BaseController
                         break;
                     }
                 }
+                
+                foreach($lignes_promo as $ligne_promo){
+                    if(strstr($ligne_promo,$promo)){ //Tu peux utiliser strpos aussi
+                        $fin_promo = true;
+                        break;
+                    }
+                }
                 $code = $code." \n";
+                $promo = $promo."PROMO"." \n";
                 $codebd = $code;
                 array_unshift($lignes,$code);
+                array_unshift($lignes_promo,$promo);
                 $new_content = join('',$lignes);
+                $new_content_promo = join('',$lignes_promo);
                 $fichier = fopen($path, 'w+');
+                $promotion = fopen($path_promo, 'w+');
                 fwrite($fichier, $new_content);
+                fwrite($promotion, $new_content_promo);
                 //echo file_get_contents('fichier.txt');
                 fclose($fichier);
+                fclose($promotion);
             }
         }else{
             $code = $code." \n";
+            $promo = $promo."PROMO"." \n";
             $codebd = $code;
             array_unshift($lignes,$code);
+            array_unshift($lignes_promo,$promo);
             $new_content = join('',$lignes);
+            $new_content_promo = join('',$lignes_promo);
             $fichier = fopen($path, 'w+');
+            $promotion = fopen($path_promo, 'w+');
             fwrite($fichier, $new_content);
+            fwrite($promotion, $new_content_promo);
             //echo file_get_contents('fichier.txt');
             fclose($fichier);
+            fclose($promotion);
         }
 
 
@@ -233,7 +270,9 @@ class RegistrationController extends BaseController
         $userManager = $this->get('fos_user.user_manager');
         /** @var $dispatcher \Symfony\Component\EventDispatcher\EventDispatcherInterface */
         $dispatcher = $this->get('event_dispatcher');
-
+        //var_dump(trim($codebd));
+        //var_dump($promo);
+        //die();
         $user = $userManager->createUser();
         $user->setEnabled(true);
         //$user->addRole("ROLE_PRO");
@@ -270,7 +309,21 @@ class RegistrationController extends BaseController
                 $url = $this->generateUrl('fos_user_registration_confirmed');
                 $response = new RedirectResponse($url);
             }
-            //var_dump($user);die();
+            if ($user->getNewsletter()== '1'){ // j'ai choisie de m'inscrire à la Newsletter
+                $newsletter = new Newsletters();
+                $newsletter->setEmail($user->getEmail());
+                $newsletter->setDate(new \DateTime('now'));
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($newsletter);
+                $em->flush();
+            }
+            
+            // Création d'un code promotionnel dans la table Promotions
+            $promotion = new Promotions();
+            $promotion->setCode($promo);
+            $promotion->setDateCreation(new \DateTime('now'));
+            $promotion->setTauxReduction(15); // Le taux de réduction est de 15%
+            $promotion->setValidite(90); // Validité du code promo est de 90 jours
             
             $message = (new \Swift_Message('Confirmation Email'))
                 ->setFrom('contact@kountac.fr')
@@ -291,10 +344,11 @@ class RegistrationController extends BaseController
             $dispatcher->dispatch(FOSUserEvents::REGISTRATION_COMPLETED, new FilterUserResponseEvent($user, $request, $response));
 
             //return $response;
-            
-            $this->get('session')->getFlashBag()->add('success','Pour activer votre compte, rendez vous dans votre boite email');
+                    
+            $this->get('session')->getFlashBag()->add('success',"Un e-mail a été envoyé à votre adresse email. Il contient un lien d''activation sur lequel il vous faudra cliquer afin d''activer votre compte.");
+            $this->get('session')->getFlashBag()->add('success','Si vous ne recevez pas un email, vérifiez votre dossier spam.');
                 return $this->redirectToRoute('kountac_homepage_index');
-        }
+            }
         }
         
         return $this->render('FOSUserBundle:Registration:registerPro.html.twig', array(

@@ -3,14 +3,17 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/xampp/htdocs/Kountac_project/src/Utilisateurs/UtilisateursBundle/Form/RegistrationPopUpType.php</file>
             <file>file:/C:/xampp/htdocs/Kountac_project/src/Kountac/KountacBundle/Controller/PanierController.php</file>
             <file>file:/C:/xampp/htdocs/Kountac_project/src/Kountac/KountacBundle/Resources/views/Default/index_cfa.html.twig</file>
+            <file>file:/C:/xampp/htdocs/Kountac_project/src/Utilisateurs/UtilisateursBundle/Entity/Utilisateurs.php</file>
+            <file>file:/C:/xampp/htdocs/Kountac_project/src/Kountac/KountacBundle/Entity/Newsletters.php</file>
             <file>file:/C:/xampp/htdocs/Kountac_project/src/Kountac/KountacBundle/Resources/views/Default/index.html.twig</file>
-            <file>file:/C:/xampp/htdocs/Kountac_project/app/Resources/FOSUserBundle/views/Profile/edit_content.html.twig</file>
+            <file>file:/C:/xampp/htdocs/Kountac_project/src/Kountac/KountacBundle/Entity/Promotions.php</file>
             <file>file:/C:/xampp/htdocs/Kountac_project/src/Utilisateurs/UtilisateursBundle/Controller/RegistrationController.php</file>
             <file>file:/C:/xampp/htdocs/Kountac_project/src/Kountac/KountacBundle/Controller/DeviseController.php</file>
+            <file>file:/C:/xampp/htdocs/Kountac_project/src/Kountac/KountacBundle/Form/CommandesItemType.php</file>
             <file>file:/C:/xampp/htdocs/Kountac_project/src/Kountac/KountacBundle/Resources/views/Default/index2.html.twig</file>
+            <file>file:/C:/xampp/htdocs/Kountac_project/app/Resources/views/emails/registration.html.twig</file>
             <file>file:/C:/xampp/htdocs/Kountac_project/src/Kountac/KountacBundle/Controller/HomepageController.php</file>
         </group>
     </open-files>
