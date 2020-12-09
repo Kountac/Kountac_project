@@ -27,11 +27,18 @@ class Promotions
      * @ORM\Column(name="code", type="string", length=255, nullable=true)
      */
     private $code;
-
+    
     /**
      * @var string
      *
-     * @ORM\Column(name="taux_reduction", type="string", length=255, nullable=true)
+     * @ORM\Column(name="type", type="string", length=255, nullable=true)
+     */
+    private $type;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="taux_reduction", type="float", nullable=true)
      */
     private $tauxReduction;
     
@@ -53,6 +60,11 @@ class Promotions
      * @ORM\Column(name="validite", type="integer", length=250, nullable=true)
      */
     private $validite;
+    
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $utiliser;
 
 
     /**
@@ -112,5 +124,76 @@ class Promotions
     {
         return $this->tauxReduction;
     }
-}
 
+    /**
+     * Set dateCreation
+     *
+     * @param \DateTime $dateCreation
+     *
+     * @return Promotions
+     */
+    public function setDateCreation($dateCreation)
+    {
+        $this->dateCreation = $dateCreation;
+    
+        return $this;
+    }
+
+    /**
+     * Get dateCreation
+     *
+     * @return \DateTime
+     */
+    public function getDateCreation()
+    {
+        return $this->dateCreation;
+    }
+
+    /**
+     * Set dateExpiration
+     *
+     * @param \DateTime $dateExpiration
+     *
+     * @return Promotions
+     */
+    public function setDateExpiration($dateExpiration)
+    {
+        $this->dateExpiration = $dateExpiration;
+    
+        return $this;
+    }
+
+    /**
+     * Get dateExpiration
+     *
+     * @return \DateTime
+     */
+    public function getDateExpiration()
+    {
+        return $this->dateExpiration;
+    }
+
+    /**
+     * Set validite
+     *
+     * @param integer $validite
+     *
+     * @return Promotions
+     */
+    public function setValidite($validite)
+    {
+        $this->validite = $validite;
+    
+        return $this;
+    }
+
+    /**
+     * Get validite
+     *
+     * @return integer
+     */
+    public function getValidite()
+    {
+        return $this->validite;
+    }
+}

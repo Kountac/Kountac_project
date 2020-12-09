@@ -290,6 +290,7 @@ class RegistrationController extends BaseController
         $form2 = $formFactory->create(new RegistrationProType($this->container->getParameter("fos_user.model.user.class")));
         $form = $formFactory->create(new RegistrationPopUpType($this->container->getParameter("fos_user.model.user.class")));
         $form->setData($user);
+        $em = $this->getDoctrine()->getManager();
 
         $form->handleRequest($request);
         //$user->setNom($user->getEmail());
@@ -313,18 +314,22 @@ class RegistrationController extends BaseController
                 $newsletter = new Newsletters();
                 $newsletter->setEmail($user->getEmail());
                 $newsletter->setDate(new \DateTime('now'));
-                $em = $this->getDoctrine()->getManager();
                 $em->persist($newsletter);
                 $em->flush();
             }
             
             // Création d'un code promotionnel dans la table Promotions
+            $date_today = new \DateTime('now');
+            
             $promotion = new Promotions();
             $promotion->setCode($promo);
-            $promotion->setDateCreation(new \DateTime('now'));
+            $promotion->setDateCreation($date_today);
+            $promotion->setValidite(90); // Validité du code promo est de 90 jours (03 mois)
+            $date_today->modify('+'.$promotion->getValidite().' day');
+            $promotion->setDateExpiration($date_today);
             $promotion->setTauxReduction(15); // Le taux de réduction est de 15%
-            $promotion->setValidite(90); // Validité du code promo est de 90 jours
-            
+            $promotion->setType(POPUP); // le type de code promotion en focntion de l'action
+            $promotion->setUtiliser(0); // 0 signifie que le code n'est pas encore utilisé
             $message = (new \Swift_Message('Confirmation Email'))
                 ->setFrom('contact@kountac.fr')
                 ->setTo($user->getEmail())
@@ -333,13 +338,20 @@ class RegistrationController extends BaseController
                         // app/Resources/views/Emails/registration.html.twig
                         'emails/registration.html.twig',
                         array('name' => $user->getUserName(),
+                              'codePromo' => $promotion->getCode(),
+                              'reduction' => $promotion->getTauxReduction(),
+                              'validite' => $promotion->getValidite(),
+                              'expirationDate' => $promotion->getDateExpiration(),
                               'confirmUrl' => $user->getConfirmationToken(),)
                     ),
                     'text/html'
                 )
+            
             ;
 
-            $this->get('mailer')->send($message);
+            $this->get('mailer')->send($message); // envoi du message
+            $em->persist($promotion); // ajout du nouveau code promotionnel
+            $em->flush();
 
             $dispatcher->dispatch(FOSUserEvents::REGISTRATION_COMPLETED, new FilterUserResponseEvent($user, $request, $response));
 

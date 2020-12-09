@@ -27,6 +27,13 @@ class Promotions
      * @ORM\Column(name="code", type="string", length=255, nullable=true)
      */
     private $code;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="type", type="string", length=255, nullable=true)
+     */
+    private $type;
 
     /**
      * @var float
@@ -53,6 +60,11 @@ class Promotions
      * @ORM\Column(name="validite", type="integer", length=250, nullable=true)
      */
     private $validite;
+    
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $utiliser;
 
 
     /**
@@ -183,5 +195,53 @@ class Promotions
     public function getValidite()
     {
         return $this->validite;
+    }
+
+    /**
+     * Set type
+     *
+     * @param string $type
+     *
+     * @return Promotions
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+    
+        return $this;
+    }
+
+    /**
+     * Get type
+     *
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * Set utiliser
+     *
+     * @param boolean $utiliser
+     *
+     * @return Promotions
+     */
+    public function setUtiliser($utiliser)
+    {
+        $this->utiliser = $utiliser;
+    
+        return $this;
+    }
+
+    /**
+     * Get utiliser
+     *
+     * @return boolean
+     */
+    public function getUtiliser()
+    {
+        return $this->utiliser;
     }
 }
