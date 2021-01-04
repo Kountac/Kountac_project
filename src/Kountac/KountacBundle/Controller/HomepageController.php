@@ -8,6 +8,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use DOMDocument;
 use Utilisateurs\UtilisateursBundle\Repository\UtilisateursRepository;
+use Utilisateurs\UtilisateursBundle\Form\RegistrationPopUpType;
+
 
 class HomepageController extends Controller
 {  
@@ -348,23 +350,28 @@ class HomepageController extends Controller
                 array_push($newDernieresVentes, $tab);
             }
         }
-
+        // form for pop up enrolment 
+        $form_popup = $this->createForm(new RegistrationPopUpType());
+        
         shuffle($newPopulaires);
         shuffle($newReductions);
         shuffle($newNouveaux);
         shuffle($newDernieresVentes);
-
+        
+        //var_dump($session->get('popup'));die();
         return $this->render('KountacBundle:Default:index2.html.twig', array('produits' => $produits,'user' => $this->getUser(),
                                                                             'populaires' => $newPopulaires,
                                                                             'nouveaux' => $newNouveaux,
                                                                             'images' => $images,
                                                                             'mannequins' => $mannequins,
+                                                                            'form' => $form_popup->createView(),
                                                                             'reductions' => $newReductions,
                                                                             'produits2' => $produits2,
                                                                             'dernieresVentes' => $newDernieresVentes,
                                                                             'panier' => $panier,
                                                                             'euro' => $session->get('euro'),
                                                                             'all' => $session->get('all'),
+                                                                            'popup' => $session->get('popup'),  
                                                                             'usa' => $session->get('usa'),
                                                                             'livre' => $session->get('livre'),
                                                                             'naira' => $session->get('naira'),
