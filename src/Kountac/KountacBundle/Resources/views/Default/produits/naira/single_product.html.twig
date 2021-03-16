@@ -373,16 +373,16 @@
                                                                             {% for image in images_all %}
                                                                                 {% if image.produit2 == produit_autre and image.top == 0 %}
                                                                                 <a href="{{ path('product', {'id' : produit_autre.id}) }}">
-                                                                                    <img src="{{ asset(image.AssetPath) }}" alt="">
+                                                                                    <img src="{{ asset(image.AssetPath|imagine_filter('resizeThumb')) }}" alt="">
                                                                                 </a>
                                                                                 {% if image.path2 %}
                                                                                 <a class="hover-img" href="{{ path('product', {'id' : produit_autre.id}) }}">
-                                                                                    <img src="{{ asset(image.AssetPath2) }}" alt="">
+                                                                                    <img src="{{ asset(image.AssetPath2|imagine_filter('resizeThumb')) }}" alt="">
                                                                                 </a>
                                                                                 {% endif %}
                                                                                 {% if image.path3 %}
                                                                                 <a class="hover-img" href="{{ path('product', {'id' : produit_autre.id}) }}">
-                                                                                    <img src="{{ asset(image.AssetPath3) }}" alt="">
+                                                                                    <img src="{{ asset(image.AssetPath3|imagine_filter('resizeThumb')) }}" alt="">
                                                                                 </a>
                                                                                 {% endif %}
                                                                                 {% endif %}
@@ -447,4 +447,5 @@
                     </div>
                 </div>
             {% endif %}
-        {% endif %}
+        </div>
+{% endif %}

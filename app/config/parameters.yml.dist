@@ -2,9 +2,9 @@
 parameters:
     database_host: kountacffauser3.mysql.db
     database_port: null
-    database_name: kountacffauser3
     database_user: kountacffauser3
     database_password: Kountac2017
+    database_name: kountacffauser3
     mailer_transport: mail
     mailer_host: mx1.mail.ovh.net
     mailer_user: contact@kountac.fr

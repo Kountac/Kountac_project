@@ -107,16 +107,26 @@ class MenuController extends Controller
         
         $categories = $em->getRepository('KountacBundle:Categories')->findAll();
         $mannequins = $em->getRepository('KountacBundle:Mannequin')->findAll();
+        $images = $em->getRepository('KountacBundle:Media_motif')->findAll();
         $marques = $em->getRepository('UtilisateursBundle:Utilisateurs')->getAllMarques();
         $motifs = $em->getRepository('KountacBundle:Libelles_motif')->findAll();
-        $form_taillePoids = $this->createForm(new Taille_PoidsType());                       
+        $form_taillePoids = $this->createForm(new Taille_PoidsType());    
+        $europrix = $em->getRepository('KountacBundle:Produits_2')->getPrixEuro();
+        $cfaprix = $em->getRepository('KountacBundle:Produits_2')->getPrixCFA();
+        $usaprix = $em->getRepository('KountacBundle:Produits_2')->getPrixUSA();
+        $livreprix = $em->getRepository('KountacBundle:Produits_2')->getPrixLivre();
+        $nairaprix = $em->getRepository('KountacBundle:Produits_2')->getPrixNaira();
+        $allprix = $em->getRepository('KountacBundle:Produits_2')->getPrixAll();                   
         
         $categories_enfants = $em->getRepository('KountacBundle:Categories')->find($categorie)->getChildren();
         
         $produitsNews = $em->getRepository('KountacBundle:Produits_2')->byNewCategorie($categorie, $categories_enfants);
         $produits  = $this->get('knp_paginator')->paginate($produitsNews,$this->get('request')->query->get('page', 1),20);
 
+        
+
         return $this->render('KountacBundle:Default:produits/all_products.html.twig', array('produits' => $produits,
+                                                                                            'images' => $images,
                                                                                             'nom' => "Nouveautés ".$categorieNom,
                                                                                             'marques' => $marques, 
                                                                                             'form' => $form_taillePoids->createView(),
@@ -129,6 +139,12 @@ class MenuController extends Controller
                                                                                             'usa' => $this->getRequest()->getSession()->get('usa'),
                                                                                             'naira' => $this->getRequest()->getSession()->get('naira'),
                                                                                             'cfa' => $this->getRequest()->getSession()->get('cfa'),
+                                                                                            'cfaprix' => $cfaprix,
+                                                                                            'europrix' => $europrix,
+                                                                                            'usaprix' => $usaprix,
+                                                                                            'livreprix' => $livreprix,
+                                                                                            'nairaprix' => $nairaprix,
+                                                                                            'allprix' => $allprix,
                                                                                             'categorie' => $session->get('categorie')));
     }
     

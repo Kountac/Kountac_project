@@ -53,7 +53,7 @@ class RegistrationController extends BaseController
         $fin = false;
 
         foreach($lignes as $ligne){
-            if(strstr($ligne,$code)){ //Tu peux utiliser strpos aussi
+            if(strstr($ligne,$code)){ 
                 $fin = true;
                 break;
             }
@@ -71,7 +71,7 @@ class RegistrationController extends BaseController
                 $fin = false;
 
                 foreach($lignes as $ligne){
-                    if(strstr($ligne,$code)){ //Tu peux utiliser strpos aussi
+                    if(strstr($ligne,$code)){ 
                         $fin = true;
                         break;
                     }

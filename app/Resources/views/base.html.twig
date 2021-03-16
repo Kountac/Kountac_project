@@ -5,7 +5,7 @@
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
   <script src="https://kountac.fr/js/ajax.js"></script>
-  <script src="http://kountac.test/js/ajax.js"></script>
+  {# <script src="http://127.0.0.1:8000/js/ajax.js"></script> #}
 
   <script type="text/javascript">
     (function(){
@@ -13,17 +13,17 @@
         localisation();
         
         function localisation(){
-          var url_local = "http://kountac.test/";
-          var url_prod = "https://kountac.fr/"
+          var url_local = "http://127.0.0.1:8000/";
+            var url_prod = "https://kountac.fr/"
             getData({
-                url: url_local+"localisation",
+                url: url_prod+"localisation",
                 method: "GET",
                 async:true,
                 onBegin:function(){
                     console.log("get localisation from server...")
                 },
                 onSuccess: function(e){
-                  
+                  console.log("localisation", e)
                 }
             });
         }

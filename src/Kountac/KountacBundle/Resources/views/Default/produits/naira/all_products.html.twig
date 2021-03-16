@@ -116,7 +116,7 @@
                                                 </div>
                                                 <div class="item-info">
                                                     <div class="info-inner">
-                                                        <div class="item-title"> <a title="{{ produit.produit1.nom|capitalize }} - {{ produit.libelle.libelle|capitalize }}" href="{{ path('product', {'id' : produit.id}) }}">{{ produit.produit1.nom|capitalize }} - {{ produit.libelle.libelle|capitalize }}</a> </div>
+                                                        <div class="item-title"> <a title="{{ produit.produit1.nom|capitalize }} - {{ produit.libelle ? produit.libelle.libelle : ''|default('')|capitalize }}" href="{{ path('product', {'id' : produit.id}) }}">{{ produit.produit1.nom|capitalize }} - {{ produit.libelle ? produit.libelle.libelle : ''|default('')|capitalize }}</a> </div>
                                                         <div class="item-content">
                                                             <div class="item-price">
                                                                 {% if produit.reduction == 0 %}
@@ -132,10 +132,10 @@
                                                                 <div class="language-currency-wrapper left">
                                                                     <div class="inner-cl">
                                                                         <div class="block block-language form-language ">
-                                                                          <div class="myaccount">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="{{ path('espace_marque', {'id' : produit.id}) }}" title="Aller à la marque {{ produit.produit1.marque.marque|capitalize }}"><img src="{{ produit.produit1.marque.image.AssetPath|imagine_filter('marqueLogoThumb') }}" alt="">&nbsp;&nbsp;&nbsp;<span class="hidden-xs"> {{ produit.produit1.marque.marque|capitalize }}</span></a></div>
+                                                                          <div class="myaccount">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="{{ path('espace_marque', {'id' : produit.id}) }}" title="Aller à la marque {{ produit.produit1.marque ? produit.produit1.marque.marque : ''|capitalize }}">&nbsp;&nbsp;&nbsp;<span class="hidden-xs"> {{ produit.produit1.marque ? produit.produit1.marque.marque : ''|capitalize }}</span></a></div>
                                                                             <ul>
                                                                                 <li>
-                                                                                    <strong><a title="Voir tous les produits de la marque {{ produit.produit1.marque.marque|capitalize }}" href="{{ path('espace_marque', {'id' : produit.id}) }}"><span class="hidden-xs">{{ produit.produit1.marque.marque|capitalize }}</span></a></strong>
+                                                                                    <strong><a title="Voir tous les produits de la marque {{ produit.produit1.marque ? produit.produit1.marque.marque : ''|capitalize }}" href="{{ path('espace_marque', {'id' : produit.id}) }}"><span class="hidden-xs">{{ produit.produit1.marque ? produit.produit1.marque.marque : ''|capitalize }}</span></a></strong>
                                                                                 </li>
                                                                             </ul>
                                                                         </div>

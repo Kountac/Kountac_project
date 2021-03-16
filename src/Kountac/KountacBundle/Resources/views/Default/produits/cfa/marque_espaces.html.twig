@@ -121,7 +121,7 @@
                                                 </div>
                                                 <div class="item-info">
                                                     <div class="info-inner">
-                                                        <div class="item-title"> <a title="{{ produit.produit1.nom|capitalize }} - {{ produit.libelle.libelle|capitalize }}" href="{{ path('product', {'id' : produit.id}) }}">{{ produit.produit1.nom|capitalize }} - {{ produit.libelle.libelle|capitalize }}</a> </div>
+                                                        <div class="item-title"> <a title="{{ produit.produit1.nom|capitalize }} - {{ produit.libelle ? produit.libelle.libelle|capitalize : "" }}" href="{{ path('product', {'id' : produit.id}) }}">{{ produit.produit1.nom|capitalize }} - {{ produit.libelle ? produit.libelle.libelle|capitalize : "" }}</a> </div>
                                                         <div class="item-content">
                                                             <div class="item-price">
                                                                 {% if produit.reduction == 0 %}
