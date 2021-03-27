@@ -2,6 +2,29 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/C:/xampp/htdocs/Projet%20test/Kountac_project/src/Utilisateurs/UtilisateursBundle/Controller/MannequinsProController.php</file>
+            <file>file:/C:/xampp/htdocs/Projet%20test/Kountac_project/src/Kountac/KountacBundle/Resources/views/Default/index_naira.html.twig</file>
+            <file>file:/C:/xampp/htdocs/Projet%20test/Kountac_project/src/Kountac/KountacBundle/Form/NewsletterType.php</file>
+            <file>file:/C:/xampp/htdocs/Projet%20test/Kountac_project/src/Kountac/KountacBundle/Resources/views/Default/index_cfa.html.twig</file>
+            <file>file:/C:/xampp/htdocs/Projet%20test/Kountac_project/src/Utilisateurs/UtilisateursBundle/Entity/Utilisateurs.php</file>
+            <file>file:/C:/xampp/htdocs/Projet%20test/Kountac_project/src/Utilisateurs/UtilisateursBundle/Entity/Mesures.php</file>
+            <file>file:/C:/xampp/htdocs/Projet%20test/Kountac_project/app/config/parameters.yml</file>
+            <file>file:/C:/xampp/htdocs/Projet%20test/Kountac_project/src/Kountac/KountacBundle/Resources/views/Default/index_usa.html.twig</file>
+            <file>file:/C:/xampp/htdocs/Projet%20test/Kountac_project/src/Kountac/KountacBundle/Controller/PanierController.php</file>
+            <file>file:/C:/xampp/htdocs/Projet%20test/Kountac_project/src/Kountac/KountacBundle/Entity/Promotions.php</file>
+            <file>file:/C:/xampp/htdocs/Projet%20test/Kountac_project/src/Kountac/KountacBundle/Entity/Achats.php</file>
+            <file>file:/C:/xampp/htdocs/Projet%20test/Kountac_project/src/Utilisateurs/UtilisateursBundle/Controller/RegistrationController.php</file>
+            <file>file:/C:/xampp/htdocs/Projet%20test/Kountac_project/app/autoload.php</file>
+            <file>file:/C:/xampp/htdocs/Projet%20test/Kountac_project/src/Kountac/KountacBundle/Controller/HomepageController.php</file>
+            <file>file:/C:/xampp/htdocs/Projet%20test/Kountac_project/src/Kountac/KountacBundle/Resources/views/Default/index_livre.html.twig</file>
+            <file>file:/C:/xampp/htdocs/Projet%20test/Kountac_project/src/Utilisateurs/UtilisateursBundle/Resources/config/routing.yml</file>
+            <file>file:/C:/xampp/htdocs/Projet%20test/Kountac_project/src/Kountac/KountacBundle/Controller/DeviseController.php</file>
+            <file>file:/C:/xampp/htdocs/Projet%20test/Kountac_project/src/Utilisateurs/UtilisateursBundle/Form/RegistrationpopupType.php</file>
+            <file>file:/C:/xampp/htdocs/Projet%20test/Kountac_project/src/Kountac/KountacBundle/Entity/Produits.php~</file>
+            <file>file:/C:/xampp/htdocs/Projet%20test/Kountac_project/src/Kountac/KountacBundle/Resources/views/Default/index_all.html.twig</file>
+            <file>file:/C:/xampp/htdocs/Projet%20test/Kountac_project/src/Kountac/KountacBundle/Resources/views/Default/index2.html.twig</file>
+            <file>file:/C:/xampp/htdocs/Projet%20test/Kountac_project/src/Kountac/KountacBundle/Controller/ProduitController.php</file>
+        </group>
     </open-files>
 </project-private>

@@ -190,6 +190,97 @@
             </div>
         </div>
     </div>
+{% if popup|length == 0 and activate == 1 %}
+     <!-- Beginning of the popup -->
+     <!-- Modal -->
+    <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog">
+
+          <!-- Modal content-->
+          <div class="modal-content" style="background-image: url('{{ asset('images/newsletter.jpg') }}'); background-repeat : no-repeat; background-size: 100% 100%;">
+            <div class="modal-header">
+                <div class="col-sm-11"><center><h4><label>Inscrivez vous et gagnez une réduction de 15% sur votre premier achat </label></h4> </center></div>
+                <div class="col-sm-1"><button type="button" class="close" data-dismiss="modal">&times;</button></div>
+            </div>
+            <div class="modal-body">
+            <form action="{{ path("kountac_pop_up_registration") }}" method="post">
+              {{ form_start(form) }} 
+              {{ form_errors(form) }}
+                <div class="col-sm-5">
+                    <label>Votre identifiant</label><span class="required">*</span>
+                </div><!--/ [col] -->
+                <div class="col-sm-7">
+                    {{ form_widget(form.username) }}
+                </div><!--/ [col] -->
+                <br><br>
+                <div class="col-sm-5">
+                    <label>Adresse email</label><span class="required">*</span>
+                </div><!--/ [col] -->
+                <div class="col-sm-7">
+                    {{ form_widget(form.email) }}
+                </div><!--/ [col] -->
+                <br><br>
+                <div class="col-sm-5">
+                    <label>Code Parrain</label>
+                </div><!--/ [col] -->
+                <div class="col-sm-7">
+                    {{ form_widget(form.codeparrain) }}
+                </div><!--/ [col] -->
+                <br><br>
+                <div class="col-sm-5">
+                    {{ form_label(form.plainPassword.first) }}<span class="required">*</span>
+                </div>
+                <div class="col-sm-7">
+                    {{ form_widget(form.plainPassword.first) }}
+                </div>
+                <br><br>
+                <div class="col-sm-5">
+                    {{ form_label(form.plainPassword.second) }}<span class="required">*</span>
+                </div>
+                <div class="col-sm-7">
+                    {{ form_widget(form.plainPassword.second) }}
+                </div>
+                <br><br><br>
+                <div class="col-sm-12">
+                    <label class="inline" for="newsletter">
+                        {{ form_widget(form.newsletter) }} &nbsp; &nbsp; {{ form_label(form.newsletter) }}
+                    </label>
+                </div>
+                <br>
+                <div class="col-sm-12">
+                    <label class="inline" for="condition">
+                        <input type="checkbox" id="condition" name="_condition" value="on" required/> &nbsp; &nbsp; Acceptez les conditions d'utilisation
+                    </label>
+                </div>
+                <br><br><br>
+                <button class="button" type="submit"><span>Créez votre compte</span>&nbsp;<i class="icon-check"></i> </button>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                Déjà un Compte ? <label><a href="{{ path("fos_user_security_login") }}">Se connecter</a></label>
+               </form>
+            </div>
+           
+          </div>
+
+        </div>
+      </div>
+    <!-- End Pop up -->
+    {% endif %}
+    <!-- Begin Corresponding JS code -->
+    <script type="text/javascript">
+        var count=-1; // initially -1 as we are having a delay of 1000ms
+        var counter=setInterval(timer, 1000); //1000 will  run it every 1 second
+        function timer()
+        {
+          count=count+1;
+          if (count >=60) {//+1 than the req time as we have a delay of 1000ms
+            clearInterval(counter);
+            $("#myModal").modal();
+            return;
+          }
+            document.getElementById("timer").innerHTML=count + " secs"; // watch for spelling
+        }
+    
+    </script>            
     <div class="container new-layout"  style="margin-top: 30px;">
         <div class="special-products">
             <div class="home-tab">
@@ -479,7 +570,7 @@
                                 {% endfor %}
 
                         </div>
-                        <div class="col-lg-4 col-lg-offset-4 navigation">
+                        <div class="col-lg-6 col-lg-offset-3 navigation">
                             {{ knp_pagination_render(pagination) }}
                         </div>
                     {% endif %}

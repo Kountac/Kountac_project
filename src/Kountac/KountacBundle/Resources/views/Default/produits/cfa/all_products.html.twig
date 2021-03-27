@@ -88,7 +88,7 @@
                                                     <figure> 
                                                         <center>
                                                             {% for image in images %}
-                                                                {% if image.produit2 == produit and image.top == 0 %}
+                                                                {% if image.produit2 == produit and image.top == 0 and image.produit2 != null %}
                                                                 <a href="{{ path('product', {'id' : produit.id}) }}"><img src="{{ asset(image.AssetPath |imagine_filter('resizeThumb')) }}" alt=""></a>
                                                                 {% if image.path2 %}
                                                                 <a class="hover-img" href="{{ path('product', {'id' : produit.id}) }}">

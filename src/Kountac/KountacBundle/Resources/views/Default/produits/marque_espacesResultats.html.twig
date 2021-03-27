@@ -96,30 +96,30 @@
                                                         <center>
                                                             {% if produit.top == 0 %}
                                                                     <a href="{{ path('product', {'id' : produit.produit2.id}) }}">
-                                                                        <img src="{{ produit.AssetPath|imagine_filter('produitAllThumb') }}" alt="">
+                                                                        <img src="{{ produit.AssetPath|imagine_filter('resizeThumb') }}" alt="">
                                                                     </a>
                                                                     {% if produit.path2 %}
                                                                     <a class="hover-img" href="{{ path('product', {'id' : produit.produit2.id}) }}">
-                                                                        <img src="{{ produit.AssetPath2|imagine_filter('produitAllThumb') }}" alt="">
+                                                                        <img src="{{ produit.AssetPath2|imagine_filter('resizeThumb') }}" alt="">
                                                                     </a>
                                                                     {% endif %}
                                                                     {% if produit.path3 %}
                                                                     <a class="hover-img" href="{{ path('product', {'id' : produit.produit2.id}) }}">
-                                                                        <img src="{{ produit.AssetPath3|imagine_filter('produitAllThumb') }}" alt="">
+                                                                        <img src="{{ produit.AssetPath3|imagine_filter('resizeThumb') }}" alt="">
                                                                     </a>
                                                                     {% endif %}
                                                                 {% else %}
                                                                     <a href="{{ path('product_mannequin', {'id': produit.produit2.id, 'id_image': produit.id}) }}">
-                                                                        <img src="{{ produit.AssetPath|imagine_filter('produitAllThumb') }}" alt="">
+                                                                        <img src="{{ produit.AssetPath|imagine_filter('resizeThumb') }}" alt="">
                                                                     </a>
                                                                     {% if produit.path2 %}
                                                                     <a class="hover-img" href="{{ path('product_mannequin', {'id': produit.produit2.id, 'id_image': produit.id}) }}">
-                                                                        <img src="{{ produit.AssetPath2|imagine_filter('produitAllThumb') }}" alt="">
+                                                                        <img src="{{ produit.AssetPath2|imagine_filter('resizeThumb') }}" alt="">
                                                                     </a>
                                                                     {% endif %}
                                                                     {% if produit.path3 %}
                                                                     <a class="hover-img" href="{{ path('product_mannequin', {'id': produit.produit2.id, 'id_image': produit.id}) }}">
-                                                                        <img src="{{ produit.AssetPath3|imagine_filter('produitAllThumb') }}" alt="">
+                                                                        <img src="{{ produit.AssetPath3|imagine_filter('resizeThumb') }}" alt="">
                                                                     </a>
                                                                     {% endif %}
                                                                 {% endif %}
@@ -407,7 +407,7 @@
             } );
         </script>
     {% elseif cfa|length != 0 %}
-        {% include 'KountacBundle:Default:produits/cfa/marque_espacesTaillePoids.html.twig' %}
+        {% include 'KountacBundle:Default:produits/cfa/marque_espacesResultats.html.twig' %}
     {% elseif livre|length != 0 %}
         {% include 'KountacBundle:Default:produits/livre/marque_espacesTaillePoids.html.twig' %}
     {% elseif usa|length != 0 %}

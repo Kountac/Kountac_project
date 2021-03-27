@@ -364,27 +364,26 @@
                                                         {% if produit_autre.usaprix and produit != produit_autre %}
                                                         {% set prixReduction = 0 %}
                                                         {% set prixReduction = produit.usaprix - (produit.usaprix * produit.reduction/100) %}
-
+                                                        <!-- Début Portion de Code à PB -->
+                                                        {% for image in images_rest %}
+                                                        {% if image.produit2 == produit_autre %}
                                                         <div class="product-item">
                                                             <div class="item-inner">
                                                                 <div class="product-thumb has-hover-img">
                                                                     <figure> 
                                                                         <center> 
-                                                                            {% for image in images_all %}
-                                                                                {% if image.produit2 == produit_autre and image.top == 0 %}
-                                                                                <a href="{{ path('product', {'id' : produit_autre.id}) }}"><img src="{{ image.AssetPath|imagine_filter('produitThumb') }}" alt=""></a>
+                                                                            <a href="{{ path('product', {'id' : produit_autre.id}) }}"><img src="{{ image.AssetPath|imagine_filter('resizeThumb') }}" alt=""></a>
                                                                                 {% if image.path2 %}
                                                                                 <a class="hover-img" href="{{ path('product', {'id' : produit_autre.id}) }}">
-                                                                                    <img src="{{ image.AssetPath2|imagine_filter('produitThumb') }}" alt="">
+                                                                                    <img src="{{ image.AssetPath2|imagine_filter('resizeThumb') }}" alt="">
                                                                                 </a>
                                                                                 {% endif %}
                                                                                 {% if image.path3 %}
                                                                                 <a class="hover-img" href="{{ path('product', {'id' : produit_autre.id}) }}">
-                                                                                    <img src="{{ image.AssetPath3|imagine_filter('produitThumb') }}" alt="">
+                                                                                    <img src="{{ image.AssetPath3|imagine_filter('resizeThumb') }}" alt="">
                                                                                 </a>
                                                                                 {% endif %}
-                                                                                {% endif %}
-                                                                            {% endfor %}
+                                                                                
                                                                         </center>
                                                                     </figure>
                                                                     <div class="pr-info-area animated animate4">
@@ -433,6 +432,8 @@
                                                                 </div>
                                                             </div>
                                                         </div>
+                                                                                {% endif %}
+                                                                            {% endfor %}
                                                         {% endif %}
                                                     {% endfor %}  
                                                 {% endfor %} 

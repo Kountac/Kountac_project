@@ -104,9 +104,10 @@ class Produits_2Repository extends EntityRepository
         return $qb->getQuery()->getResult();
     }
     
-    public function getProductByTri($prix, $motif, $taille, $marque, $categorie) 
+    public function getProductByTri($minPrix, $maxPrix, $motif, $taille, $marque, $categorie, $devise) 
     {
-        $qb = $this->createQueryBuilder('p2')
+        if($devise == "cfa"){
+            $qb = $this->createQueryBuilder('p2')
                 ->select('p2')
                 ->leftJoin('p2.produit_1', 'p1')
                 ->leftJoin('p2.produit_3', 'p3')
@@ -114,24 +115,125 @@ class Produits_2Repository extends EntityRepository
                 ->addSelect('p1')
                 ->where('p1.categorie = :categorie')
                 ->andWhere('p1.marque = :marque')
-                ->andWhere('p2.europrix <= :prix')
-                ->orWhere('p2.cfaprix <= :prix')
-                ->orWhere('p2.usaprix <= :prix')
-                ->orWhere('p2.livreprix <= :prix')
-                ->orWhere('p2.nairaprix <= :prix')
+                ->andWhere('p2.cfaprix >= :minPrix')
+                ->andWhere('p2.cfaprix <= :maxPrix')
                 ->andWhere('p2.libelle IN (:motif)')
                 ->andWhere('p3.taille = :taille')
-                ->orWhere('p3.taille = :taille_min')
-                ->orWhere('p3.taille = :taille_max')
                 ->setParameter('categorie', $categorie)
                 ->setParameter('motif', $motif)
                 ->setParameter('marque', $marque)
-                ->setParameter('prix', $prix)
+                ->setParameter('maxPrix', $maxPrix)
+                ->setParameter('minPrix', $minPrix)
                 ->setParameter('taille', $taille)
-                ->setParameter('taille_min', $taille - 2)
-                ->setParameter('taille_max', $taille + 2)
-                ->orderBy('p2.id', 'ASC');
-        return $qb->getQuery()->getResult();
+                ->orderBy('p2.cfaprix', 'ASC');
+            return $qb->getQuery()->getResult();
+        }else if($devise == "euro"){
+            $qb = $this->createQueryBuilder('p2')
+                ->select('p2')
+                ->leftJoin('p2.produit_1', 'p1')
+                ->leftJoin('p2.produit_3', 'p3')
+                ->addSelect('p3')
+                ->addSelect('p1')
+                ->where('p1.categorie = :categorie')
+                ->andWhere('p1.marque = :marque')
+                ->andWhere('p2.europrix >= :minPrix')
+                ->andWhere('p2.europrix <= :maxPrix')
+                ->andWhere('p2.libelle IN (:motif)')
+                ->andWhere('p3.taille = :taille')
+                ->setParameter('categorie', $categorie)
+                ->setParameter('motif', $motif)
+                ->setParameter('marque', $marque)
+                ->setParameter('maxPrix', $maxPrix)
+                ->setParameter('minPrix', $minPrix)
+                ->setParameter('taille', $taille)
+                ->orderBy('p2.europrix', 'ASC');
+            return $qb->getQuery()->getResult();
+        }if($devise == "all"){
+            $qb = $this->createQueryBuilder('p2')
+                ->select('p2')
+                ->leftJoin('p2.produit_1', 'p1')
+                ->leftJoin('p2.produit_3', 'p3')
+                ->addSelect('p3')
+                ->addSelect('p1')
+                ->where('p1.categorie = :categorie')
+                ->andWhere('p1.marque = :marque')
+                ->andWhere('p2.allprix >= :minPrix')
+                ->andWhere('p2.allprix <= :maxPrix')
+                ->andWhere('p2.libelle IN (:motif)')
+                ->andWhere('p3.taille = :taille')
+                ->setParameter('categorie', $categorie)
+                ->setParameter('motif', $motif)
+                ->setParameter('marque', $marque)
+                ->setParameter('maxPrix', $maxPrix)
+                ->setParameter('minPrix', $minPrix)
+                ->setParameter('taille', $taille)
+                ->orderBy('p2.allprix', 'ASC');
+            return $qb->getQuery()->getResult();
+        }if($devise == "livre"){
+            $qb = $this->createQueryBuilder('p2')
+                ->select('p2')
+                ->leftJoin('p2.produit_1', 'p1')
+                ->leftJoin('p2.produit_3', 'p3')
+                ->addSelect('p3')
+                ->addSelect('p1')
+                ->where('p1.categorie = :categorie')
+                ->andWhere('p1.marque = :marque')
+                ->andWhere('p2.livreprix >= :minPrix')
+                ->andWhere('p2.livreprix <= :maxPrix')
+                ->andWhere('p2.libelle IN (:motif)')
+                ->andWhere('p3.taille = :taille')
+                ->setParameter('categorie', $categorie)
+                ->setParameter('motif', $motif)
+                ->setParameter('marque', $marque)
+                ->setParameter('maxPrix', $maxPrix)
+                ->setParameter('minPrix', $minPrix)
+                ->setParameter('taille', $taille)
+                ->orderBy('p2.livreprix', 'ASC');
+            return $qb->getQuery()->getResult();
+        }if($devise == "usa"){
+            $qb = $this->createQueryBuilder('p2')
+                ->select('p2')
+                ->leftJoin('p2.produit_1', 'p1')
+                ->leftJoin('p2.produit_3', 'p3')
+                ->addSelect('p3')
+                ->addSelect('p1')
+                ->where('p1.categorie = :categorie')
+                ->andWhere('p1.marque = :marque')
+                ->andWhere('p2.usaprix >= :minPrix')
+                ->andWhere('p2.usaprix <= :maxPrix')
+                ->andWhere('p2.libelle IN (:motif)')
+                ->andWhere('p3.taille = :taille')
+                ->setParameter('categorie', $categorie)
+                ->setParameter('motif', $motif)
+                ->setParameter('marque', $marque)
+                ->setParameter('maxPrix', $maxPrix)
+                ->setParameter('minPrix', $minPrix)
+                ->setParameter('taille', $taille)
+                ->orderBy('p2.usaprix', 'ASC');
+            return $qb->getQuery()->getResult();
+        }if($devise == "naira"){
+            $qb = $this->createQueryBuilder('p2')
+                ->select('p2')
+                ->leftJoin('p2.produit_1', 'p1')
+                ->leftJoin('p2.produit_3', 'p3')
+                ->addSelect('p3')
+                ->addSelect('p1')
+                ->where('p1.categorie = :categorie')
+                ->andWhere('p1.marque = :marque')
+                ->andWhere('p2.nairaprix >= :minPrix')
+                ->andWhere('p2.nairaprix <= :maxPrix')
+                ->andWhere('p2.libelle IN (:motif)')
+                ->andWhere('p3.taille = :taille')
+                ->setParameter('categorie', $categorie)
+                ->setParameter('motif', $motif)
+                ->setParameter('marque', $marque)
+                ->setParameter('maxPrix', $maxPrix)
+                ->setParameter('minPrix', $minPrix)
+                ->setParameter('taille', $taille)
+                ->orderBy('p2.nairaprix', 'ASC');
+            return $qb->getQuery()->getResult();
+        }
+        
     }
     
     public function getProductByTri_T1($minPrix, $maxPrix, $devise) 
@@ -208,7 +310,7 @@ class Produits_2Repository extends EntityRepository
         return $qb->getQuery()->getResult();*/
     }
     
-    public function getProductByTri_T2($motif) 
+    /*public function getProductByTri_T2($motif) 
     {
         $qb = $this->createQueryBuilder('p2')
                 ->select('p2')
@@ -217,24 +319,79 @@ class Produits_2Repository extends EntityRepository
                 ->orderBy('p2.id', 'ASC');
         return $qb->getQuery()->getResult();
     }
-    
-    public function getProductByTri_T3($prix, $motif) 
+    */
+    public function getProductByTri_T3($minPrix, $maxPrix, $motif, $devise) 
     {
-        $qb = $this->createQueryBuilder('p2')
+        if($devise == "cfa"){
+            $qb = $this->createQueryBuilder('p2')
                 ->select('p2')
-                ->andWhere('p2.europrix <= :prix')
-                ->orWhere('p2.cfaprix <= :prix')
-                ->orWhere('p2.usaprix <= :prix')
-                ->orWhere('p2.livreprix <= :prix')
-                ->orWhere('p2.nairaprix <= :prix')
+                ->Where('p2.cfaprix >= :minPrix')
+                ->andWhere('p2.cfaprix <= :maxPrix')
                 ->andWhere('p2.libelle IN (:motif)')
                 ->setParameter('motif', $motif)
-                ->setParameter('prix', $prix)
-                ->orderBy('p2.id', 'ASC');
-        return $qb->getQuery()->getResult();
+                ->setParameter('maxPrix', $maxPrix)
+                ->setParameter('minPrix', $minPrix)
+                ->orderBy('p2.cfaprix', 'ASC');
+            return $qb->getQuery()->getResult();
+        } else if($devise == "euro") {
+            $qb = $this->createQueryBuilder('p2')
+                ->select('p2')
+                ->Where('p2.europrix >= :minPrix')
+                ->andWhere('p2.europrix <= :maxPrix')
+                ->andWhere('p2.libelle IN (:motif)')
+                ->setParameter('motif', $motif)
+                ->setParameter('maxPrix', $maxPrix)
+                ->setParameter('minPrix', $minPrix)
+                ->orderBy('p2.europrix', 'ASC');
+            return $qb->getQuery()->getResult();
+        } else if($devise == "naira") {
+            $qb = $this->createQueryBuilder('p2')
+                ->select('p2')
+                ->Where('p2.nairaprix >= :minPrix')
+                ->andWhere('p2.nairaprix <= :maxPrix')
+                ->andWhere('p2.libelle IN (:motif)')
+                ->setParameter('motif', $motif)
+                ->setParameter('maxPrix', $maxPrix)
+                ->setParameter('minPrix', $minPrix)
+                ->orderBy('p2.nairaprix', 'ASC');
+            return $qb->getQuery()->getResult();
+        } else if($devise == "livre") {
+            $qb = $this->createQueryBuilder('p2')
+                ->select('p2')
+                ->Where('p2.livreprix >= :minPrix')
+                ->andWhere('p2.livreprix <= :maxPrix')
+                ->andWhere('p2.libelle IN (:motif)')
+                ->setParameter('motif', $motif)
+                ->setParameter('maxPrix', $maxPrix)
+                ->setParameter('minPrix', $minPrix)
+                ->orderBy('p2.livreprix', 'ASC');
+            return $qb->getQuery()->getResult();
+        } else if($devise == "usa") {
+            $qb = $this->createQueryBuilder('p2')
+                ->select('p2')
+                ->Where('p2.usaprix >= :minPrix')
+                ->andWhere('p2.usaprix <= :maxPrix')
+                ->andWhere('p2.libelle IN (:motif)')
+                ->setParameter('motif', $motif)
+                ->setParameter('maxPrix', $maxPrix)
+                ->setParameter('minPrix', $minPrix)
+                ->orderBy('p2.usaprix', 'ASC');
+            return $qb->getQuery()->getResult();
+        } else if($devise == "all") {
+            $qb = $this->createQueryBuilder('p2')
+                ->select('p2')
+                ->Where('p2.allprix >= :minPrix')
+                ->andWhere('p2.allprix <= :maxPrix')
+                ->andWhere('p2.libelle IN (:motif)')
+                ->setParameter('motif', $motif)
+                ->setParameter('maxPrix', $maxPrix)
+                ->setParameter('minPrix', $minPrix)
+                ->orderBy('p2.allprix', 'ASC');
+            return $qb->getQuery()->getResult();
+        }
     }
     
-    public function getProductByTri_T4($taille) 
+   /* public function getProductByTri_T4($taille) 
     {
         $qb = $this->createQueryBuilder('p2')
                 ->select('p2')
@@ -249,30 +406,110 @@ class Produits_2Repository extends EntityRepository
                 ->orderBy('p2.id', 'ASC');
         return $qb->getQuery()->getResult();
     }
+    */
     
-    public function getProductByTri_T5($prix, $taille) 
+    public function getProductByTri_T5($minPrix, $maxPrix, $taille, $devise) 
     {
-        $qb = $this->createQueryBuilder('p2')
+        if($devise == "cfa"){
+            $qb = $this->createQueryBuilder('p2')
                 ->select('p2')
                 ->leftJoin('p2.produit_3', 'p3')
                 ->addSelect('p3')
-                ->andWhere('p2.europrix <= :prix')
-                ->orWhere('p2.cfaprix <= :prix')
-                ->orWhere('p2.usaprix <= :prix')
-                ->orWhere('p2.livreprix <= :prix')
-                ->orWhere('p2.nairaprix <= :prix')
+                ->Where('p2.cfaprix >= :minPrix')
+                ->andWhere('p2.cfaprix <= :maxPrix')
                 ->andWhere('p3.taille = :taille')
-                ->orWhere('p3.taille = :taille_min')
-                ->orWhere('p3.taille = :taille_max')
-                ->setParameter('prix', $prix)
+                //->andWhere('p3.taille >= :taille_max')
                 ->setParameter('taille', $taille)
-                ->setParameter('taille_min', $taille - 2)
-                ->setParameter('taille_max', $taille + 2)
-                ->orderBy('p2.id', 'ASC');
-        return $qb->getQuery()->getResult();
-    }
+                //->setParameter('taille_min', $taille - 1)
+                //->setParameter('taille_max', $taille + 1)
+                ->setParameter('maxPrix', $maxPrix)
+                ->setParameter('minPrix', $minPrix)
+                ->orderBy('p2.cfaprix', 'ASC');
+            return $qb->getQuery()->getResult();            
+        } else if ($devise == "euro") {
+            $qb = $this->createQueryBuilder('p2')
+                ->select('p2')
+                ->leftJoin('p2.produit_3', 'p3')
+                ->addSelect('p3')
+                ->Where('p2.europrix >= :minPrix')
+                ->andWhere('p2.europrix <= :maxPrix')
+                ->andWhere('p3.taille = :taille')
+                //->andWhere('p3.taille >= :taille_max')
+                ->setParameter('taille', $taille)
+                //->setParameter('taille_min', $taille - 1)
+                //->setParameter('taille_max', $taille + 1)
+                ->setParameter('maxPrix', $maxPrix)
+                ->setParameter('minPrix', $minPrix)
+                ->orderBy('p2.europrix', 'ASC');
+            return $qb->getQuery()->getResult();            
+        } else if ($devise == "all") {
+            $qb = $this->createQueryBuilder('p2')
+                ->select('p2')
+                ->leftJoin('p2.produit_3', 'p3')
+                ->addSelect('p3')
+                ->Where('p2.allprix >= :minPrix')
+                ->andWhere('p2.allprix <= :maxPrix')
+                ->andWhere('p3.taille = :taille')
+                //->andWhere('p3.taille >= :taille_max')
+                ->setParameter('taille', $taille)
+                //->setParameter('taille_min', $taille - 1)
+                //->setParameter('taille_max', $taille + 1)
+                ->setParameter('maxPrix', $maxPrix)
+                ->setParameter('minPrix', $minPrix)
+                ->orderBy('p2.allprix', 'ASC');
+            return $qb->getQuery()->getResult();
+        } else if ($devise == "usa") {
+            $qb = $this->createQueryBuilder('p2')
+                ->select('p2')
+                ->leftJoin('p2.produit_3', 'p3')
+                ->addSelect('p3')
+                ->Where('p2.usaprix >= :minPrix')
+                ->andWhere('p2.usaprix <= :maxPrix')
+                ->andWhere('p3.taille = :taille')
+                //->andWhere('p3.taille >= :taille_max')
+                ->setParameter('taille', $taille)
+                //->setParameter('taille_min', $taille - 1)
+                //->setParameter('taille_max', $taille + 1)
+                ->setParameter('maxPrix', $maxPrix)
+                ->setParameter('minPrix', $minPrix)
+                ->orderBy('p2.usaprix', 'ASC');
+            return $qb->getQuery()->getResult();
+        } else if ($devise == "naira") {
+            $qb = $this->createQueryBuilder('p2')
+                ->select('p2')
+                ->leftJoin('p2.produit_3', 'p3')
+                ->addSelect('p3')
+                ->Where('p2.nairaprix >= :minPrix')
+                ->andWhere('p2.nairaprix <= :maxPrix')
+                ->andWhere('p3.taille = :taille')
+                //->andWhere('p3.taille >= :taille_max')
+                ->setParameter('taille', $taille)
+                //->setParameter('taille_min', $taille - 1)
+                //->setParameter('taille_max', $taille + 1)
+                ->setParameter('maxPrix', $maxPrix)
+                ->setParameter('minPrix', $minPrix)
+                ->orderBy('p2.nairaprix', 'ASC');
+            return $qb->getQuery()->getResult();
+        } else if ($devise == "livre") {
+            $qb = $this->createQueryBuilder('p2')
+                ->select('p2')
+                ->leftJoin('p2.produit_3', 'p3')
+                ->addSelect('p3')
+                ->Where('p2.livreprix >= :minPrix')
+                ->andWhere('p2.livreprix <= :maxPrix')
+                ->andWhere('p3.taille = :taille_min')
+                //->andWhere('p3.taille >= :taille_max')
+                ->setParameter('taille', $taille)
+                //->setParameter('taille_min', $taille - 1)
+                //->setParameter('taille_max', $taille + 1)
+                ->setParameter('maxPrix', $maxPrix)
+                ->setParameter('minPrix', $minPrix)
+                ->orderBy('p2.livreprix', 'ASC');
+            return $qb->getQuery()->getResult();
+        }
+   }
     
-    public function getProductByTri_T6($motif, $taille) 
+    /*public function getProductByTri_T6($motif, $taille) 
     {
         $qb = $this->createQueryBuilder('p2')
                 ->select('p2')
@@ -285,32 +522,103 @@ class Produits_2Repository extends EntityRepository
                 ->orderBy('p2.id', 'ASC');
         return $qb->getQuery()->getResult();
     }
-    
-    public function getProductByTri_T7($prix, $motif, $taille) 
+    */
+    public function getProductByTri_T7($minPrix, $maxPrix, $motif, $taille, $devise) 
     {
-        $qb = $this->createQueryBuilder('p2')
+        if($devise == "cfa"){
+            $qb = $this->createQueryBuilder('p2')
                 ->select('p2')
                 ->leftJoin('p2.produit_3', 'p3')
                 ->addSelect('p3')
-                ->andWhere('p2.europrix <= :prix')
-                ->orWhere('p2.cfaprix <= :prix')
-                ->orWhere('p2.usaprix <= :prix')
-                ->orWhere('p2.livreprix <= :prix')
-                ->orWhere('p2.nairaprix <= :prix')
+                ->Where('p2.cfaprix >= :minPrix')
+                ->andWhere('p2.cfaprix <= :maxPrix')
                 ->andWhere('p2.libelle IN (:motif)')
                 ->andWhere('p3.taille = :taille')
-                ->orWhere('p3.taille = :taille_min')
-                ->orWhere('p3.taille = :taille_max')
                 ->setParameter('motif', $motif)
-                ->setParameter('prix', $prix)
+                ->setParameter('maxPrix', $maxPrix)
+                ->setParameter('minPrix', $minPrix)
                 ->setParameter('taille', $taille)
-                ->setParameter('taille_min', $taille - 2)
-                ->setParameter('taille_max', $taille + 2)
-                ->orderBy('p2.id', 'ASC');
-        return $qb->getQuery()->getResult();
+                ->orderBy('p2.cfaprix', 'ASC');
+            return $qb->getQuery()->getResult();
+        }else if ($devise == "euro"){
+            $qb = $this->createQueryBuilder('p2')
+                ->select('p2')
+                ->leftJoin('p2.produit_3', 'p3')
+                ->addSelect('p3')
+                ->Where('p2.europrix >= :minPrix')
+                ->andWhere('p2.europrix <= :maxPrix')
+                ->andWhere('p2.libelle IN (:motif)')
+                ->andWhere('p3.taille = :taille')
+                ->setParameter('motif', $motif)
+                ->setParameter('maxPrix', $maxPrix)
+                ->setParameter('minPrix', $minPrix)
+                ->setParameter('taille', $taille)
+                ->orderBy('p2.europrix', 'ASC');
+            return $qb->getQuery()->getResult();
+        }else if ($devise == "all"){
+            $qb = $this->createQueryBuilder('p2')
+                ->select('p2')
+                ->leftJoin('p2.produit_3', 'p3')
+                ->addSelect('p3')
+                ->Where('p2.allprix >= :minPrix')
+                ->andWhere('p2.allcfaprix <= :maxPrix')
+                ->andWhere('p2.libelle IN (:motif)')
+                ->andWhere('p3.taille = :taille')
+                ->setParameter('motif', $motif)
+                ->setParameter('maxPrix', $maxPrix)
+                ->setParameter('minPrix', $minPrix)
+                ->setParameter('taille', $taille)
+                ->orderBy('p2.allprix', 'ASC');
+            return $qb->getQuery()->getResult();
+        }else if ($devise == "usa"){
+            $qb = $this->createQueryBuilder('p2')
+                ->select('p2')
+                ->leftJoin('p2.produit_3', 'p3')
+                ->addSelect('p3')
+                ->Where('p2.usaprix >= :minPrix')
+                ->andWhere('p2.usaprix <= :maxPrix')
+                ->andWhere('p2.libelle IN (:motif)')
+                ->andWhere('p3.taille = :taille')
+                ->setParameter('motif', $motif)
+                ->setParameter('maxPrix', $maxPrix)
+                ->setParameter('minPrix', $minPrix)
+                ->setParameter('taille', $taille)
+                ->orderBy('p2.usaprix', 'ASC');
+            return $qb->getQuery()->getResult();
+        }else if ($devise == "livre"){
+            $qb = $this->createQueryBuilder('p2')
+                ->select('p2')
+                ->leftJoin('p2.produit_3', 'p3')
+                ->addSelect('p3')
+                ->Where('p2.livreprix >= :minPrix')
+                ->andWhere('p2.livreprix <= :maxPrix')
+                ->andWhere('p2.libelle IN (:motif)')
+                ->andWhere('p3.taille = :taille')
+                ->setParameter('motif', $motif)
+                ->setParameter('maxPrix', $maxPrix)
+                ->setParameter('minPrix', $minPrix)
+                ->setParameter('taille', $taille)
+                ->orderBy('p2.livreprix', 'ASC');
+            return $qb->getQuery()->getResult();
+        }else if ($devise == "naira"){
+            $qb = $this->createQueryBuilder('p2')
+                ->select('p2')
+                ->leftJoin('p2.produit_3', 'p3')
+                ->addSelect('p3')
+                ->Where('p2.nairaprix >= :minPrix')
+                ->andWhere('p2.nairaprix <= :maxPrix')
+                ->andWhere('p2.libelle IN (:motif)')
+                ->andWhere('p3.taille = :taille')
+                ->setParameter('motif', $motif)
+                ->setParameter('maxPrix', $maxPrix)
+                ->setParameter('minPrix', $minPrix)
+                ->setParameter('taille', $taille)
+                ->orderBy('p2.nairaprix', 'ASC');
+            return $qb->getQuery()->getResult();
+        }
     }
     
-    public function getProductByTri_T8($marque) 
+    /*public function getProductByTri_T8($marque) 
     {
         $qb = $this->createQueryBuilder('p2')
                 ->select('p2')
@@ -321,128 +629,201 @@ class Produits_2Repository extends EntityRepository
                 ->orderBy('p2.id', 'ASC');
         return $qb->getQuery()->getResult();
     }
+    */
+    public function getProductByTri_T9($minPrix, $maxPrix, $marque, $devise) 
+    {
+        if($devise == "cfa"){
+            $qb = $this->createQueryBuilder('p2')
+                ->select('p2')
+                ->leftJoin('p2.produit_1', 'p1')
+                ->addSelect('p1')
+                ->where('p1.marque = :marque')
+                ->andWhere('p2.cfaprix >= :minPrix')
+                ->andWhere('p2.cfaprix <= :maxPrix')
+                ->setParameter('marque', $marque)
+                ->setParameter('maxPrix', $maxPrix)
+                ->setParameter('minPrix', $minPrix)
+                ->orderBy('p2.cfaprix', 'ASC');
+            return $qb->getQuery()->getResult();
+        } else if($devise == "euro"){
+            $qb = $this->createQueryBuilder('p2')
+                ->select('p2')
+                ->leftJoin('p2.produit_1', 'p1')
+                ->addSelect('p1')
+                ->where('p1.marque = :marque')
+                ->andWhere('p2.europrix >= :minPrix')
+                ->andWhere('p2.europrix <= :maxPrix')
+                ->setParameter('marque', $marque)
+                ->setParameter('maxPrix', $maxPrix)
+                ->setParameter('minPrix', $minPrix)
+                ->orderBy('p2.europrix', 'ASC');
+            return $qb->getQuery()->getResult();
+        } else if($devise == "all"){
+            $qb = $this->createQueryBuilder('p2')
+                ->select('p2')
+                ->leftJoin('p2.produit_1', 'p1')
+                ->addSelect('p1')
+                ->where('p1.marque = :marque')
+                ->andWhere('p2.allprix >= :minPrix')
+                ->andWhere('p2.allprix <= :maxPrix')
+                ->setParameter('marque', $marque)
+                ->setParameter('maxPrix', $maxPrix)
+                ->setParameter('minPrix', $minPrix)
+                ->orderBy('p2.allprix', 'ASC');
+            return $qb->getQuery()->getResult();
+        } else if($devise == "livre"){
+            $qb = $this->createQueryBuilder('p2')
+                ->select('p2')
+                ->leftJoin('p2.produit_1', 'p1')
+                ->addSelect('p1')
+                ->where('p1.marque = :marque')
+                ->andWhere('p2.livreprix >= :minPrix')
+                ->andWhere('p2.livreprix <= :maxPrix')
+                ->setParameter('marque', $marque)
+                ->setParameter('maxPrix', $maxPrix)
+                ->setParameter('minPrix', $minPrix)
+                ->orderBy('p2.livreprix', 'ASC');
+            return $qb->getQuery()->getResult();
+        } else if($devise == "euro"){
+            $qb = $this->createQueryBuilder('p2')
+                ->select('p2')
+                ->leftJoin('p2.produit_1', 'p1')
+                ->addSelect('p1')
+                ->where('p1.marque = :marque')
+                ->andWhere('p2.usaprix >= :minPrix')
+                ->andWhere('p2.usaprix <= :maxPrix')
+                ->setParameter('marque', $marque)
+                ->setParameter('maxPrix', $maxPrix)
+                ->setParameter('minPrix', $minPrix)
+                ->orderBy('p2.usaprix', 'ASC');
+            return $qb->getQuery()->getResult();
+        } else if($devise == "euro"){
+            $qb = $this->createQueryBuilder('p2')
+                ->select('p2')
+                ->leftJoin('p2.produit_1', 'p1')
+                ->addSelect('p1')
+                ->where('p1.marque = :marque')
+                ->andWhere('p2.nairaprix >= :minPrix')
+                ->andWhere('p2.nairaprix <= :maxPrix')
+                ->setParameter('marque', $marque)
+                ->setParameter('maxPrix', $maxPrix)
+                ->setParameter('minPrix', $minPrix)
+                ->orderBy('p2.nairaprix', 'ASC');
+            return $qb->getQuery()->getResult();
+        }
+    }
     
-    public function getProductByTri_T9($prix, $marque) 
+    /*public function getProductByTri_T10($motif, $marque) 
     {
         $qb = $this->createQueryBuilder('p2')
                 ->select('p2')
                 ->leftJoin('p2.produit_1', 'p1')
                 ->addSelect('p1')
                 ->where('p1.marque = :marque')
-                ->andWhere('p2.europrix <= :prix')
-                ->orWhere('p2.cfaprix <= :prix')
-                ->orWhere('p2.usaprix <= :prix')
-                ->orWhere('p2.livreprix <= :prix')
-                ->orWhere('p2.nairaprix <= :prix')
-                ->setParameter('marque', $marque)
-                ->setParameter('prix', $prix)
-                ->orderBy('p2.id', 'ASC');
-        return $qb->getQuery()->getResult();
-    }
-    
-    public function getProductByTri_T10($motif, $marque) 
-    {
-        $qb = $this->createQueryBuilder('p2')
-                ->select('p2')
-                ->leftJoin('p2.produit_1', 'p1')
-                ->addSelect('p1')
-                ->where('p1.marque = :marque')
                 ->andWhere('p2.libelle IN (:motif)')
                 ->setParameter('motif', $motif)
                 ->setParameter('marque', $marque)
                 ->orderBy('p2.id', 'ASC');
         return $qb->getQuery()->getResult();
     }
-    
-    public function getProductByTri_T11($prix, $motif, $marque) 
+    */
+    public function getProductByTri_T11($minPrix, $maxPrix, $motif, $marque, $devise) 
     {
-        $qb = $this->createQueryBuilder('p2')
+        if($devise == "cfa"){
+            $qb = $this->createQueryBuilder('p2')
                 ->select('p2')
                 ->leftJoin('p2.produit_1', 'p1')
-                ->addSelect('p1')
-                ->where('p1.marque = :marque')
-                ->andWhere('p2.europrix <= :prix')
-                ->andWhere('p2.libelle IN (:motif)')
-                ->orWhere('p2.cfaprix <= :prix')
-                ->orWhere('p2.usaprix <= :prix')
-                ->orWhere('p2.livreprix <= :prix')
-                ->orWhere('p2.nairaprix <= :prix')
-                ->setParameter('motif', $motif)
-                ->setParameter('marque', $marque)
-                ->setParameter('prix', $prix)
-                ->orderBy('p2.id', 'ASC');
-        return $qb->getQuery()->getResult();
-    }
-    
-    public function getProductByTri_T12($taille, $marque) 
-    {
-        $qb = $this->createQueryBuilder('p2')
-                ->select('p2')
-                ->leftJoin('p2.produit_1', 'p1')
-                ->leftJoin('p2.produit_3', 'p3')
-                ->addSelect('p3')
-                ->addSelect('p1')
-                ->where('p1.marque = :marque')
-                ->andWhere('p3.taille = :taille')
-                ->orWhere('p3.taille = :taille_min')
-                ->orWhere('p3.taille = :taille_max')
-                ->setParameter('marque', $marque)
-                ->setParameter('taille', $taille)
-                ->setParameter('taille_min', $taille - 2)
-                ->setParameter('taille_max', $taille + 2)
-                ->orderBy('p2.id', 'ASC');
-        return $qb->getQuery()->getResult();
-    }
-    
-    public function getProductByTri_T13($prix, $taille, $marque) 
-    {
-        $qb = $this->createQueryBuilder('p2')
-                ->select('p2')
-                ->leftJoin('p2.produit_1', 'p1')
-                ->leftJoin('p2.produit_3', 'p3')
-                ->addSelect('p3')
-                ->addSelect('p1')
-                ->where('p1.marque = :marque')
-                ->andWhere('p2.europrix <= :prix')
-                ->andWhere('p3.taille = :taille')
-                ->orWhere('p3.taille = :taille_min')
-                ->orWhere('p3.taille = :taille_max')
-                ->orWhere('p2.cfaprix <= :prix')
-                ->orWhere('p2.usaprix <= :prix')
-                ->orWhere('p2.livreprix <= :prix')
-                ->orWhere('p2.nairaprix <= :prix')
-                ->setParameter('marque', $marque)
-                ->setParameter('prix', $prix)
-                ->setParameter('taille', $taille)
-                ->setParameter('taille_min', $taille - 2)
-                ->setParameter('taille_max', $taille + 2)
-                ->orderBy('p2.id', 'ASC');
-        return $qb->getQuery()->getResult();
-    }
-    
-    public function getProductByTri_T14($motif, $taille, $marque) 
-    {
-        $qb = $this->createQueryBuilder('p2')
-                ->select('p2')
-                ->leftJoin('p2.produit_1', 'p1')
-                ->leftJoin('p2.produit_3', 'p3')
-                ->addSelect('p3')
                 ->addSelect('p1')
                 ->where('p1.marque = :marque')
                 ->andWhere('p2.libelle IN (:motif)')
-                ->andWhere('p3.taille = :taille')
-                ->orWhere('p3.taille = :taille_min')
-                ->orWhere('p3.taille = :taille_max')
+                ->andWhere('p2.cfaprix >= :minPrix')
+                ->andWhere('p2.cfaprix <= :maxPrix')
                 ->setParameter('motif', $motif)
                 ->setParameter('marque', $marque)
-                ->setParameter('taille', $taille)
-                ->setParameter('taille_min', $taille - 2)
-                ->setParameter('taille_max', $taille + 2)
-                ->orderBy('p2.id', 'ASC');
-        return $qb->getQuery()->getResult();
+                ->setParameter('maxPrix', $maxPrix)
+                ->setParameter('minPrix', $minPrix)
+                ->orderBy('p2.cfaprix', 'ASC');
+            return $qb->getQuery()->getResult();
+        }else if($devise == "euro"){
+            $qb = $this->createQueryBuilder('p2')
+                ->select('p2')
+                ->leftJoin('p2.produit_1', 'p1')
+                ->addSelect('p1')
+                ->where('p1.marque = :marque')
+                ->andWhere('p2.libelle IN (:motif)')
+                ->andWhere('p2.europrix >= :minPrix')
+                ->andWhere('p2.europrix <= :maxPrix')
+                ->setParameter('motif', $motif)
+                ->setParameter('marque', $marque)
+                ->setParameter('maxPrix', $maxPrix)
+                ->setParameter('minPrix', $minPrix)
+                ->orderBy('p2.europrix', 'ASC');
+            return $qb->getQuery()->getResult();
+        }else if($devise == "all"){
+            $qb = $this->createQueryBuilder('p2')
+                ->select('p2')
+                ->leftJoin('p2.produit_1', 'p1')
+                ->addSelect('p1')
+                ->where('p1.marque = :marque')
+                ->andWhere('p2.libelle IN (:motif)')
+                ->andWhere('p2.allprix >= :minPrix')
+                ->andWhere('p2.allprix <= :maxPrix')
+                ->setParameter('motif', $motif)
+                ->setParameter('marque', $marque)
+                ->setParameter('maxPrix', $maxPrix)
+                ->setParameter('minPrix', $minPrix)
+                ->orderBy('p2.allprix', 'ASC');
+            return $qb->getQuery()->getResult();
+        }else if($devise == "livre"){
+            $qb = $this->createQueryBuilder('p2')
+                ->select('p2')
+                ->leftJoin('p2.produit_1', 'p1')
+                ->addSelect('p1')
+                ->where('p1.marque = :marque')
+                ->andWhere('p2.libelle IN (:motif)')
+                ->andWhere('p2.livreprix >= :minPrix')
+                ->andWhere('p2.livreprix <= :maxPrix')
+                ->setParameter('motif', $motif)
+                ->setParameter('marque', $marque)
+                ->setParameter('maxPrix', $maxPrix)
+                ->setParameter('minPrix', $minPrix)
+                ->orderBy('p2.livreprix', 'ASC');
+            return $qb->getQuery()->getResult();
+        }else if($devise == "usa"){
+            $qb = $this->createQueryBuilder('p2')
+                ->select('p2')
+                ->leftJoin('p2.produit_1', 'p1')
+                ->addSelect('p1')
+                ->where('p1.marque = :marque')
+                ->andWhere('p2.libelle IN (:motif)')
+                ->andWhere('p2.usaprix >= :minPrix')
+                ->andWhere('p2.usaprix <= :maxPrix')
+                ->setParameter('motif', $motif)
+                ->setParameter('marque', $marque)
+                ->setParameter('maxPrix', $maxPrix)
+                ->setParameter('minPrix', $minPrix)
+                ->orderBy('p2.usaprix', 'ASC');
+            return $qb->getQuery()->getResult();
+        }else if($devise == "naira"){
+            $qb = $this->createQueryBuilder('p2')
+                ->select('p2')
+                ->leftJoin('p2.produit_1', 'p1')
+                ->addSelect('p1')
+                ->where('p1.marque = :marque')
+                ->andWhere('p2.libelle IN (:motif)')
+                ->andWhere('p2.nairaprix >= :minPrix')
+                ->andWhere('p2.nairaprix <= :maxPrix')
+                ->setParameter('motif', $motif)
+                ->setParameter('marque', $marque)
+                ->setParameter('maxPrix', $maxPrix)
+                ->setParameter('minPrix', $minPrix)
+                ->orderBy('p2.nairaprix', 'ASC');
+            return $qb->getQuery()->getResult();
+        }
+        
     }
     
-    public function getProductByTri_T15($prix, $motif, $taille, $marque) 
+    /*public function getProductByTri_T12($taille, $marque) 
     {
         $qb = $this->createQueryBuilder('p2')
                 ->select('p2')
@@ -451,26 +832,266 @@ class Produits_2Repository extends EntityRepository
                 ->addSelect('p3')
                 ->addSelect('p1')
                 ->where('p1.marque = :marque')
-                ->andWhere('p2.europrix <= :prix')
+                ->andWhere('p3.taille = :taille')
+                ->orWhere('p3.taille = :taille_min')
+                ->orWhere('p3.taille = :taille_max')
+                ->setParameter('marque', $marque)
+                ->setParameter('taille', $taille)
+                ->setParameter('taille_min', $taille - 2)
+                ->setParameter('taille_max', $taille + 2)
+                ->orderBy('p2.id', 'ASC');
+        return $qb->getQuery()->getResult();
+    }
+    */
+    public function getProductByTri_T13($minPrix, $maxPrix, $taille, $marque, $devise) 
+    {
+        if($devise == "cfa"){
+            $qb = $this->createQueryBuilder('p2')
+                ->select('p2')
+                ->leftJoin('p2.produit_1', 'p1')
+                ->leftJoin('p2.produit_3', 'p3')
+                ->addSelect('p3')
+                ->addSelect('p1')
+                ->where('p1.marque = :marque')
+                ->andWhere('p2.cfaprix >= :minPrix')
+                ->andWhere('p2.cfaprix <= :maxPrix')
+                ->andWhere('p3.taille = :taille')
+                ->setParameter('marque', $marque)
+                ->setParameter('maxPrix', $maxPrix)
+                ->setParameter('minPrix', $minPrix)
+                ->setParameter('taille', $taille)
+                ->orderBy('p2.cfaprix', 'ASC');
+            return $qb->getQuery()->getResult();
+        }else if($devise == "euro"){
+            $qb = $this->createQueryBuilder('p2')
+                ->select('p2')
+                ->leftJoin('p2.produit_1', 'p1')
+                ->leftJoin('p2.produit_3', 'p3')
+                ->addSelect('p3')
+                ->addSelect('p1')
+                ->where('p1.marque = :marque')
+                ->andWhere('p2.europrix >= :minPrix')
+                ->andWhere('p2.europrix <= :maxPrix')
+                ->andWhere('p3.taille = :taille')
+                ->setParameter('marque', $marque)
+                ->setParameter('maxPrix', $maxPrix)
+                ->setParameter('minPrix', $minPrix)
+                ->setParameter('taille', $taille)
+                ->orderBy('p2.europrix', 'ASC');
+            return $qb->getQuery()->getResult();
+        }else if($devise == "all"){
+            $qb = $this->createQueryBuilder('p2')
+                ->select('p2')
+                ->leftJoin('p2.produit_1', 'p1')
+                ->leftJoin('p2.produit_3', 'p3')
+                ->addSelect('p3')
+                ->addSelect('p1')
+                ->where('p1.marque = :marque')
+                ->andWhere('p2.allprix >= :minPrix')
+                ->andWhere('p2.allprix <= :maxPrix')
+                ->andWhere('p3.taille = :taille')
+                ->setParameter('marque', $marque)
+                ->setParameter('maxPrix', $maxPrix)
+                ->setParameter('minPrix', $minPrix)
+                ->setParameter('taille', $taille)
+                ->orderBy('p2.allprix', 'ASC');
+            return $qb->getQuery()->getResult();
+        }else if($devise == "livre"){
+            $qb = $this->createQueryBuilder('p2')
+                ->select('p2')
+                ->leftJoin('p2.produit_1', 'p1')
+                ->leftJoin('p2.produit_3', 'p3')
+                ->addSelect('p3')
+                ->addSelect('p1')
+                ->where('p1.marque = :marque')
+                ->andWhere('p2.livreprix >= :minPrix')
+                ->andWhere('p2.livreprix <= :maxPrix')
+                ->andWhere('p3.taille = :taille')
+                ->setParameter('marque', $marque)
+                ->setParameter('maxPrix', $maxPrix)
+                ->setParameter('minPrix', $minPrix)
+                ->setParameter('taille', $taille)
+                ->orderBy('p2.livreprix', 'ASC');
+            return $qb->getQuery()->getResult();
+        }else if($devise == "usa"){
+            $qb = $this->createQueryBuilder('p2')
+                ->select('p2')
+                ->leftJoin('p2.produit_1', 'p1')
+                ->leftJoin('p2.produit_3', 'p3')
+                ->addSelect('p3')
+                ->addSelect('p1')
+                ->where('p1.marque = :marque')
+                ->andWhere('p2.usaprix >= :minPrix')
+                ->andWhere('p2.usaprix <= :maxPrix')
+                ->andWhere('p3.taille = :taille')
+                ->setParameter('marque', $marque)
+                ->setParameter('maxPrix', $maxPrix)
+                ->setParameter('minPrix', $minPrix)
+                ->setParameter('taille', $taille)
+                ->orderBy('p2.usaprix', 'ASC');
+            return $qb->getQuery()->getResult();
+        }else if($devise == "naira"){
+            $qb = $this->createQueryBuilder('p2')
+                ->select('p2')
+                ->leftJoin('p2.produit_1', 'p1')
+                ->leftJoin('p2.produit_3', 'p3')
+                ->addSelect('p3')
+                ->addSelect('p1')
+                ->where('p1.marque = :marque')
+                ->andWhere('p2.nairaprix >= :minPrix')
+                ->andWhere('p2.nairaprix <= :maxPrix')
+                ->andWhere('p3.taille = :taille')
+                ->setParameter('marque', $marque)
+                ->setParameter('maxPrix', $maxPrix)
+                ->setParameter('minPrix', $minPrix)
+                ->setParameter('taille', $taille)
+                ->orderBy('p2.nairaprix', 'ASC');
+            return $qb->getQuery()->getResult();
+        }
+    }
+    
+    /*public function getProductByTri_T14($motif, $taille, $marque) 
+    {
+        $qb = $this->createQueryBuilder('p2')
+                ->select('p2')
+                ->leftJoin('p2.produit_1', 'p1')
+                ->leftJoin('p2.produit_3', 'p3')
+                ->addSelect('p3')
+                ->addSelect('p1')
+                ->where('p1.marque = :marque')
                 ->andWhere('p2.libelle IN (:motif)')
-                ->orWhere('p2.cfaprix <= :prix')
-                ->orWhere('p2.usaprix <= :prix')
-                ->orWhere('p2.livreprix <= :prix')
-                ->orWhere('p2.nairaprix <= :prix')
                 ->andWhere('p3.taille = :taille')
                 ->orWhere('p3.taille = :taille_min')
                 ->orWhere('p3.taille = :taille_max')
                 ->setParameter('motif', $motif)
                 ->setParameter('marque', $marque)
-                ->setParameter('prix', $prix)
                 ->setParameter('taille', $taille)
                 ->setParameter('taille_min', $taille - 2)
                 ->setParameter('taille_max', $taille + 2)
                 ->orderBy('p2.id', 'ASC');
         return $qb->getQuery()->getResult();
     }
+    */
+    public function getProductByTri_T15($minPrix, $maxPrix, $motif, $taille, $marque, $devise) 
+    {
+        if($devise == "cfa"){
+            $qb = $this->createQueryBuilder('p2')
+                ->select('p2')
+                ->leftJoin('p2.produit_1', 'p1')
+                ->leftJoin('p2.produit_3', 'p3')
+                ->addSelect('p3')
+                ->addSelect('p1')
+                ->where('p1.marque = :marque')
+                ->andWhere('p2.libelle IN (:motif)')
+                ->andWhere('p2.cfaprix >= :minPrix')
+                ->andWhere('p2.cfaprix <= :maxPrix')
+                ->andWhere('p3.taille = :taille')
+                ->setParameter('motif', $motif)
+                ->setParameter('marque', $marque)
+                ->setParameter('maxPrix', $maxPrix)
+                ->setParameter('minPrix', $minPrix)
+                ->setParameter('taille', $taille)
+                ->orderBy('p2.cfaprix', 'ASC');
+            return $qb->getQuery()->getResult();
+        } else if($devise == "euro"){
+            $qb = $this->createQueryBuilder('p2')
+                ->select('p2')
+                ->leftJoin('p2.produit_1', 'p1')
+                ->leftJoin('p2.produit_3', 'p3')
+                ->addSelect('p3')
+                ->addSelect('p1')
+                ->where('p1.marque = :marque')
+                ->andWhere('p2.libelle IN (:motif)')
+                ->andWhere('p2.europrix >= :minPrix')
+                ->andWhere('p2.europrix <= :maxPrix')
+                ->andWhere('p3.taille = :taille')
+                ->setParameter('motif', $motif)
+                ->setParameter('marque', $marque)
+                ->setParameter('maxPrix', $maxPrix)
+                ->setParameter('minPrix', $minPrix)
+                ->setParameter('taille', $taille)
+                ->orderBy('p2.europrix', 'ASC');
+            return $qb->getQuery()->getResult();
+        }else if($devise == "all"){
+            $qb = $this->createQueryBuilder('p2')
+                ->select('p2')
+                ->leftJoin('p2.produit_1', 'p1')
+                ->leftJoin('p2.produit_3', 'p3')
+                ->addSelect('p3')
+                ->addSelect('p1')
+                ->where('p1.marque = :marque')
+                ->andWhere('p2.libelle IN (:motif)')
+                ->andWhere('p2.allprix >= :minPrix')
+                ->andWhere('p2.allprix <= :maxPrix')
+                ->andWhere('p3.taille = :taille')
+                ->setParameter('motif', $motif)
+                ->setParameter('marque', $marque)
+                ->setParameter('maxPrix', $maxPrix)
+                ->setParameter('minPrix', $minPrix)
+                ->setParameter('taille', $taille)
+                ->orderBy('p2.allprix', 'ASC');
+            return $qb->getQuery()->getResult();
+        }else if($devise == "livre"){
+            $qb = $this->createQueryBuilder('p2')
+                ->select('p2')
+                ->leftJoin('p2.produit_1', 'p1')
+                ->leftJoin('p2.produit_3', 'p3')
+                ->addSelect('p3')
+                ->addSelect('p1')
+                ->where('p1.marque = :marque')
+                ->andWhere('p2.libelle IN (:motif)')
+                ->andWhere('p2.livreprix >= :minPrix')
+                ->andWhere('p2.livreprix <= :maxPrix')
+                ->andWhere('p3.taille = :taille')
+                ->setParameter('motif', $motif)
+                ->setParameter('marque', $marque)
+                ->setParameter('maxPrix', $maxPrix)
+                ->setParameter('minPrix', $minPrix)
+                ->setParameter('taille', $taille)
+                ->orderBy('p2.livreprix', 'ASC');
+            return $qb->getQuery()->getResult();
+        }else if($devise == "usa"){
+            $qb = $this->createQueryBuilder('p2')
+                ->select('p2')
+                ->leftJoin('p2.produit_1', 'p1')
+                ->leftJoin('p2.produit_3', 'p3')
+                ->addSelect('p3')
+                ->addSelect('p1')
+                ->where('p1.marque = :marque')
+                ->andWhere('p2.libelle IN (:motif)')
+                ->andWhere('p2.usaprix >= :minPrix')
+                ->andWhere('p2.usaprix <= :maxPrix')
+                ->andWhere('p3.taille = :taille')
+                ->setParameter('motif', $motif)
+                ->setParameter('marque', $marque)
+                ->setParameter('maxPrix', $maxPrix)
+                ->setParameter('minPrix', $minPrix)
+                ->setParameter('taille', $taille)
+                ->orderBy('p2.usaprix', 'ASC');
+            return $qb->getQuery()->getResult();
+        }else if($devise == "naira"){
+            $qb = $this->createQueryBuilder('p2')
+                ->select('p2')
+                ->leftJoin('p2.produit_1', 'p1')
+                ->leftJoin('p2.produit_3', 'p3')
+                ->addSelect('p3')
+                ->addSelect('p1')
+                ->where('p1.marque = :marque')
+                ->andWhere('p2.libelle IN (:motif)')
+                ->andWhere('p2.nairaprix >= :minPrix')
+                ->andWhere('p2.nairaprix <= :maxPrix')
+                ->andWhere('p3.taille = :taille')
+                ->setParameter('motif', $motif)
+                ->setParameter('marque', $marque)
+                ->setParameter('maxPrix', $maxPrix)
+                ->setParameter('minPrix', $minPrix)
+                ->setParameter('taille', $taille)
+                ->orderBy('p2.nairaprix', 'ASC');
+            return $qb->getQuery()->getResult();
+        }
+    }
     
-    public function getProductByTri_T16($categorie) 
+   /* public function getProductByTri_T16($categorie) 
     {
         $qb = $this->createQueryBuilder('p2')
                 ->select('p2')
@@ -481,26 +1102,91 @@ class Produits_2Repository extends EntityRepository
                 ->orderBy('p2.id', 'ASC');
         return $qb->getQuery()->getResult();
     }
-    
-    public function getProductByTri_T17($prix, $categorie) 
+    */
+    public function getProductByTri_T17($minPrix, $maxPrix, $categorie, $devise) 
     {
-        $qb = $this->createQueryBuilder('p2')
+        if($devise == "cfa"){
+            $qb = $this->createQueryBuilder('p2')
                 ->select('p2')
                 ->leftJoin('p2.produit_1', 'p1')
                 ->addSelect('p1')
                 ->where('p1.categorie = :categorie')
-                ->andWhere('p2.europrix <= :prix')
-                ->orWhere('p2.cfaprix <= :prix')
-                ->orWhere('p2.usaprix <= :prix')
-                ->orWhere('p2.livreprix <= :prix')
-                ->orWhere('p2.nairaprix <= :prix')
+                ->andWhere('p2.cfaprix >= :minPrix')
+                ->andWhere('p2.cfaprix <= :maxPrix')
                 ->setParameter('categorie', $categorie)
-                ->setParameter('prix', $prix)
-                ->orderBy('p2.id', 'ASC');
-        return $qb->getQuery()->getResult();
+                ->setParameter('maxPrix', $maxPrix)
+                ->setParameter('minPrix', $minPrix)
+                ->orderBy('p2.cfaprix', 'ASC');
+            return $qb->getQuery()->getResult();
+        }else if($devise == "euro"){
+            $qb = $this->createQueryBuilder('p2')
+                ->select('p2')
+                ->leftJoin('p2.produit_1', 'p1')
+                ->addSelect('p1')
+                ->where('p1.categorie = :categorie')
+                ->andWhere('p2.europrix >= :minPrix')
+                ->andWhere('p2.europrix <= :maxPrix')
+                ->setParameter('categorie', $categorie)
+                ->setParameter('maxPrix', $maxPrix)
+                ->setParameter('minPrix', $minPrix)
+                ->orderBy('p2.europrix', 'ASC');
+            return $qb->getQuery()->getResult();
+        }else if($devise == "all"){
+            $qb = $this->createQueryBuilder('p2')
+                ->select('p2')
+                ->leftJoin('p2.produit_1', 'p1')
+                ->addSelect('p1')
+                ->where('p1.categorie = :categorie')
+                ->andWhere('p2.allprix >= :minPrix')
+                ->andWhere('p2.allprix <= :maxPrix')
+                ->setParameter('categorie', $categorie)
+                ->setParameter('maxPrix', $maxPrix)
+                ->setParameter('minPrix', $minPrix)
+                ->orderBy('p2.allprix', 'ASC');
+            return $qb->getQuery()->getResult();
+        }else if($devise == "livre"){
+            $qb = $this->createQueryBuilder('p2')
+                ->select('p2')
+                ->leftJoin('p2.produit_1', 'p1')
+                ->addSelect('p1')
+                ->where('p1.categorie = :categorie')
+                ->andWhere('p2.livreprix >= :minPrix')
+                ->andWhere('p2.livreprix <= :maxPrix')
+                ->setParameter('categorie', $categorie)
+                ->setParameter('maxPrix', $maxPrix)
+                ->setParameter('minPrix', $minPrix)
+                ->orderBy('p2.livreprix', 'ASC');
+            return $qb->getQuery()->getResult();
+        }else if($devise == "usa"){
+            $qb = $this->createQueryBuilder('p2')
+                ->select('p2')
+                ->leftJoin('p2.produit_1', 'p1')
+                ->addSelect('p1')
+                ->where('p1.categorie = :categorie')
+                ->andWhere('p2.usaprix >= :minPrix')
+                ->andWhere('p2.usaprix <= :maxPrix')
+                ->setParameter('categorie', $categorie)
+                ->setParameter('maxPrix', $maxPrix)
+                ->setParameter('minPrix', $minPrix)
+                ->orderBy('p2.usaprix', 'ASC');
+            return $qb->getQuery()->getResult();
+        }else if($devise == "naira"){
+            $qb = $this->createQueryBuilder('p2')
+                ->select('p2')
+                ->leftJoin('p2.produit_1', 'p1')
+                ->addSelect('p1')
+                ->where('p1.categorie = :categorie')
+                ->andWhere('p2.nairaprix >= :minPrix')
+                ->andWhere('p2.nairaprix <= :maxPrix')
+                ->setParameter('categorie', $categorie)
+                ->setParameter('maxPrix', $maxPrix)
+                ->setParameter('minPrix', $minPrix)
+                ->orderBy('p2.nairaprix', 'ASC');
+            return $qb->getQuery()->getResult();
+        }
     }
     
-    public function getProductByTri_T18($motif, $categorie) 
+    /*public function getProductByTri_T18($motif, $categorie) 
     {
         $qb = $this->createQueryBuilder('p2')
                 ->select('p2')
@@ -513,28 +1199,104 @@ class Produits_2Repository extends EntityRepository
                 ->orderBy('p2.id', 'ASC');
         return $qb->getQuery()->getResult();
     }
-    
-    public function getProductByTri_T19($prix, $motif, $categorie) 
+    */
+    public function getProductByTri_T19($minPrix, $maxPrix, $motif, $categorie, $devise) 
     {
-        $qb = $this->createQueryBuilder('p2')
+        if($devise == "cfa"){
+            $qb = $this->createQueryBuilder('p2')
                 ->select('p2')
                 ->leftJoin('p2.produit_1', 'p1')
                 ->addSelect('p1')
                 ->where('p1.categorie = :categorie')
-                ->andWhere('p2.europrix <= :prix')
+                ->andWhere('p2.cfaprix >= :minPrix')
+                ->andWhere('p2.cfaprix <= :maxPrix')
                 ->andWhere('p2.libelle IN (:motif)')
-                ->orWhere('p2.cfaprix <= :prix')
-                ->orWhere('p2.usaprix <= :prix')
-                ->orWhere('p2.livreprix <= :prix')
-                ->orWhere('p2.nairaprix <= :prix')
                 ->setParameter('categorie', $categorie)
                 ->setParameter('motif', $motif)
-                ->setParameter('prix', $prix)
-                ->orderBy('p2.id', 'ASC');
-        return $qb->getQuery()->getResult();
+                ->setParameter('maxPrix', $maxPrix)
+                ->setParameter('minPrix', $minPrix)
+                ->orderBy('p2.cfaprix', 'ASC');
+            return $qb->getQuery()->getResult();
+        }else if($devise == "euro"){
+            $qb = $this->createQueryBuilder('p2')
+                ->select('p2')
+                ->leftJoin('p2.produit_1', 'p1')
+                ->addSelect('p1')
+                ->where('p1.categorie = :categorie')
+                ->andWhere('p2.europrix >= :minPrix')
+                ->andWhere('p2.europrix <= :maxPrix')
+                ->andWhere('p2.libelle IN (:motif)')
+                ->setParameter('categorie', $categorie)
+                ->setParameter('motif', $motif)
+                ->setParameter('maxPrix', $maxPrix)
+                ->setParameter('minPrix', $minPrix)
+                ->orderBy('p2.europrix', 'ASC');
+            return $qb->getQuery()->getResult();
+        }else if($devise == "all"){
+            $qb = $this->createQueryBuilder('p2')
+                ->select('p2')
+                ->leftJoin('p2.produit_1', 'p1')
+                ->addSelect('p1')
+                ->where('p1.categorie = :categorie')
+                ->andWhere('p2.allprix >= :minPrix')
+                ->andWhere('p2.allprix <= :maxPrix')
+                ->andWhere('p2.libelle IN (:motif)')
+                ->setParameter('categorie', $categorie)
+                ->setParameter('motif', $motif)
+                ->setParameter('maxPrix', $maxPrix)
+                ->setParameter('minPrix', $minPrix)
+                ->orderBy('p2.allprix', 'ASC');
+            return $qb->getQuery()->getResult();
+        }else if($devise == "livre"){
+            $qb = $this->createQueryBuilder('p2')
+                ->select('p2')
+                ->leftJoin('p2.produit_1', 'p1')
+                ->addSelect('p1')
+                ->where('p1.categorie = :categorie')
+                ->andWhere('p2.livreprix >= :minPrix')
+                ->andWhere('p2.livreprix <= :maxPrix')
+                ->andWhere('p2.libelle IN (:motif)')
+                ->setParameter('categorie', $categorie)
+                ->setParameter('motif', $motif)
+                ->setParameter('maxPrix', $maxPrix)
+                ->setParameter('minPrix', $minPrix)
+                ->orderBy('p2.livreprix', 'ASC');
+            return $qb->getQuery()->getResult();
+        }else if($devise == "usa"){
+            $qb = $this->createQueryBuilder('p2')
+                ->select('p2')
+                ->leftJoin('p2.produit_1', 'p1')
+                ->addSelect('p1')
+                ->where('p1.categorie = :categorie')
+                ->andWhere('p2.usaprix >= :minPrix')
+                ->andWhere('p2.usaprix <= :maxPrix')
+                ->andWhere('p2.libelle IN (:motif)')
+                ->setParameter('categorie', $categorie)
+                ->setParameter('motif', $motif)
+                ->setParameter('maxPrix', $maxPrix)
+                ->setParameter('minPrix', $minPrix)
+                ->orderBy('p2.usaprix', 'ASC');
+            return $qb->getQuery()->getResult();
+        }else if($devise == "naira"){
+            $qb = $this->createQueryBuilder('p2')
+                ->select('p2')
+                ->leftJoin('p2.produit_1', 'p1')
+                ->addSelect('p1')
+                ->where('p1.categorie = :categorie')
+                ->andWhere('p2.nairaprix >= :minPrix')
+                ->andWhere('p2.nairaprix <= :maxPrix')
+                ->andWhere('p2.libelle IN (:motif)')
+                ->setParameter('categorie', $categorie)
+                ->setParameter('motif', $motif)
+                ->setParameter('maxPrix', $maxPrix)
+                ->setParameter('minPrix', $minPrix)
+                ->orderBy('p2.nairaprix', 'ASC');
+            return $qb->getQuery()->getResult();
+        }
+        
     }
     
-    public function getProductByTri_T20($taille, $categorie) 
+    /*public function getProductByTri_T20($taille, $categorie) 
     {
         $qb = $this->createQueryBuilder('p2')
                 ->select('p2')
@@ -553,34 +1315,116 @@ class Produits_2Repository extends EntityRepository
                 ->orderBy('p2.id', 'ASC');
         return $qb->getQuery()->getResult();
     }
-    
-    public function getProductByTri_T21($prix, $taille, $categorie) 
+    */
+    public function getProductByTri_T21($minPrix, $maxPrix, $taille, $categorie, $devise) 
     {
-        $qb = $this->createQueryBuilder('p2')
+        if($devise == "cfa"){
+            $qb = $this->createQueryBuilder('p2')
                 ->select('p2')
                 ->leftJoin('p2.produit_1', 'p1')
                 ->leftJoin('p2.produit_3', 'p3')
                 ->addSelect('p3')
                 ->addSelect('p1')
                 ->where('p1.categorie = :categorie')
-                ->andWhere('p2.europrix <= :prix')
-                ->orWhere('p2.cfaprix <= :prix')
-                ->orWhere('p2.usaprix <= :prix')
-                ->orWhere('p2.livreprix <= :prix')
-                ->orWhere('p2.nairaprix <= :prix')
+                ->andWhere('p2.cfaprix >= :minPrix')
+                ->andWhere('p2.cfaprix <= :maxPrix')
                 ->andWhere('p3.taille = :taille')
-                ->orWhere('p3.taille = :taille_min')
-                ->orWhere('p3.taille = :taille_max')
                 ->setParameter('categorie', $categorie)
-                ->setParameter('prix', $prix)
+                ->setParameter('maxPrix', $maxPrix)
+                ->setParameter('minPrix', $minPrix)
                 ->setParameter('taille', $taille)
-                ->setParameter('taille_min', $taille - 2)
-                ->setParameter('taille_max', $taille + 2)
-                ->orderBy('p2.id', 'ASC');
-        return $qb->getQuery()->getResult();
+                ->orderBy('p2.cfaprix', 'ASC');
+            return $qb->getQuery()->getResult();
+        }else if($devise == "euro"){
+            $qb = $this->createQueryBuilder('p2')
+                ->select('p2')
+                ->leftJoin('p2.produit_1', 'p1')
+                ->leftJoin('p2.produit_3', 'p3')
+                ->addSelect('p3')
+                ->addSelect('p1')
+                ->where('p1.categorie = :categorie')
+                ->andWhere('p2.europrix >= :minPrix')
+                ->andWhere('p2.europrix <= :maxPrix')
+                ->andWhere('p3.taille = :taille')
+                ->setParameter('categorie', $categorie)
+                ->setParameter('maxPrix', $maxPrix)
+                ->setParameter('minPrix', $minPrix)
+                ->setParameter('taille', $taille)
+                ->orderBy('p2.europrix', 'ASC');
+            return $qb->getQuery()->getResult();
+        }else if($devise == "all"){
+            $qb = $this->createQueryBuilder('p2')
+                ->select('p2')
+                ->leftJoin('p2.produit_1', 'p1')
+                ->leftJoin('p2.produit_3', 'p3')
+                ->addSelect('p3')
+                ->addSelect('p1')
+                ->where('p1.categorie = :categorie')
+                ->andWhere('p2.allprix >= :minPrix')
+                ->andWhere('p2.allprix <= :maxPrix')
+                ->andWhere('p3.taille = :taille')
+                ->setParameter('categorie', $categorie)
+                ->setParameter('maxPrix', $maxPrix)
+                ->setParameter('minPrix', $minPrix)
+                ->setParameter('taille', $taille)
+                ->orderBy('p2.allprix', 'ASC');
+            return $qb->getQuery()->getResult();
+        }else if($devise == "livre"){
+            $qb = $this->createQueryBuilder('p2')
+                ->select('p2')
+                ->leftJoin('p2.produit_1', 'p1')
+                ->leftJoin('p2.produit_3', 'p3')
+                ->addSelect('p3')
+                ->addSelect('p1')
+                ->where('p1.categorie = :categorie')
+                ->andWhere('p2.livreprix >= :minPrix')
+                ->andWhere('p2.livreprix <= :maxPrix')
+                ->andWhere('p3.taille = :taille')
+                ->setParameter('categorie', $categorie)
+                ->setParameter('maxPrix', $maxPrix)
+                ->setParameter('minPrix', $minPrix)
+                ->setParameter('taille', $taille)
+                ->orderBy('p2.livreprix', 'ASC');
+            return $qb->getQuery()->getResult();
+        }else if($devise == "usa"){
+            $qb = $this->createQueryBuilder('p2')
+                ->select('p2')
+                ->leftJoin('p2.produit_1', 'p1')
+                ->leftJoin('p2.produit_3', 'p3')
+                ->addSelect('p3')
+                ->addSelect('p1')
+                ->where('p1.categorie = :categorie')
+                ->andWhere('p2.usaprix >= :minPrix')
+                ->andWhere('p2.usaprix <= :maxPrix')
+                ->andWhere('p3.taille = :taille')
+                ->setParameter('categorie', $categorie)
+                ->setParameter('maxPrix', $maxPrix)
+                ->setParameter('minPrix', $minPrix)
+                ->setParameter('taille', $taille)
+                ->orderBy('p2.usaprix', 'ASC');
+            return $qb->getQuery()->getResult();
+        }else if($devise == "naira"){
+            $qb = $this->createQueryBuilder('p2')
+                ->select('p2')
+                ->leftJoin('p2.produit_1', 'p1')
+                ->leftJoin('p2.produit_3', 'p3')
+                ->addSelect('p3')
+                ->addSelect('p1')
+                ->where('p1.categorie = :categorie')
+                ->andWhere('p2.nairaprix >= :minPrix')
+                ->andWhere('p2.nairaprix <= :maxPrix')
+                ->andWhere('p3.taille = :taille')
+                ->setParameter('categorie', $categorie)
+                ->setParameter('maxPrix', $maxPrix)
+                ->setParameter('minPrix', $minPrix)
+                ->setParameter('taille', $taille)
+                ->orderBy('p2.nairaprix', 'ASC');
+            return $qb->getQuery()->getResult();
+        }
+        
     }
     
-    public function getProductByTri_T22($motif, $taille, $categorie) 
+    /*public function getProductByTri_T22($motif, $taille, $categorie) 
     {
         $qb = $this->createQueryBuilder('p2')
                 ->select('p2')
@@ -601,36 +1445,128 @@ class Produits_2Repository extends EntityRepository
                 ->orderBy('p2.id', 'ASC');
         return $qb->getQuery()->getResult();
     }
-    
-    public function getProductByTri_T23($prix, $motif, $taille, $categorie) 
+    */
+    public function getProductByTri_T23($minPrix, $maxPrix, $motif, $taille, $categorie, $devise) 
     {
-        $qb = $this->createQueryBuilder('p2')
+        if($devise == "cfa"){
+            $qb = $this->createQueryBuilder('p2')
                 ->select('p2')
                 ->leftJoin('p2.produit_1', 'p1')
                 ->leftJoin('p2.produit_3', 'p3')
                 ->addSelect('p3')
                 ->addSelect('p1')
                 ->where('p1.categorie = :categorie')
-                ->andWhere('p2.europrix <= :prix')
-                ->orWhere('p2.cfaprix <= :prix')
-                ->orWhere('p2.usaprix <= :prix')
-                ->orWhere('p2.livreprix <= :prix')
-                ->orWhere('p2.nairaprix <= :prix')
+                ->andWhere('p2.cfaprix >= :minPrix')
+                ->andWhere('p2.cfaprix <= :maxPrix')
                 ->andWhere('p2.libelle IN (:motif)')
                 ->andWhere('p3.taille = :taille')
-                ->orWhere('p3.taille = :taille_min')
-                ->orWhere('p3.taille = :taille_max')
                 ->setParameter('categorie', $categorie)
                 ->setParameter('motif', $motif)
-                ->setParameter('prix', $prix)
+                ->setParameter('maxPrix', $maxPrix)
+                ->setParameter('minPrix', $minPrix)
                 ->setParameter('taille', $taille)
-                ->setParameter('taille_min', $taille - 2)
-                ->setParameter('taille_max', $taille + 2)
-                ->orderBy('p2.id', 'ASC');
-        return $qb->getQuery()->getResult();
+                ->orderBy('p2.cfaprix', 'ASC');
+            return $qb->getQuery()->getResult();
+        }else if($devise == "euro"){
+            $qb = $this->createQueryBuilder('p2')
+                ->select('p2')
+                ->leftJoin('p2.produit_1', 'p1')
+                ->leftJoin('p2.produit_3', 'p3')
+                ->addSelect('p3')
+                ->addSelect('p1')
+                ->where('p1.categorie = :categorie')
+                ->andWhere('p2.europrix >= :minPrix')
+                ->andWhere('p2.europrix <= :maxPrix')
+                ->andWhere('p2.libelle IN (:motif)')
+                ->andWhere('p3.taille = :taille')
+                ->setParameter('categorie', $categorie)
+                ->setParameter('motif', $motif)
+                ->setParameter('maxPrix', $maxPrix)
+                ->setParameter('minPrix', $minPrix)
+                ->setParameter('taille', $taille)
+                ->orderBy('p2.euriprix', 'ASC');
+            return $qb->getQuery()->getResult();
+        }else if($devise == "all"){
+            $qb = $this->createQueryBuilder('p2')
+                ->select('p2')
+                ->leftJoin('p2.produit_1', 'p1')
+                ->leftJoin('p2.produit_3', 'p3')
+                ->addSelect('p3')
+                ->addSelect('p1')
+                ->where('p1.categorie = :categorie')
+                ->andWhere('p2.allprix >= :minPrix')
+                ->andWhere('p2.allprix <= :maxPrix')
+                ->andWhere('p2.libelle IN (:motif)')
+                ->andWhere('p3.taille = :taille')
+                ->setParameter('categorie', $categorie)
+                ->setParameter('motif', $motif)
+                ->setParameter('maxPrix', $maxPrix)
+                ->setParameter('minPrix', $minPrix)
+                ->setParameter('taille', $taille)
+                ->orderBy('p2.allprix', 'ASC');
+            return $qb->getQuery()->getResult();
+        }else if($devise == "livre"){
+            $qb = $this->createQueryBuilder('p2')
+                ->select('p2')
+                ->leftJoin('p2.produit_1', 'p1')
+                ->leftJoin('p2.produit_3', 'p3')
+                ->addSelect('p3')
+                ->addSelect('p1')
+                ->where('p1.categorie = :categorie')
+                ->andWhere('p2.livreprix >= :minPrix')
+                ->andWhere('p2.livreprix <= :maxPrix')
+                ->andWhere('p2.libelle IN (:motif)')
+                ->andWhere('p3.taille = :taille')
+                ->setParameter('categorie', $categorie)
+                ->setParameter('motif', $motif)
+                ->setParameter('maxPrix', $maxPrix)
+                ->setParameter('minPrix', $minPrix)
+                ->setParameter('taille', $taille)
+                ->orderBy('p2.livreprix', 'ASC');
+            return $qb->getQuery()->getResult();
+        }else if($devise == "usa"){
+            $qb = $this->createQueryBuilder('p2')
+                ->select('p2')
+                ->leftJoin('p2.produit_1', 'p1')
+                ->leftJoin('p2.produit_3', 'p3')
+                ->addSelect('p3')
+                ->addSelect('p1')
+                ->where('p1.categorie = :categorie')
+                ->andWhere('p2.usaprix >= :minPrix')
+                ->andWhere('p2.usaprix <= :maxPrix')
+                ->andWhere('p2.libelle IN (:motif)')
+                ->andWhere('p3.taille = :taille')
+                ->setParameter('categorie', $categorie)
+                ->setParameter('motif', $motif)
+                ->setParameter('maxPrix', $maxPrix)
+                ->setParameter('minPrix', $minPrix)
+                ->setParameter('taille', $taille)
+                ->orderBy('p2.usaprix', 'ASC');
+            return $qb->getQuery()->getResult();
+        }else if($devise == "naira"){
+            $qb = $this->createQueryBuilder('p2')
+                ->select('p2')
+                ->leftJoin('p2.produit_1', 'p1')
+                ->leftJoin('p2.produit_3', 'p3')
+                ->addSelect('p3')
+                ->addSelect('p1')
+                ->where('p1.categorie = :categorie')
+                ->andWhere('p2.nairaprix >= :minPrix')
+                ->andWhere('p2.nairaprix <= :maxPrix')
+                ->andWhere('p2.libelle IN (:motif)')
+                ->andWhere('p3.taille = :taille')
+                ->setParameter('categorie', $categorie)
+                ->setParameter('motif', $motif)
+                ->setParameter('maxPrix', $maxPrix)
+                ->setParameter('minPrix', $minPrix)
+                ->setParameter('taille', $taille)
+                ->orderBy('p2.nairaprix', 'ASC');
+            return $qb->getQuery()->getResult();
+        }
+        
     }
     
-    public function getProductByTri_T24($marque, $categorie) 
+    /*public function getProductByTri_T24($marque, $categorie) 
     {
         $qb = $this->createQueryBuilder('p2')
                 ->select('p2')
@@ -643,28 +1579,103 @@ class Produits_2Repository extends EntityRepository
                 ->orderBy('p2.id', 'ASC');
         return $qb->getQuery()->getResult();
     }
-    
-    public function getProductByTri_T25($prix, $marque, $categorie) 
+    */
+    public function getProductByTri_T25($minPrix, $maxPrix, $marque, $categorie, $devise) 
     {
-        $qb = $this->createQueryBuilder('p2')
+        if($devise == "cfa"){
+            $qb = $this->createQueryBuilder('p2')
                 ->select('p2')
                 ->leftJoin('p2.produit_1', 'p1')
                 ->addSelect('p1')
                 ->where('p1.categorie = :categorie')
                 ->andWhere('p1.marque = :marque')
-                ->orWhere('p2.cfaprix <= :prix')
-                ->orWhere('p2.usaprix <= :prix')
-                ->orWhere('p2.livreprix <= :prix')
-                ->orWhere('p2.nairaprix <= :prix')
-                ->andWhere('p2.europrix <= :prix')
+                ->andWhere('p2.cfaprix >= :minPrix')
+                ->andWhere('p2.cfaprix <= :maxPrix')
                 ->setParameter('categorie', $categorie)
                 ->setParameter('marque', $marque)
-                ->setParameter('prix', $prix)
-                ->orderBy('p2.id', 'ASC');
-        return $qb->getQuery()->getResult();
+                ->setParameter('maxPrix', $maxPrix)
+                ->setParameter('minPrix', $minPrix)
+                ->orderBy('p2.cfaprix', 'ASC');
+            return $qb->getQuery()->getResult();
+        }else if($devise == "euro"){
+            $qb = $this->createQueryBuilder('p2')
+                ->select('p2')
+                ->leftJoin('p2.produit_1', 'p1')
+                ->addSelect('p1')
+                ->where('p1.categorie = :categorie')
+                ->andWhere('p1.marque = :marque')
+                ->andWhere('p2.europrix >= :minPrix')
+                ->andWhere('p2.europrix <= :maxPrix')
+                ->setParameter('categorie', $categorie)
+                ->setParameter('marque', $marque)
+                ->setParameter('maxPrix', $maxPrix)
+                ->setParameter('minPrix', $minPrix)
+                ->orderBy('p2.europrix', 'ASC');
+            return $qb->getQuery()->getResult();
+        }else if($devise == "all"){
+            $qb = $this->createQueryBuilder('p2')
+                ->select('p2')
+                ->leftJoin('p2.produit_1', 'p1')
+                ->addSelect('p1')
+                ->where('p1.categorie = :categorie')
+                ->andWhere('p1.marque = :marque')
+                ->andWhere('p2.allprix >= :minPrix')
+                ->andWhere('p2.allprix <= :maxPrix')
+                ->setParameter('categorie', $categorie)
+                ->setParameter('marque', $marque)
+                ->setParameter('maxPrix', $maxPrix)
+                ->setParameter('minPrix', $minPrix)
+                ->orderBy('p2.allprix', 'ASC');
+            return $qb->getQuery()->getResult();
+        }else if($devise == "livre"){
+            $qb = $this->createQueryBuilder('p2')
+                ->select('p2')
+                ->leftJoin('p2.produit_1', 'p1')
+                ->addSelect('p1')
+                ->where('p1.categorie = :categorie')
+                ->andWhere('p1.marque = :marque')
+                ->andWhere('p2.livreprix >= :minPrix')
+                ->andWhere('p2.livreprix <= :maxPrix')
+                ->setParameter('categorie', $categorie)
+                ->setParameter('marque', $marque)
+                ->setParameter('maxPrix', $maxPrix)
+                ->setParameter('minPrix', $minPrix)
+                ->orderBy('p2.livreprix', 'ASC');
+            return $qb->getQuery()->getResult();
+        }else if($devise == "usa"){
+            $qb = $this->createQueryBuilder('p2')
+                ->select('p2')
+                ->leftJoin('p2.produit_1', 'p1')
+                ->addSelect('p1')
+                ->where('p1.categorie = :categorie')
+                ->andWhere('p1.marque = :marque')
+                ->andWhere('p2.usaprix >= :minPrix')
+                ->andWhere('p2.usaprix <= :maxPrix')
+                ->setParameter('categorie', $categorie)
+                ->setParameter('marque', $marque)
+                ->setParameter('maxPrix', $maxPrix)
+                ->setParameter('minPrix', $minPrix)
+                ->orderBy('p2.usaprix', 'ASC');
+            return $qb->getQuery()->getResult();
+        }else if($devise == "naira"){
+            $qb = $this->createQueryBuilder('p2')
+                ->select('p2')
+                ->leftJoin('p2.produit_1', 'p1')
+                ->addSelect('p1')
+                ->where('p1.categorie = :categorie')
+                ->andWhere('p1.marque = :marque')
+                ->andWhere('p2.nairaprix >= :minPrix')
+                ->andWhere('p2.nairaprix <= :maxPrix')
+                ->setParameter('categorie', $categorie)
+                ->setParameter('marque', $marque)
+                ->setParameter('maxPrix', $maxPrix)
+                ->setParameter('minPrix', $minPrix)
+                ->orderBy('p2.nairaprix', 'ASC');
+            return $qb->getQuery()->getResult();
+        }
     }
     
-    public function getProductByTri_T26($motif, $marque, $categorie) 
+    /*public function getProductByTri_T26($motif, $marque, $categorie) 
     {
         $qb = $this->createQueryBuilder('p2')
                 ->select('p2')
@@ -679,31 +1690,121 @@ class Produits_2Repository extends EntityRepository
                 ->orderBy('p2.id', 'ASC');
         return $qb->getQuery()->getResult();
     }
-    
-    public function getProductByTri_T27($prix, $motif, $marque, $categorie) 
+    */
+    public function getProductByTri_T27($minPrix, $maxPrix, $motif, $marque, $categorie, $devise) 
     {
-        $qb = $this->createQueryBuilder('p2')
+        if($devise == "cfa"){
+            $qb = $this->createQueryBuilder('p2')
                 ->select('p2')
                 ->leftJoin('p2.produit_1', 'p1')
                 ->addSelect('p1')
                 ->where('p1.categorie = :categorie')
                 ->andWhere('p1.marque = :marque')
-                ->andWhere('p2.europrix <= :prix')
-                ->orWhere('p2.cfaprix <= :prix')
-                ->orWhere('p2.usaprix <= :prix')
-                ->orWhere('p2.livreprix <= :prix')
-                ->orWhere('p2.nairaprix <= :prix')
+                ->andWhere('p2.cfaprix >= :minPrix')
+                ->andWhere('p2.cfaprix <= :maxPrix')
                 ->andWhere('p2.libelle IN (:motif)')
                 ->andWhere('p3.taille = :taille')
                 ->setParameter('categorie', $categorie)
                 ->setParameter('motif', $motif)
                 ->setParameter('marque', $marque)
-                ->setParameter('prix', $prix)
-                ->orderBy('p2.id', 'ASC');
-        return $qb->getQuery()->getResult();
+                ->setParameter('maxPrix', $maxPrix)
+                ->setParameter('minPrix', $minPrix)
+                ->orderBy('p2.cfaprix', 'ASC');
+            return $qb->getQuery()->getResult();
+        }else if($devise == "euro"){
+            $qb = $this->createQueryBuilder('p2')
+                ->select('p2')
+                ->leftJoin('p2.produit_1', 'p1')
+                ->addSelect('p1')
+                ->where('p1.categorie = :categorie')
+                ->andWhere('p1.marque = :marque')
+                ->andWhere('p2.europrix >= :minPrix')
+                ->andWhere('p2.europrix <= :maxPrix')
+                ->andWhere('p2.libelle IN (:motif)')
+                ->andWhere('p3.taille = :taille')
+                ->setParameter('categorie', $categorie)
+                ->setParameter('motif', $motif)
+                ->setParameter('marque', $marque)
+                ->setParameter('maxPrix', $maxPrix)
+                ->setParameter('minPrix', $minPrix)
+                ->orderBy('p2.europrix', 'ASC');
+            return $qb->getQuery()->getResult();
+        }else if($devise == "all"){
+            $qb = $this->createQueryBuilder('p2')
+                ->select('p2')
+                ->leftJoin('p2.produit_1', 'p1')
+                ->addSelect('p1')
+                ->where('p1.categorie = :categorie')
+                ->andWhere('p1.marque = :marque')
+                ->andWhere('p2.allprix >= :minPrix')
+                ->andWhere('p2.allprix <= :maxPrix')
+                ->andWhere('p2.libelle IN (:motif)')
+                ->andWhere('p3.taille = :taille')
+                ->setParameter('categorie', $categorie)
+                ->setParameter('motif', $motif)
+                ->setParameter('marque', $marque)
+                ->setParameter('maxPrix', $maxPrix)
+                ->setParameter('minPrix', $minPrix)
+                ->orderBy('p2.allprix', 'ASC');
+            return $qb->getQuery()->getResult();
+        }else if($devise == "livre"){
+            $qb = $this->createQueryBuilder('p2')
+                ->select('p2')
+                ->leftJoin('p2.produit_1', 'p1')
+                ->addSelect('p1')
+                ->where('p1.categorie = :categorie')
+                ->andWhere('p1.marque = :marque')
+                ->andWhere('p2.livreprix >= :minPrix')
+                ->andWhere('p2.livreprix <= :maxPrix')
+                ->andWhere('p2.libelle IN (:motif)')
+                ->andWhere('p3.taille = :taille')
+                ->setParameter('categorie', $categorie)
+                ->setParameter('motif', $motif)
+                ->setParameter('marque', $marque)
+                ->setParameter('maxPrix', $maxPrix)
+                ->setParameter('minPrix', $minPrix)
+                ->orderBy('p2.livreprix', 'ASC');
+            return $qb->getQuery()->getResult();
+        }else if($devise == "usa"){
+            $qb = $this->createQueryBuilder('p2')
+                ->select('p2')
+                ->leftJoin('p2.produit_1', 'p1')
+                ->addSelect('p1')
+                ->where('p1.categorie = :categorie')
+                ->andWhere('p1.marque = :marque')
+                ->andWhere('p2.usaprix >= :minPrix')
+                ->andWhere('p2.usaprix <= :maxPrix')
+                ->andWhere('p2.libelle IN (:motif)')
+                ->andWhere('p3.taille = :taille')
+                ->setParameter('categorie', $categorie)
+                ->setParameter('motif', $motif)
+                ->setParameter('marque', $marque)
+                ->setParameter('maxPrix', $maxPrix)
+                ->setParameter('minPrix', $minPrix)
+                ->orderBy('p2.usaprix', 'ASC');
+            return $qb->getQuery()->getResult();
+        }else if($devise == "naira"){
+            $qb = $this->createQueryBuilder('p2')
+                ->select('p2')
+                ->leftJoin('p2.produit_1', 'p1')
+                ->addSelect('p1')
+                ->where('p1.categorie = :categorie')
+                ->andWhere('p1.marque = :marque')
+                ->andWhere('p2.nairaprix >= :minPrix')
+                ->andWhere('p2.nairaprix <= :maxPrix')
+                ->andWhere('p2.libelle IN (:motif)')
+                ->andWhere('p3.taille = :taille')
+                ->setParameter('categorie', $categorie)
+                ->setParameter('motif', $motif)
+                ->setParameter('marque', $marque)
+                ->setParameter('maxPrix', $maxPrix)
+                ->setParameter('minPrix', $minPrix)
+                ->orderBy('p2.nairaprix', 'ASC');
+            return $qb->getQuery()->getResult();
+        }
     }
     
-    public function getProductByTri_T28($taille, $marque, $categorie) 
+    /*public function getProductByTri_T28($taille, $marque, $categorie) 
     {
         $qb = $this->createQueryBuilder('p2')
                 ->select('p2')
@@ -724,10 +1825,11 @@ class Produits_2Repository extends EntityRepository
                 ->orderBy('p2.id', 'ASC');
         return $qb->getQuery()->getResult();
     }
-    
-    public function getProductByTri_T29($prix, $taille, $marque, $categorie) 
+    */
+    public function getProductByTri_T29($minPrix, $maxPrix, $taille, $marque, $categorie, $devise) 
     {
-        $qb = $this->createQueryBuilder('p2')
+        if($devise == "cfa"){
+            $qb = $this->createQueryBuilder('p2')
                 ->select('p2')
                 ->leftJoin('p2.produit_1', 'p1')
                 ->leftJoin('p2.produit_3', 'p3')
@@ -735,25 +1837,116 @@ class Produits_2Repository extends EntityRepository
                 ->addSelect('p1')
                 ->where('p1.categorie = :categorie')
                 ->andWhere('p1.marque = :marque')
-                ->andWhere('p2.europrix <= :prix')
-                ->orWhere('p2.cfaprix <= :prix')
-                ->orWhere('p2.usaprix <= :prix')
-                ->orWhere('p2.livreprix <= :prix')
-                ->orWhere('p2.nairaprix <= :prix')
+                ->andWhere('p2.cfaprix >= :minPrix')
+                ->andWhere('p2.cfaprix <= :maxPrix')
                 ->andWhere('p3.taille = :taille')
-                ->orWhere('p3.taille = :taille_min')
-                ->orWhere('p3.taille = :taille_max')
                 ->setParameter('categorie', $categorie)
                 ->setParameter('marque', $marque)
-                ->setParameter('prix', $prix)
+                ->setParameter('maxPrix', $maxPrix)
+                ->setParameter('minPrix', $minPrix)
                 ->setParameter('taille', $taille)
-                ->setParameter('taille_min', $taille - 2)
-                ->setParameter('taille_max', $taille + 2)
-                ->orderBy('p2.id', 'ASC');
-        return $qb->getQuery()->getResult();
+                ->orderBy('p2.cfaprix', 'ASC');
+            return $qb->getQuery()->getResult();
+        }else if($devise == "euro"){
+            $qb = $this->createQueryBuilder('p2')
+                ->select('p2')
+                ->leftJoin('p2.produit_1', 'p1')
+                ->leftJoin('p2.produit_3', 'p3')
+                ->addSelect('p3')
+                ->addSelect('p1')
+                ->where('p1.categorie = :categorie')
+                ->andWhere('p1.marque = :marque')
+                ->andWhere('p2.europrix >= :minPrix')
+                ->andWhere('p2.europrix <= :maxPrix')
+                ->andWhere('p3.taille = :taille')
+                ->setParameter('categorie', $categorie)
+                ->setParameter('marque', $marque)
+                ->setParameter('maxPrix', $maxPrix)
+                ->setParameter('minPrix', $minPrix)
+                ->setParameter('taille', $taille)
+                ->orderBy('p2.europrix', 'ASC');
+            return $qb->getQuery()->getResult();
+        }else if($devise == "all"){
+            $qb = $this->createQueryBuilder('p2')
+                ->select('p2')
+                ->leftJoin('p2.produit_1', 'p1')
+                ->leftJoin('p2.produit_3', 'p3')
+                ->addSelect('p3')
+                ->addSelect('p1')
+                ->where('p1.categorie = :categorie')
+                ->andWhere('p1.marque = :marque')
+                ->andWhere('p2.allprix >= :minPrix')
+                ->andWhere('p2.allprix <= :maxPrix')
+                ->andWhere('p3.taille = :taille')
+                ->setParameter('categorie', $categorie)
+                ->setParameter('marque', $marque)
+                ->setParameter('maxPrix', $maxPrix)
+                ->setParameter('minPrix', $minPrix)
+                ->setParameter('taille', $taille)
+                ->orderBy('p2.allprix', 'ASC');
+            return $qb->getQuery()->getResult();
+        }else if($devise == "livre"){
+            $qb = $this->createQueryBuilder('p2')
+                ->select('p2')
+                ->leftJoin('p2.produit_1', 'p1')
+                ->leftJoin('p2.produit_3', 'p3')
+                ->addSelect('p3')
+                ->addSelect('p1')
+                ->where('p1.categorie = :categorie')
+                ->andWhere('p1.marque = :marque')
+                ->andWhere('p2.livreprix >= :minPrix')
+                ->andWhere('p2.livreprix <= :maxPrix')
+                ->andWhere('p3.taille = :taille')
+                ->setParameter('categorie', $categorie)
+                ->setParameter('marque', $marque)
+                ->setParameter('maxPrix', $maxPrix)
+                ->setParameter('minPrix', $minPrix)
+                ->setParameter('taille', $taille)
+                ->orderBy('p2.livreprix', 'ASC');
+            return $qb->getQuery()->getResult();
+        } else if($devise == "usa"){
+            $qb = $this->createQueryBuilder('p2')
+                ->select('p2')
+                ->leftJoin('p2.produit_1', 'p1')
+                ->leftJoin('p2.produit_3', 'p3')
+                ->addSelect('p3')
+                ->addSelect('p1')
+                ->where('p1.categorie = :categorie')
+                ->andWhere('p1.marque = :marque')
+                ->andWhere('p2.usaprix >= :minPrix')
+                ->andWhere('p2.usaprix <= :maxPrix')
+                ->andWhere('p3.taille = :taille')
+                ->setParameter('categorie', $categorie)
+                ->setParameter('marque', $marque)
+                ->setParameter('maxPrix', $maxPrix)
+                ->setParameter('minPrix', $minPrix)
+                ->setParameter('taille', $taille)
+                ->orderBy('p2.usaprix', 'ASC');
+            return $qb->getQuery()->getResult();
+        }else if($devise == "naira"){
+            $qb = $this->createQueryBuilder('p2')
+                ->select('p2')
+                ->leftJoin('p2.produit_1', 'p1')
+                ->leftJoin('p2.produit_3', 'p3')
+                ->addSelect('p3')
+                ->addSelect('p1')
+                ->where('p1.categorie = :categorie')
+                ->andWhere('p1.marque = :marque')
+                ->andWhere('p2.nairaprix >= :minPrix')
+                ->andWhere('p2.nairaprix <= :maxPrix')
+                ->andWhere('p3.taille = :taille')
+                ->setParameter('categorie', $categorie)
+                ->setParameter('marque', $marque)
+                ->setParameter('maxPrix', $maxPrix)
+                ->setParameter('minPrix', $minPrix)
+                ->setParameter('taille', $taille)
+                ->orderBy('p2.nairaprix', 'ASC');
+            return $qb->getQuery()->getResult();
+        }
+        
     }
     
-    public function getProductByTri_T30($motif, $taille, $marque, $categorie) 
+    /*public function getProductByTri_T30($motif, $taille, $marque, $categorie) 
     {
         $qb = $this->createQueryBuilder('p2')
                 ->select('p2')
@@ -776,7 +1969,7 @@ class Produits_2Repository extends EntityRepository
                 ->orderBy('p2.id', 'ASC');
         return $qb->getQuery()->getResult();
     }
-    
+    */
     public function byCategorie_2($categorie) 
     {
         $qb = $this->createQueryBuilder('p2')

@@ -8,6 +8,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use DOMDocument;
 use Utilisateurs\UtilisateursBundle\Repository\UtilisateursRepository;
+use Utilisateurs\UtilisateursBundle\Form\RegistrationpopupType;
+use Kountac\KountacBundle\Form\NewsletterType;
 
 class HomepageController extends Controller
 {  
@@ -348,7 +350,10 @@ class HomepageController extends Controller
                 array_push($newDernieresVentes, $tab);
             }
         }
-
+        
+        // form for pop up enrolment 
+        $form_popup = $this->createForm(new NewsletterType());
+        $activate = 1; //TO ACTIVATE THE POP UP FURTHERMORE BY A ADMINISTRATOR
         shuffle($newPopulaires);
         shuffle($newReductions);
         shuffle($newNouveaux);
@@ -361,7 +366,10 @@ class HomepageController extends Controller
                                                                             'mannequins' => $mannequins,
                                                                             'reductions' => $newReductions,
                                                                             'produits2' => $produits2,
+                                                                            'activate' => '0',
                                                                             'dernieresVentes' => $newDernieresVentes,
+                                                                            'form' => $form_popup->createView(),
+                                                                            'popup' => $session->get('popup'),  
                                                                             'panier' => $panier,
                                                                             'euro' => $session->get('euro'),
                                                                             'all' => $session->get('all'),

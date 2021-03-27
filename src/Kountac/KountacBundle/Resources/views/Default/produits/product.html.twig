@@ -249,7 +249,7 @@
                                         <div class="product-item">
                                             <div class="item-inner">
                                                 <div class="product-thumb has-hover-img">
-                                                    <figure> <center> <a href="{{ path('product', {'id' : produit.id}) }}"><img src="{{ produit.picture.AssetPath|imagine_filter('produitThumb') }}" alt=""></a> <a class="hover-img" href="{{ path('product', {'id' : produit.id}) }}"><img src="{{ produit.picture.AssetPath2|imagine_filter('produitThumb') }}" alt=""></a></center></figure>
+                                                    <figure> <center> <a href="{{ path('product', {'id' : produit.id}) }}"><img src="{{ produit.picture.AssetPath|imagine_filter('resizeThumb') }}" alt=""></a> <a class="hover-img" href="{{ path('product', {'id' : produit.id}) }}"><img src="{{ produit.picture.AssetPath2|imagine_filter('resizeThumb') }}" alt=""></a></center></figure>
                                                     <div class="pr-info-area animated animate4">
                                                         <a title="Réserver ce produit" href="{{ path('reserve_new', {'id' : produit.id}) }}" class="quick-view"><i class="fa fa-save"><span>Reserver</span></i></a> 
                                                         <a title="Ajouter à vos souhaits" href="{{ path('ajoutwishlist', {'id' : produit.id}) }}" class="wishlist"><i class="fa fa-heart"><span>Wishlist</span></i></a> 

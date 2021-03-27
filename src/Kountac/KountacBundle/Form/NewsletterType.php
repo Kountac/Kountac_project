@@ -7,18 +7,14 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 class NewsletterType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
-    {
+    public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder
-            ->add('email','email', array('attr' => array('class' => 'form-control',
-                                                        'placeholder' => 'Entrez votre email',),
-                                            'label' => false))
-        ;
+            ->add('newsletter', 'checkbox', array('label' => 'Abonnez vous à la News-Letter pour ne rien rater !','required' => false,))
+            ->add('codeparrain','text', array('attr' => array('class' => 'input form-control'),'label' => 'Avez vous votre code parrain ?','required'=>false))
+            ;
     }
     
-    public function getName() 
-    {
-        return 'kountac_kountacbundle_newsletter';
-    }
-    
+    public function getParent() {
+        return 'fos_user_registration';
+    }    
 }
