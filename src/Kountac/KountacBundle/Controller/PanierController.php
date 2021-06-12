@@ -9,6 +9,7 @@ class PanierController extends Controller
     public function panierAction()
     {
         $session = $this->getRequest()->getSession();
+        include 'localisation.php';
         $user = $this->getUser();
         if (!$session->has('panier'))
             $session->set('panier', array());
@@ -16,24 +17,21 @@ class PanierController extends Controller
         $em = $this->getDoctrine()->getManager();
         $images = $em->getRepository('KountacBundle:Media_motif')->findAll();
         $produits = $em->getRepository('KountacBundle:Produits_3')->findArray(array_keys($session->get('panier')));
+        //var_dump($produits);die();
         $commandes = $em->getRepository('KountacBundle:Commandes')->getCommandesByUser_produit($user);
         
         return $this->render('KountacBundle:Default:pages/panier.html.twig', array('produits' => $produits,
                                                                                    'commandes' => $commandes,          
                                                                                    'user'  => $user,
                                                                                    'images'  => $images,
-                                                                                   'euro' => $this->getRequest()->getSession()->get('euro'),
-                                                                                   'all' => $this->getRequest()->getSession()->get('all'),
-                                                                                   'livre' => $this->getRequest()->getSession()->get('livre'),
-                                                                                   'usa' => $this->getRequest()->getSession()->get('usa'),
-                                                                                   'naira' => $this->getRequest()->getSession()->get('naira'),
-                                                                                   'cfa' => $this->getRequest()->getSession()->get('cfa'),
+                                                                                   'device_cible' => $target_country,
                                                                                    'panier' => $session->get('panier')));
     }
     
     public function panierMenuAction()
     {
         $session = $this->getRequest()->getSession();
+        include 'localisation.php';
         $user = $this->getUser();
         if (!$session->has('panier'))
             $session->set('panier', array());
@@ -46,18 +44,14 @@ class PanierController extends Controller
         return $this->render('KountacBundle:Menu:panierMenu.html.twig', array('produits' => $produits,
                                                                               'commandes' => $commandes,
                                                                               'images' => $images,
-                                                                              'euro' => $this->getRequest()->getSession()->get('euro'),
-                                                                              'all' => $this->getRequest()->getSession()->get('all'),
-                                                                              'livre' => $this->getRequest()->getSession()->get('livre'),
-                                                                              'usa' => $this->getRequest()->getSession()->get('usa'),
-                                                                              'naira' => $this->getRequest()->getSession()->get('naira'),
-                                                                              'cfa' => $this->getRequest()->getSession()->get('cfa'),
+                                                                              'device_cible' => $target_country,
                                                                               'panier' => $session->get('panier')));
     }
     
     public function panierMenuAllProductsAction()
     {
         $session = $this->getRequest()->getSession();
+        include 'localisation.php';
         $user = $this->getUser();
         if (!$session->has('panier'))
             $session->set('panier', array());
@@ -70,19 +64,15 @@ class PanierController extends Controller
         return $this->render('KountacBundle:Menu:panierMenuAllProducts.html.twig', array('produits' => $produits,
                                                                               'commandes' => $commandes,
                                                                               'images' => $images,
-                                                                              'euro' => $this->getRequest()->getSession()->get('euro'),
-                                                                                'all' => $this->getRequest()->getSession()->get('all'),
-                                                                                'livre' => $this->getRequest()->getSession()->get('livre'),
-                                                                                'usa' => $this->getRequest()->getSession()->get('usa'),
-                                                                                'naira' => $this->getRequest()->getSession()->get('naira'),
-                                                                                'cfa' => $this->getRequest()->getSession()->get('cfa'),
+                                                                              'device_cible' => $target_country,
                                                                               'panier' => $session->get('panier')));
     }
     
     public function ajoutpanierAction($id) 
     {
         $session = $this->getRequest()->getSession();
-
+        include 'localisation.php';
+        
         if (!$session->has('panier'))
             $session->set('panier', array());
         $panier = $session->get('panier');
@@ -106,6 +96,7 @@ class PanierController extends Controller
     public function supprimerpanierAction($id) 
     {
         $session = $this->getRequest()->getSession();
+        include 'localisation.php';
         $panier = $session->get('panier');
         
         if (array_key_exists($id, $panier))

@@ -76,7 +76,7 @@ class Utilisateurs extends BaseUser
     private $mesures;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $nom;
     
@@ -86,12 +86,12 @@ class Utilisateurs extends BaseUser
     private $prenom;
     
     /**
-     * @ORM\Column(type="string", length=20)
+     * @ORM\Column(type="string", length=20, nullable=true)
      */
     private $sexe;
     
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $pays;
     
@@ -109,13 +109,13 @@ class Utilisateurs extends BaseUser
     
         
     /**
-     * @ORM\Column(type="string", length=200)
+     * @ORM\Column(type="string", length=200, nullable=true)
      */
     private $departement;
     
     
     /**
-     * @ORM\Column(type="string", length=200)
+     * @ORM\Column(type="string", length=200, nullable=true)
      */
     private $ville;
     
@@ -132,7 +132,7 @@ class Utilisateurs extends BaseUser
     
         
     /**
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="float", nullable=true)
      */
     private $telephone;
     
@@ -194,6 +194,11 @@ class Utilisateurs extends BaseUser
      * @ORM\Column(type="string", nullable=true)
      */
     private $code;
+    
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $newsletter;
     
     /**
      * @ORM\Column(type="string", nullable=true)
@@ -1203,4 +1208,27 @@ class Utilisateurs extends BaseUser
         return $this->dateajout;
     }
     
+    /**
+     * Set newsletter
+     *
+     * @param boolean $newsletter
+     *
+     * @return Utilisateurs
+     */
+    public function setNewsletter($newsletter)
+    {
+        $this->newsletter = $newsletter;
+
+        return $this;
+    }
+
+    /**
+     * Get newsletter
+     *
+     * @return boolean
+     */
+    public function getNewsletter()
+    {
+        return $this->newsletter;
+    }
 }

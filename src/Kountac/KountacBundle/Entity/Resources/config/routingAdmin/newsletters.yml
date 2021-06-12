@@ -1,7 +1,0 @@
-adminNewsletters_index:
-    path:     /
-    defaults: { _controller: "KountacBundle:NewslettersAdmin:index" }
-    
-adminNewsletters_delete:
-    path:     /{id}/delete
-    defaults: { _controller: "KountacBundle:NewslettersAdmin:delete" }

@@ -85,7 +85,7 @@ class MenuController extends Controller
     public function menuPanierAction()
     {
         $em = $this->getDoctrine()->getManager();
-        $images = $em->getRepository('KountacBundle:Media_motif')->findAll();
+        $images = $em->getRepository('KountacBundle:Media_motif')->getImagesWithPath1();
         $session = $this->getRequest()->getSession();
         
         if (!$session->has('panier'))
@@ -104,6 +104,25 @@ class MenuController extends Controller
         $session->remove('recherche');
         $em = $this->getDoctrine()->getManager();
         $categorieNom = $em->getRepository('KountacBundle:Categories')->find($categorie)->getNom(); 
+        $images = $em->getRepository('KountacBundle:Media_motif')->getImagesWithPath1();
+        $europrix = $em->getRepository('KountacBundle:Produits_2')->getPrixEuro();
+        $cfaprix = $em->getRepository('KountacBundle:Produits_2')->getPrixCFA();
+        $usaprix = $em->getRepository('KountacBundle:Produits_2')->getPrixUSA();
+        $livreprix = $em->getRepository('KountacBundle:Produits_2')->getPrixLivre();
+        $nairaprix = $em->getRepository('KountacBundle:Produits_2')->getPrixNaira();
+        $allprix = $em->getRepository('KountacBundle:Produits_2')->getPrixAll();
+        $minPrix = "";
+        $maxPrix = "";
+        if ($this->getRequest()->request->get('prix') != null ){
+                $prix = $this->getRequest()->request->get('prix') ;
+                $prix = explode(" - ",$prix);
+
+                $minPrix = str_replace(",", "", $prix[0]);
+                $maxPrix = str_replace(",", "", $prix[1]);;
+            }
+            else {
+                $prix = null;
+            }
         
         $categories = $em->getRepository('KountacBundle:Categories')->findAll();
         $mannequins = $em->getRepository('KountacBundle:Mannequin')->findAll();
@@ -121,6 +140,15 @@ class MenuController extends Controller
                                                                                             'marques' => $marques, 
                                                                                             'form' => $form_taillePoids->createView(),
                                                                                             'motifs' => $motifs,
+                                                                                            'images' => $images,
+                                                                                            'cfaprix' => $cfaprix,
+                                                                                            'europrix' => $europrix,
+                                                                                            'usaprix' => $usaprix,
+                                                                                            'livreprix' => $livreprix,
+                                                                                            'nairaprix' => $nairaprix,
+                                                                                            'allprix' => $allprix,
+                                                                                            'minPrix' => $minPrix,
+                                                                                            'maxPrix' => $maxPrix,
                                                                                             'categories' => $categories,
                                                                                             'mannequins' => $mannequins,
                                                                                             'euro' => $this->getRequest()->getSession()->get('euro'),
@@ -146,7 +174,27 @@ class MenuController extends Controller
         $marques = $em->getRepository('UtilisateursBundle:Utilisateurs')->getAllMarques();
         $motifs = $em->getRepository('KountacBundle:Libelles_motif')->findAll();
         $form_taillePoids = $this->createForm(new Taille_PoidsType());                       
+        $images = $em->getRepository('KountacBundle:Media_motif')->getImagesWithPath1();
+        $europrix = $em->getRepository('KountacBundle:Produits_2')->getPrixEuro();
+        $cfaprix = $em->getRepository('KountacBundle:Produits_2')->getPrixCFA();
+        $usaprix = $em->getRepository('KountacBundle:Produits_2')->getPrixUSA();
+        $livreprix = $em->getRepository('KountacBundle:Produits_2')->getPrixLivre();
+        $nairaprix = $em->getRepository('KountacBundle:Produits_2')->getPrixNaira();
+        $allprix = $em->getRepository('KountacBundle:Produits_2')->getPrixAll();
+        $minPrix = "";
+        $maxPrix = "";
         
+        if ($this->getRequest()->request->get('prix') != null ){
+                $prix = $this->getRequest()->request->get('prix') ;
+                $prix = explode(" - ",$prix);
+
+                $minPrix = str_replace(",", "", $prix[0]);
+                $maxPrix = str_replace(",", "", $prix[1]);;
+            }
+            else {
+                $prix = null;
+            }
+            
         $categories_enfants = $em->getRepository('KountacBundle:Categories')->find($categorie)->getChildren();
         
         $produitsNews = $em->getRepository('KountacBundle:Produits_2')->byBestCategorie($categorie, $categories_enfants);
@@ -156,6 +204,15 @@ class MenuController extends Controller
                                                                                             'nom' => "Meilleurs soldes des produits -".$categorieNom,
                                                                                             'marques' => $marques, 
                                                                                             'form' => $form_taillePoids->createView(),
+                                                                                            'images' => $images,
+                                                                                            'cfaprix' => $cfaprix,
+                                                                                            'europrix' => $europrix,
+                                                                                            'usaprix' => $usaprix,
+                                                                                            'livreprix' => $livreprix,
+                                                                                            'nairaprix' => $nairaprix,
+                                                                                            'allprix' => $allprix,
+                                                                                            'minPrix' => $minPrix,
+                                                                                            'maxPrix' => $maxPrix,
                                                                                             'motifs' => $motifs,
                                                                                             'categories' => $categories,
                                                                                             'mannequins' => $mannequins,

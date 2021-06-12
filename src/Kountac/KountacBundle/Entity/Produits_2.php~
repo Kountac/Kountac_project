@@ -21,13 +21,6 @@ class Produits_2
      */
     private $id;
 
-    
-    /**
-     * @ORM\OneToOne(targetEntity="Kountac\KountacBundle\Entity\Media_motif", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=true, onDelete="CASCADE")
-     */
-    private $picture;
-    
     /**
      * @ORM\ManyToOne(targetEntity="Kountac\KountacBundle\Entity\Produits_1", inversedBy="produit_2", cascade={"persist"})
      * @ORM\JoinColumn(referencedColumnName="id", nullable=true, onDelete="CASCADE")
@@ -43,7 +36,6 @@ class Produits_2
      * @ORM\OneToMany(targetEntity="Kountac\CommentairesBundle\Entity\Commentaires", mappedBy="produit", cascade={"persist"})
      */
     private $commentaire;
-    
     
     /**
      * @ORM\ManyToOne(targetEntity="Kountac\KountacBundle\Entity\Libelles_motif", cascade={"persist"})
@@ -75,6 +67,55 @@ class Produits_2
     /**
      * @var float
      *
+     * @ORM\Column(name="prix", type="float", nullable=true)
+     */
+    private $prix;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="prixCommande", type="float", nullable=true)
+     */
+    private $prixCommande;
+    
+        /**
+     * @var bool
+     * 
+     * @ORM\Column(name="precommande", type="boolean", nullable=true)
+     */
+    private $precommande;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="devise", type="string", length=5, nullable=true)
+     */
+    private $devise;
+    
+        /**
+     * @var float
+     *
+     * @ORM\Column(name="allprix", type="float", nullable=true)
+     */
+    private $allprix;
+    
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="allprixCommande", type="float", nullable=true)
+     */
+    private $allprixCommande;
+    
+    /**
+     * @var bool
+     * 
+     * @ORM\Column(name="allprecommande", type="boolean", nullable=true)
+     */
+    private $allprecommande;
+    
+    /**
+     * @var float
+     *
      * @ORM\Column(name="europrix", type="float", nullable=true)
      */
     private $europrix;
@@ -87,11 +128,11 @@ class Produits_2
     private $europrixCommande;
     
     /**
-     * @var array
+     * @var bool
      * 
-     * @ORM\Column(name="europays", type="array", nullable=true)
+     * @ORM\Column(name="europrecommande", type="boolean", nullable=true)
      */
-    private $europays;
+    private $europrecommande;
     
     /**
      * @var float
@@ -108,11 +149,11 @@ class Produits_2
     private $cfaprixCommande;
     
     /**
-     * @var array
+     * @var bool
      * 
-     * @ORM\Column(name="cfapays", type="array", nullable=true)
+     * @ORM\Column(name="cfaprecommande", type="boolean", nullable=true)
      */
-    private $cfapays;
+    private $cfaprecommande;
     
     /**
      * @var float
@@ -129,11 +170,11 @@ class Produits_2
     private $usaprixCommande;
     
     /**
-     * @var array
+     * @var bool
      * 
-     * @ORM\Column(name="usapays", type="array", nullable=true)
+     * @ORM\Column(name="usaprecommande", type="boolean", nullable=true)
      */
-    private $usapays;
+    private $usaprecommande;
     
     /**
      * @var float
@@ -150,11 +191,11 @@ class Produits_2
     private $livreprixCommande;
     
     /**
-     * @var array
+     * @var bool
      * 
-     * @ORM\Column(name="livrepays", type="array", nullable=true)
+     * @ORM\Column(name="livreprecommande", type="boolean", nullable=true)
      */
-    private $livrepays;
+    private $livreprecommande;
     
     /**
      * @var float
@@ -169,6 +210,21 @@ class Produits_2
      * @ORM\Column(name="nairaprixCommande", type="float", nullable=true)
      */
     private $nairaprixCommande;
+    
+    /**
+     * @var bool
+     * 
+     * @ORM\Column(name="nairaprecommande", type="boolean", nullable=true)
+     */
+    private $nairaprecommande;
+    
+    
+    /**
+     * @var string
+     * 
+     * @ORM\Column(name="randValue", type="string", nullable=true)
+     */
+    private $randValue;
     
     /**
      * Get id
@@ -206,29 +262,6 @@ class Produits_2
         return $this->etat;
     }
 
-    /**
-     * Set picture
-     *
-     * @param \Kountac\KountacBundle\Entity\Media_motif $picture
-     *
-     * @return Produits_2
-     */
-    public function setPicture(\Kountac\KountacBundle\Entity\Media_motif $picture = null)
-    {
-        $this->picture = $picture;
-
-        return $this;
-    }
-
-    /**
-     * Get picture
-     *
-     * @return \Kountac\KountacBundle\Entity\Media_motif
-     */
-    public function getPicture()
-    {
-        return $this->picture;
-    }
     /**
      * Constructor
      */
@@ -294,343 +327,6 @@ class Produits_2
     {
         return $this->reduction;
     }
-
-    /**
-     * Set europrix
-     *
-     * @param float $europrix
-     *
-     * @return Produits_2
-     */
-    public function setEuroprix($europrix)
-    {
-        $this->europrix = $europrix;
-
-        return $this;
-    }
-
-    /**
-     * Get europrix
-     *
-     * @return float
-     */
-    public function getEuroprix()
-    {
-        return $this->europrix;
-    }
-
-    /**
-     * Set europrixCommande
-     *
-     * @param float $europrixCommande
-     *
-     * @return Produits_2
-     */
-    public function setEuroprixCommande($europrixCommande)
-    {
-        $this->europrixCommande = $europrixCommande;
-
-        return $this;
-    }
-
-    /**
-     * Get europrixCommande
-     *
-     * @return float
-     */
-    public function getEuroprixCommande()
-    {
-        return $this->europrixCommande;
-    }
-
-    /**
-     * Set europays
-     *
-     * @param array $europays
-     *
-     * @return Produits_2
-     */
-    public function setEuropays($europays)
-    {
-        $this->europays = $europays;
-
-        return $this;
-    }
-
-    /**
-     * Get europays
-     *
-     * @return array
-     */
-    public function getEuropays()
-    {
-        return $this->europays;
-    }
-
-    /**
-     * Set cfaprix
-     *
-     * @param float $cfaprix
-     *
-     * @return Produits_2
-     */
-    public function setCfaprix($cfaprix)
-    {
-        $this->cfaprix = $cfaprix;
-
-        return $this;
-    }
-
-    /**
-     * Get cfaprix
-     *
-     * @return float
-     */
-    public function getCfaprix()
-    {
-        return $this->cfaprix;
-    }
-
-    /**
-     * Set cfaprixCommande
-     *
-     * @param float $cfaprixCommande
-     *
-     * @return Produits_2
-     */
-    public function setCfaprixCommande($cfaprixCommande)
-    {
-        $this->cfaprixCommande = $cfaprixCommande;
-
-        return $this;
-    }
-
-    /**
-     * Get cfaprixCommande
-     *
-     * @return float
-     */
-    public function getCfaprixCommande()
-    {
-        return $this->cfaprixCommande;
-    }
-
-    /**
-     * Set cfapays
-     *
-     * @param array $cfapays
-     *
-     * @return Produits_2
-     */
-    public function setCfapays($cfapays)
-    {
-        $this->cfapays = $cfapays;
-
-        return $this;
-    }
-
-    /**
-     * Get cfapays
-     *
-     * @return array
-     */
-    public function getCfapays()
-    {
-        return $this->cfapays;
-    }
-
-    /**
-     * Set usaprix
-     *
-     * @param float $usaprix
-     *
-     * @return Produits_2
-     */
-    public function setUsaprix($usaprix)
-    {
-        $this->usaprix = $usaprix;
-
-        return $this;
-    }
-
-    /**
-     * Get usaprix
-     *
-     * @return float
-     */
-    public function getUsaprix()
-    {
-        return $this->usaprix;
-    }
-
-    /**
-     * Set usaprixCommande
-     *
-     * @param float $usaprixCommande
-     *
-     * @return Produits_2
-     */
-    public function setUsaprixCommande($usaprixCommande)
-    {
-        $this->usaprixCommande = $usaprixCommande;
-
-        return $this;
-    }
-
-    /**
-     * Get usaprixCommande
-     *
-     * @return float
-     */
-    public function getUsaprixCommande()
-    {
-        return $this->usaprixCommande;
-    }
-
-    /**
-     * Set usapays
-     *
-     * @param array $usapays
-     *
-     * @return Produits_2
-     */
-    public function setUsapays($usapays)
-    {
-        $this->usapays = $usapays;
-
-        return $this;
-    }
-
-    /**
-     * Get usapays
-     *
-     * @return array
-     */
-    public function getUsapays()
-    {
-        return $this->usapays;
-    }
-
-    /**
-     * Set livreprix
-     *
-     * @param float $livreprix
-     *
-     * @return Produits_2
-     */
-    public function setLivreprix($livreprix)
-    {
-        $this->livreprix = $livreprix;
-
-        return $this;
-    }
-
-    /**
-     * Get livreprix
-     *
-     * @return float
-     */
-    public function getLivreprix()
-    {
-        return $this->livreprix;
-    }
-
-    /**
-     * Set livreprixCommande
-     *
-     * @param float $livreprixCommande
-     *
-     * @return Produits_2
-     */
-    public function setLivreprixCommande($livreprixCommande)
-    {
-        $this->livreprixCommande = $livreprixCommande;
-
-        return $this;
-    }
-
-    /**
-     * Get livreprixCommande
-     *
-     * @return float
-     */
-    public function getLivreprixCommande()
-    {
-        return $this->livreprixCommande;
-    }
-
-    /**
-     * Set livrepays
-     *
-     * @param array $livrepays
-     *
-     * @return Produits_2
-     */
-    public function setLivrepays($livrepays)
-    {
-        $this->livrepays = $livrepays;
-
-        return $this;
-    }
-
-    /**
-     * Get livrepays
-     *
-     * @return array
-     */
-    public function getLivrepays()
-    {
-        return $this->livrepays;
-    }
-
-    /**
-     * Set nairaprix
-     *
-     * @param float $nairaprix
-     *
-     * @return Produits_2
-     */
-    public function setNairaprix($nairaprix)
-    {
-        $this->nairaprix = $nairaprix;
-
-        return $this;
-    }
-
-    /**
-     * Get nairaprix
-     *
-     * @return float
-     */
-    public function getNairaprix()
-    {
-        return $this->nairaprix;
-    }
-
-    /**
-     * Set nairaprixCommande
-     *
-     * @param float $nairaprixCommande
-     *
-     * @return Produits_2
-     */
-    public function setNairaprixCommande($nairaprixCommande)
-    {
-        $this->nairaprixCommande = $nairaprixCommande;
-
-        return $this;
-    }
-
-    /**
-     * Get nairaprixCommande
-     *
-     * @return float
-     */
-    public function getNairaprixCommande()
-    {
-        return $this->nairaprixCommande;
-    }
-
 
     /**
      * Set libelle
@@ -704,5 +400,572 @@ class Produits_2
     public function getStock()
     {
         return $this->stock;
+    }
+
+    /**
+     * Add commentaire
+     *
+     * @param \Kountac\CommentairesBundle\Entity\Commentaires $commentaire
+     *
+     * @return Produits_2
+     */
+    public function addCommentaire(\Kountac\CommentairesBundle\Entity\Commentaires $commentaire)
+    {
+        $this->commentaire[] = $commentaire;
+
+        return $this;
+    }
+
+    /**
+     * Remove commentaire
+     *
+     * @param \Kountac\CommentairesBundle\Entity\Commentaires $commentaire
+     */
+    public function removeCommentaire(\Kountac\CommentairesBundle\Entity\Commentaires $commentaire)
+    {
+        $this->commentaire->removeElement($commentaire);
+    }
+
+    /**
+     * Get commentaire
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCommentaire()
+    {
+        return $this->commentaire;
+    }
+    
+    public function __toString()
+    {
+        return $this->getProduit1()->getNom().' - '.$this->getLibelle()->getLibelle();
+    }
+
+    /**
+     * Set allprix
+     *
+     * @param float $allprix
+     *
+     * @return Produits_2
+     */
+    public function setAllprix($allprix)
+    {
+        $this->allprix = $allprix;
+
+        return $this;
+    }
+
+    /**
+     * Get allprix
+     *
+     * @return float
+     */
+    public function getAllprix()
+    {
+        return $this->allprix;
+    }
+
+    /**
+     * Set allprixCommande
+     *
+     * @param float $allprixCommande
+     *
+     * @return Produits_2
+     */
+    public function setAllprixCommande($allprixCommande)
+    {
+        $this->allprixCommande = $allprixCommande;
+
+        return $this;
+    }
+
+    /**
+     * Get allprixCommande
+     *
+     * @return float
+     */
+    public function getAllprixCommande()
+    {
+        return $this->allprixCommande;
+    }
+
+    /**
+     * Set europrix
+     *
+     * @param float $europrix
+     *
+     * @return Produits_2
+     */
+    public function setEuroprix($europrix)
+    {
+        $this->europrix = $europrix;
+
+        return $this;
+    }
+
+    /**
+     * Get europrix
+     *
+     * @return float
+     */
+    public function getEuroprix()
+    {
+        return $this->europrix;
+    }
+
+    /**
+     * Set europrixCommande
+     *
+     * @param float $europrixCommande
+     *
+     * @return Produits_2
+     */
+    public function setEuroprixCommande($europrixCommande)
+    {
+        $this->europrixCommande = $europrixCommande;
+
+        return $this;
+    }
+
+    /**
+     * Get europrixCommande
+     *
+     * @return float
+     */
+    public function getEuroprixCommande()
+    {
+        return $this->europrixCommande;
+    }
+
+    /**
+     * Set cfaprix
+     *
+     * @param float $cfaprix
+     *
+     * @return Produits_2
+     */
+    public function setCfaprix($cfaprix)
+    {
+        $this->cfaprix = $cfaprix;
+
+        return $this;
+    }
+
+    /**
+     * Get cfaprix
+     *
+     * @return float
+     */
+    public function getCfaprix()
+    {
+        return $this->cfaprix;
+    }
+
+    /**
+     * Set cfaprixCommande
+     *
+     * @param float $cfaprixCommande
+     *
+     * @return Produits_2
+     */
+    public function setCfaprixCommande($cfaprixCommande)
+    {
+        $this->cfaprixCommande = $cfaprixCommande;
+
+        return $this;
+    }
+
+    /**
+     * Get cfaprixCommande
+     *
+     * @return float
+     */
+    public function getCfaprixCommande()
+    {
+        return $this->cfaprixCommande;
+    }
+
+    /**
+     * Set usaprix
+     *
+     * @param float $usaprix
+     *
+     * @return Produits_2
+     */
+    public function setUsaprix($usaprix)
+    {
+        $this->usaprix = $usaprix;
+
+        return $this;
+    }
+
+    /**
+     * Get usaprix
+     *
+     * @return float
+     */
+    public function getUsaprix()
+    {
+        return $this->usaprix;
+    }
+
+    /**
+     * Set usaprixCommande
+     *
+     * @param float $usaprixCommande
+     *
+     * @return Produits_2
+     */
+    public function setUsaprixCommande($usaprixCommande)
+    {
+        $this->usaprixCommande = $usaprixCommande;
+
+        return $this;
+    }
+
+    /**
+     * Get usaprixCommande
+     *
+     * @return float
+     */
+    public function getUsaprixCommande()
+    {
+        return $this->usaprixCommande;
+    }
+
+    /**
+     * Set livreprix
+     *
+     * @param float $livreprix
+     *
+     * @return Produits_2
+     */
+    public function setLivreprix($livreprix)
+    {
+        $this->livreprix = $livreprix;
+
+        return $this;
+    }
+
+    /**
+     * Get livreprix
+     *
+     * @return float
+     */
+    public function getLivreprix()
+    {
+        return $this->livreprix;
+    }
+
+    /**
+     * Set livreprixCommande
+     *
+     * @param float $livreprixCommande
+     *
+     * @return Produits_2
+     */
+    public function setLivreprixCommande($livreprixCommande)
+    {
+        $this->livreprixCommande = $livreprixCommande;
+
+        return $this;
+    }
+
+    /**
+     * Get livreprixCommande
+     *
+     * @return float
+     */
+    public function getLivreprixCommande()
+    {
+        return $this->livreprixCommande;
+    }
+
+    /**
+     * Set nairaprix
+     *
+     * @param float $nairaprix
+     *
+     * @return Produits_2
+     */
+    public function setNairaprix($nairaprix)
+    {
+        $this->nairaprix = $nairaprix;
+
+        return $this;
+    }
+
+    /**
+     * Get nairaprix
+     *
+     * @return float
+     */
+    public function getNairaprix()
+    {
+        return $this->nairaprix;
+    }
+
+    /**
+     * Set nairaprixCommande
+     *
+     * @param float $nairaprixCommande
+     *
+     * @return Produits_2
+     */
+    public function setNairaprixCommande($nairaprixCommande)
+    {
+        $this->nairaprixCommande = $nairaprixCommande;
+
+        return $this;
+    }
+
+    /**
+     * Get nairaprixCommande
+     *
+     * @return float
+     */
+    public function getNairaprixCommande()
+    {
+        return $this->nairaprixCommande;
+    }
+
+    /**
+     * Set allprecommande
+     *
+     * @param boolean $allprecommande
+     *
+     * @return Produits_2
+     */
+    public function setAllprecommande($allprecommande)
+    {
+        $this->allprecommande = $allprecommande;
+
+        return $this;
+    }
+
+    /**
+     * Get allprecommande
+     *
+     * @return boolean
+     */
+    public function getAllprecommande()
+    {
+        return $this->allprecommande;
+    }
+
+    /**
+     * Set europrecommande
+     *
+     * @param boolean $europrecommande
+     *
+     * @return Produits_2
+     */
+    public function setEuroprecommande($europrecommande)
+    {
+        $this->europrecommande = $europrecommande;
+
+        return $this;
+    }
+
+    /**
+     * Get europrecommande
+     *
+     * @return boolean
+     */
+    public function getEuroprecommande()
+    {
+        return $this->europrecommande;
+    }
+
+    /**
+     * Set cfaprecommande
+     *
+     * @param boolean $cfaprecommande
+     *
+     * @return Produits_2
+     */
+    public function setCfaprecommande($cfaprecommande)
+    {
+        $this->cfaprecommande = $cfaprecommande;
+
+        return $this;
+    }
+
+    /**
+     * Get cfaprecommande
+     *
+     * @return boolean
+     */
+    public function getCfaprecommande()
+    {
+        return $this->cfaprecommande;
+    }
+
+    /**
+     * Set usaprecommande
+     *
+     * @param boolean $usaprecommande
+     *
+     * @return Produits_2
+     */
+    public function setUsaprecommande($usaprecommande)
+    {
+        $this->usaprecommande = $usaprecommande;
+
+        return $this;
+    }
+
+    /**
+     * Get usaprecommande
+     *
+     * @return boolean
+     */
+    public function getUsaprecommande()
+    {
+        return $this->usaprecommande;
+    }
+
+    /**
+     * Set livreprecommande
+     *
+     * @param boolean $livreprecommande
+     *
+     * @return Produits_2
+     */
+    public function setLivreprecommande($livreprecommande)
+    {
+        $this->livreprecommande = $livreprecommande;
+
+        return $this;
+    }
+
+    /**
+     * Get livreprecommande
+     *
+     * @return boolean
+     */
+    public function getLivreprecommande()
+    {
+        return $this->livreprecommande;
+    }
+
+    /**
+     * Set nairaprecommande
+     *
+     * @param boolean $nairaprecommande
+     *
+     * @return Produits_2
+     */
+    public function setNairaprecommande($nairaprecommande)
+    {
+        $this->nairaprecommande = $nairaprecommande;
+
+        return $this;
+    }
+
+    /**
+     * Get nairaprecommande
+     *
+     * @return boolean
+     */
+    public function getNairaprecommande()
+    {
+        return $this->nairaprecommande;
+    }
+
+    /**
+     * Set randValue
+     *
+     * @param string $randValue
+     *
+     * @return Produits_2
+     */
+    public function setRandValue($randValue)
+    {
+        $this->randValue = $randValue;
+
+        return $this;
+    }
+
+    /**
+     * Get randValue
+     *
+     * @return string
+     */
+    public function getRandValue()
+    {
+        return $this->randValue;
+    }
+
+    /**
+     * Set prix
+     *
+     * @param float $prix
+     *
+     * @return Produits_2
+     */
+    public function setPrix($prix)
+    {
+        $this->prix = $prix;
+    
+        return $this;
+    }
+
+    /**
+     * Get prix
+     *
+     * @return float
+     */
+    public function getPrix()
+    {
+        return $this->prix;
+    }
+
+    /**
+     * Set prixCommande
+     *
+     * @param float $prixCommande
+     *
+     * @return Produits_2
+     */
+    public function setPrixCommande($prixCommande)
+    {
+        $this->prixCommande = $prixCommande;
+    
+        return $this;
+    }
+
+    /**
+     * Get prixCommande
+     *
+     * @return float
+     */
+    public function getPrixCommande()
+    {
+        return $this->prixCommande;
+    }
+
+    /**
+     * Set devise
+     *
+     * @param string $devise
+     *
+     * @return Produits_2
+     */
+    public function setDevise($devise)
+    {
+        $this->devise = $devise;
+    
+        return $this;
+    }
+
+    /**
+     * Get devise
+     *
+     * @return string
+     */
+    public function getDevise()
+    {
+        return $this->devise;
     }
 }

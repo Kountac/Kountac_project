@@ -5,7 +5,7 @@ namespace Kountac\KountacBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Kountac\KountacBundle\Form\Media_motifType;
+//use Kountac\KountacBundle\Form\Media_motifType;
 
 class Produits_2Type extends AbstractType
 {
@@ -48,6 +48,21 @@ class Produits_2Type extends AbstractType
                                                 'label' => 'Choisir taux de réduction',
                                                 'required' => true,
                                                 'attr' => array('class' => 'select form-control')))
+                // Prix Unique à gérer
+                ->add('prix','text', array('attr' => array('class' => 'input form-control'),
+                                           'label' => 'Prix normal',
+                                           'required' => false))
+                ->add('prixCommande','text', array('attr' => array('class' => 'input form-control'),
+                                           'label' => 'Commande sur mesure ?',
+                                           'required' => false))
+                ->add('precommande','choice', array('choices' => array('0' => 'Oui',
+                                                                           '1' => 'Non'),
+                                                        'expanded'=>true, 
+                                                        'data' => 0,
+                                                        'label' => 'Disponible en précommande? ',
+                                                        'required' => true))
+                                   
+                /*
                 // Prix en France
                 ->add('europrix','text', array('attr' => array('class' => 'input form-control'),
                                            'label' => 'Prix normal (€)',
@@ -127,7 +142,7 @@ class Produits_2Type extends AbstractType
                                                         'data' => 0,
                                                         'label' => 'Disponible en précommande? ',
                                                         'required' => true))
-                ;
+               */ ;
     }
     
     /**

@@ -2,548 +2,1329 @@
 
 
 {% block body %}
-{% if app.request.hasPreviousSession %}
-{% for type, messages in app.session.flashbag.all() %}
-{% for message in messages %}
-<div class="flash-{{ type }}">
-  {{ message }}
-</div>
-{% endfor %}
-{% endfor %}
-{% endif %}
-   
-
-<!-- Home Slider Start -->
-{% for flashMessage in app.session.flashbag.get('success') %}
-<div class="alert-box">
-  <br>
-  {{ flashMessage }}
-</div>
-{% endfor %}
-<div id="home-section" class="slider1">
-  <div class="tp-banner-container">
-    <div class="tp-banner" >
-      <ul>
-        <!-- SLIDE  -->
-        {% include 'KountacBundle:Default:pages/slider/slider.html.twig' %}
-      </ul>
-      <div class="tp-bannertimer"></div>
-    </div>
-  </div>
-</div>
-<!-- End home section -->
-
-{% if euro|length != 0 %}
-
-
-
-
-    <!-- Code by ChrisME-->
-
-    <div class="container new-layout" style="margin-top: 30px;">
-        <div class="special-products">
-            <div class="home-tab">
-                <ul class="nav home-nav-tabs home-product-tabs">
-                    <li class="active"><a href="#featured" data-toggle="tab" aria-expanded="false">Meilleures ventes </a></li>
-                    <li> <a href="#top-sellers" data-toggle="tab" aria-expanded="false">Bon plans</a> </li>
-                </ul>
-                <div class="special-products-pro tab-content">
-                    <div class="slider-items-products tab-pane active in" id="featured">
-                        <div id="special-products-slider" class="product-flexslider hidden-buttons">
-                            <div class="slider-items slider-width-col4">
-
-                                {% set nbr = 0 %}
-                                {% for produit in populaires %}
-                                    {% if produit.europrix %}
-                                        {% if nbr < 12 %}
-                                            {% set prixReduction = 0 %}
-                                            {% set prixReduction = produit.europrix - (produit.europrix * produit.reduction/100) %}
-
-                                            <div class="product-item">
-                                                <div class="item-inner">
-                                                    <div class="product-thumb has-hover-img">
-                                                        <figure>
-                                                            <center>
-                                                                {% for image in images %}
-                                                                    {% if image.produit2 == produit.prod and image.top == 0 %}
-                                                                        <a href="{{ path('product', {'id' : produit.id}) }}">
-                                                                            <img src="{{ image.AssetPath |imagine_filter('resizeThumb') }}" alt="">
-                                                                        </a>
-                                                                        {% if image.path2 %}
-                                                                        <a class="hover-img" href="{{ path('product', {'id' : produit.id}) }}">
-                                                                            <img src="{{ image.AssetPath2 |imagine_filter('resizeThumb') }}" alt="">
-                                                                        </a>
-                                                                        {% endif %}
-                                                                        {% if image.path3 %}
-                                                                        <a class="hover-img" href="{{ path('product', {'id' : produit.id}) }}">
-                                                                            <img src="{{ image.AssetPath3 |imagine_filter('resizeThumb') }}" alt="">
-                                                                        </a>
-                                                                        {% endif %}
-                                                                    {% endif %}
-                                                                {% endfor %}
-                                                            </center>
-                                                        </figure>
-                                                        <div class="pr-info-area animated animate4">
-                                                            <a title="Réserver ce produit" href="{{ path('quickView', {'id' : produit.id}) }}" class="quick-view"><i class="fa fa-save"><span>Reserver</span></i></a>
-                                                            <a title="Ajouter aux souhaits" href="{{ path('quickView', {'id' : produit.id}) }}" class="wishlist"><i class="fa fa-heart"><span>Wishlist</span></i></a>
-                                                            <a title="Comparer ce produit" href="{{ path('quickView', {'id' : produit.id}) }}" class="compare"><i class="fa fa-exchange"><span>Compare</span></i></a>
-                                                            {% if produit.europrixCommande %}
-                                                                <a title="Commander sur mesure, prix pour une commande sur mesure : {{ produit.europrixCommande|number_format(2) }} €" href="{{ path('commande_mesures_new_item', {'id' : produit.id}) }}" class="wishlist"><i class="fa fa-pencil"><span>Commander sur mesure</span></i></a>
-                                                            {% endif %}
-                                                        </div>
-                                                    </div>
-                                                    <div class="item-info">
-                                                        <div class="info-inner">
-                                                            <div class="item-title"> <a title="{{ produit.produit1Nom|capitalize }} - {{ produit.libelle|capitalize }}" href="{{ path('product', {'id' : produit.id}) }}">{{ produit.produit1Nom|capitalize }}-{{ produit.libelle|capitalize }}</a> </div>
-                                                            <div class="item-content">
-                                                                <div class="item-price">
-                                                                    {% if produit.reduction == 0 %}
-                                                                        <div class="price-box"> <span class="regular-price"> <span class="price">{{ prixReduction|number_format(2) }} €</span> </span> </div>
-                                                                    {% else %}
-                                                                    <div class="price-box">
-                                                                        <p class="special-price"> <span class="price-label">Special Price</span> <span class="price">{{ prixReduction|number_format(2) }} €</span> </p>
-                                                                        <p class="old-price"> <span class="price-label">Regular Price:</span> <span class="price">{{ produit.europrix|number_format(2) }} €</span> </p>
-                                                                    </div>
-                                                                    {% endif %}
-                                                                </div>
-                                                                <center>
-                                                                    <div class="language-currency-wrapper left">
-                                                                        <div class="inner-cl">
-                                                                            <div class="block block-language form-language ">
-                                                                                <div class="myaccount"><a href="{{ path('espace_marque', {'id' : produit.id}) }}" title="Aller à la marque {{ produit.produit1MarqueM|capitalize }}"><img src="{{ produit.produit1ImageAssetM|imagine_filter('marqueLogoThumb') }}" alt="">&nbsp;&nbsp;&nbsp;<span class="hidden-xs"> {{ produit.produit1MarqueM|capitalize }}</span></a></div>
-                                                                                <ul>
-                                                                                    <li>
-                                                                                        <strong><a title="Voir tous les produits de la marque {{ produit.produit1MarqueM|capitalize }}" href="{{ path('espace_marque', {'id' : produit.id}) }}"><span class="hidden-xs">{{ produit.produit1MarqueM|capitalize }}</span></a></strong>
-                                                                                    </li>
-                                                                                </ul>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </center>
-                                                                <div class="pro-action">
-                                                                    <a href="{{ path('quickView', {'id' : produit.id}) }}">
-                                                                        <button type="button" class="add-to-cart-mt"> <img src="{{ 'css/cart.jpg'|imagine_filter('rechercheThumbItem') }}" alt=""><span> Ajouter au panier</span> </button>
-                                                                    </a>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            {% set nbr = nbr + 1 %}
-                                        {% endif %}
-                                    {% endif %}
-                                {% endfor %}
-                            </div>
-                        </div>
-                    </div>
-                    <div class="slider-items-products tab-pane fade" id="top-sellers">
-                        <div id="special-products-slider" class="product-flexslider hidden-buttons">
-                            <div class="slider-items slider-width-col4">
-                                {% set nbr = 0 %}
-                                {% for produit in reductions %}
-                                    {% if produit.europrix %}
-                                        {% if nbr < 12 %}
-                                            {% set prixReduction = 0 %}
-                                            {% set prixReduction = produit.europrix - (produit.europrix * produit.reduction/100) %}
-
-                                            <div class="product-item">
-                                                <div class="item-inner">
-                                                    <div class="product-thumb has-hover-img">
-                                                        <figure>
-                                                            <center>
-                                                                {% for image in images %}
-                                                                    {% if image.produit2 == produit.prod and image.top == 0 %}
-                                                                        <a href="{{ path('product', {'id' : produit.id}) }}">
-                                                                            <img src="{{ image.AssetPath |imagine_filter('resizeThumb') }}" alt="">
-                                                                        </a>
-                                                                        {% if image.path2 %}
-                                                                        <a class="hover-img" href="{{ path('product', {'id' : produit.id}) }}">
-                                                                            <img src="{{ image.AssetPath2 |imagine_filter('resizeThumb') }}" alt="">
-                                                                        </a>
-                                                                        {% endif %}
-                                                                        {% if image.path3 %}
-                                                                        <a class="hover-img" href="{{ path('product', {'id' : produit.id}) }}">
-                                                                            <img src="{{ image.AssetPath3 |imagine_filter('resizeThumb') }}" alt="">
-                                                                        </a>
-                                                                        {% endif %}
-                                                                    {% endif %}
-                                                                {% endfor %}
-                                                            </center>
-                                                        </figure>
-                                                        <div class="pr-info-area animated animate4">
-                                                            <a title="Réserver ce produit" href="{{ path('quickView', {'id' : produit.id}) }}" class="quick-view"><i class="fa fa-save"><span>Reserver</span></i></a>
-                                                            <a title="Ajouter aux souhaits" href="{{ path('quickView', {'id' : produit.id}) }}" class="wishlist"><i class="fa fa-heart"><span>Wishlist</span></i></a>
-                                                            <a title="Comparer ce produit" href="{{ path('quickView', {'id' : produit.id}) }}" class="compare"><i class="fa fa-exchange"><span>Compare</span></i></a>
-                                                            {% if produit.europrixCommande %}
-                                                                <a title="Commander sur mesure, prix pour une commande sur mesure : {{ produit.europrixCommande|number_format(2) }} €" href="{{ path('commande_mesures_new_item', {'id' : produit.id}) }}" class="wishlist"><i class="fa fa-pencil"><span>Commander sur mesure</span></i></a>
-                                                            {% endif %}
-                                                        </div>
-                                                    </div>
-                                                    <div class="item-info">
-                                                        <div class="info-inner">
-                                                            <div class="item-title"> <a title="{{ produit.produit1Nom|capitalize }} - {{ produit.libelle|capitalize }}" href="{{ path('product', {'id' : produit.id}) }}">{{ produit.produit1Nom|capitalize }}-{{ produit.libelle|capitalize }}</a> </div>
-                                                            <div class="item-content">
-                                                                <div class="item-price">
-                                                                    {% if produit.reduction == 0 %}
-                                                                        <div class="price-box"> <span class="regular-price"> <span class="price">{{ prixReduction|number_format(2) }} €</span> </span> </div>
-                                                                    {% else %}
-                                                                    <div class="price-box">
-                                                                        <p class="special-price"> <span class="price-label">Special Price</span> <span class="price">{{ prixReduction|number_format(2) }} €</span> </p>
-                                                                        <p class="old-price"> <span class="price-label">Regular Price:</span> <span class="price">{{ produit.europrix|number_format(2) }} €</span> </p>
-                                                                    </div>
-                                                                    {% endif %}
-                                                                </div>
-                                                                <center>
-                                                                    <div class="language-currency-wrapper left">
-                                                                        <div class="inner-cl">
-                                                                            <div class="block block-language form-language ">
-                                                                                <div class="myaccount"><a href="{{ path('espace_marque', {'id' : produit.id}) }}" title="Aller à la marque {{ produit.produit1MarqueM|capitalize }}"><img src="{{ produit.produit1ImageAssetM|imagine_filter('marqueLogoThumb') }}" alt="">&nbsp;&nbsp;&nbsp;<span class="hidden-xs"> {{ produit.produit1MarqueM|capitalize }}</span></a></div>
-                                                                                <ul>
-                                                                                    <li>
-                                                                                        <strong><a title="Voir tous les produits de la marque {{ produit.produit1MarqueM|capitalize }}" href="{{ path('espace_marque', {'id' : produit.id}) }}"><span class="hidden-xs">{{ produit.produit1MarqueM|capitalize }}</span></a></strong>
-                                                                                    </li>
-                                                                                </ul>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </center>
-                                                                <div class="pro-action">
-                                                                    <a href="{{ path('quickView', {'id' : produit.id}) }}">
-                                                                        <button type="button" class="add-to-cart-mt"> <img src="{{ 'css/cart.jpg'|imagine_filter('rechercheThumbItem') }}" alt=""><span> Ajouter au panier</span> </button>
-                                                                    </a>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            {% set nbr = nbr + 1 %}
-                                        {% endif %}
-                                    {% endif %}
-                                {% endfor %}
-                            </div>
-                        </div>
-                    </div>
+    {% if app.request.hasPreviousSession %}
+        {% for type, messages in app.session.flashbag.all() %}
+            {% for message in messages %}
+                <div class="flash-{{ type }}">
+                    {{ message }}
                 </div>
+            {% endfor %}
+        {% endfor %}
+    {% endif %}
+
+
+    <!-- Home Slider Start -->
+    {% for flashMessage in app.session.flashbag.get('success') %}
+        <div class="alert-box">
+            <br>
+            {{ flashMessage }}
+        </div>
+    {% endfor %}
+    <div id="home-section" class="slider1">
+        <div class="tp-banner-container">
+            <div class="tp-banner" >
+                <ul>
+                    <!-- SLIDE  -->
+                    {% include 'KountacBundle:Default:pages/slider/slider.html.twig' %}
+                </ul>
+                <div class="tp-bannertimer"></div>
             </div>
         </div>
     </div>
-    <div class="container new-layout"  style="margin-top: 30px;">
-        <div class="special-products">
-            <div class="home-tab">
-                <ul class="nav home-nav-tabs home-product-tabs">
-                    <li class="active"><a href="#new" data-toggle="tab" aria-expanded="false">Nouveautés</a></li>
-                    <li> <a href="#last-sellers" data-toggle="tab" aria-expanded="false">Dernières ventes</a> </li>
-                </ul>
-                <div class="special-products-pro tab-content">
-                    <div class="slider-items-products tab-pane active in" id="new">
-                        <div id="special-products-slider" class="product-flexslider hidden-buttons">
-                            <div class="slider-items slider-width-col4">
-                                {% set nbr = 0 %}
-                                {% for produit in nouveaux %}
-                                    {% if produit.europrix %}
-                                        {% if nbr < 12 %}
-                                            {% set prixReduction = 0 %}
-                                            {% set prixReduction = produit.europrix - (produit.europrix * produit.reduction/100) %}
+    <!-- End home section -->
 
-                                            <div class="product-item">
-                                                <div class="item-inner">
-                                                    <div class="product-thumb has-hover-img">
-                                                        <figure>
-                                                            <center>
-                                                                {% for image in images %}
-                                                                    {% if image.produit2 == produit.prod and image.top == 0 %}
-                                                                        <a href="{{ path('product', {'id' : produit.id}) }}">
-                                                                            <img src="{{ image.AssetPath |imagine_filter('resizeThumb') }}" alt="">
-                                                                        </a>
-                                                                        {% if image.path2 %}
-                                                                        <a class="hover-img" href="{{ path('product', {'id' : produit.id}) }}">
-                                                                            <img src="{{ image.AssetPath2 |imagine_filter('resizeThumb') }}" alt="">
-                                                                        </a>
-                                                                        {% endif %}
-                                                                        {% if image.path3 %}
-                                                                        <a class="hover-img" href="{{ path('product', {'id' : produit.id}) }}">
-                                                                            <img src="{{ image.AssetPath3 |imagine_filter('resizeThumb') }}" alt="">
-                                                                        </a>
-                                                                        {% endif %}
-                                                                    {% endif %}
-                                                                {% endfor %}
-                                                            </center>
-                                                        </figure>
-                                                        <div class="pr-info-area animated animate4">
-                                                            <a title="Réserver ce produit" href="{{ path('quickView', {'id' : produit.id}) }}" class="quick-view"><i class="fa fa-save"><span>Reserver</span></i></a>
-                                                            <a title="Ajouter aux souhaits" href="{{ path('quickView', {'id' : produit.id}) }}" class="wishlist"><i class="fa fa-heart"><span>Wishlist</span></i></a>
-                                                            <a title="Comparer ce produit" href="{{ path('quickView', {'id' : produit.id}) }}" class="compare"><i class="fa fa-exchange"><span>Compare</span></i></a>
-                                                            {% if produit.europrixCommande %}
-                                                                <a title="Commander sur mesure, prix pour une commande sur mesure : {{ produit.europrixCommande|number_format(2) }} €" href="{{ path('commande_mesures_new_item', {'id' : produit.id}) }}" class="wishlist"><i class="fa fa-pencil"><span>Commander sur mesure</span></i></a>
-                                                            {% endif %}
+    {% for produit in reductions %}
+        <!-- Modal -->
+        <div class="modal fade" id="{{ produit.id_quick }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span style="display: inline;" id="quick_view_popup-close"><i class="fa fa-times-circle"></i></span>
+                    </button>
+
+                    <div class="modal-body">
+                        <div class="product-view-area">
+
+                            {% set targetCurrency = device_cible.devise.code %}
+                            {% set amountCurrency = produit.devise %}
+                            {% set decimal = true %}
+                            {% set prixReduction = 0 %}
+                            {% set prixReduction = produit.prix - (produit.prix * produit.reduction/100) %}
+
+                            <div class="product-big-image col-xs-12 col-sm-5 col-lg-5 col-md-5">
+                                <div class="large-image">
+                                    {% for image in images %}
+                                        {% if image.produit2 == produit.prod and image.top == 0 %}
+                                            <a href="{{ asset(image.AssetPath) }}" class="cloud-zoom" id="zoom1" rel="useWrapper: false, adjustY:0, adjustX:20"> 
+                                                <img class="zoom-img" src="{{ image.AssetPath|imagine_filter('resizeQuick') }}"> 
+                                            </a> 
+                                        {% endif %} 
+                                    {% endfor %} 
+                                </div>
+
+                                <div class="flexslider flexslider-thumb">
+                                    <ul class="previews-list slides">
+                                        {% for image in images %}
+                                            {% if image.produit2 == produit.prod and image.top == 0 %}
+                                                <li><a href='{{ asset(image.AssetPath) }}' class='cloud-zoom-gallery' rel="useZoom: 'zoom1', smallImage: '{{ asset(image.AssetPath) }}' "><img src="{{ asset(image.AssetPath) }}" alt = ""/></a></li>
+                                                        {% if image.path2%}
+                                                    <li><a href='{{ asset(image.AssetPath2) }}' class='cloud-zoom-gallery' rel="useZoom: 'zoom1', smallImage: '{{ asset(image.AssetPath2) }}' "><img src="{{ asset(image.AssetPath2) }}" alt = ""/></a></li>
+                                                        {% endif %}
+                                                        {% if image.path3%}
+                                                    <li><a href='{{ asset(image.AssetPath3) }}' class='cloud-zoom-gallery' rel="useZoom: 'zoom1', smallImage: '{{ asset(image.AssetPath3) }}' "><img src="{{ asset(image.AssetPath3) }}" alt = ""/></a></li>
+                                                        {% endif %} 
+                                                    {% endif %} 
+                                                {% endfor %}
+                                    </ul>
+                                </div>
+                                <!-- end: more-images --> 
+                            </div>
+
+                            <div class="col-xs-12 col-sm-7 col-lg-7 col-md-7">
+                                <div class="product-name">
+                                    <h1>{{ produit.produit1Nom|capitalize }} - {{ produit.libelle.libelle|capitalize }}</h1>
+                                </div>
+                                {% if produit.reduction == 0 %}
+                                    <div class="price-box"> <span class="regular-price"> <span class="price">{{ produit.prix | currency_convert(targetCurrency, decimal, amountCurrency) }} {{ device_cible.symbole }}</span> </span> </div>
+                                {% else %}
+                                    <div class="price-box">
+                                        <p class="special-price"> <span class="price-label">Special Price</span> <span class="price">{{ prixReduction| currency_convert(targetCurrency, decimal, amountCurrency) }} {{ device_cible.symbole }}</span> </p>
+                                        <p class="old-price"> <span class="price-label">Regular Price:</span> <span class="price">{{ prixReduction| currency_convert(targetCurrency, decimal, amountCurrency) }} {{ device_cible.symbole }}</span> </p>
+                                    </div>
+                                {% endif %}
+
+                                <ul id="product-detail-tab" class="nav-tabs product-tabs cart_product center">
+                                    {% for produit3 in produit.prod.produit3 %}
+                                        {% if loop.first %}
+                                            <li class="active"> <a href="#{{ produit3.id }}" data-toggle="tab">{{ produit3.taille }}</a> </li>
+                                            {% else %}
+                                            <li> <a href="#{{ produit3.id }}" data-toggle="tab">{{ produit3.taille }}</a> </li>
+                                            {% endif %}    
+                                        {% endfor %}
+                                </ul>
+
+                                <div id="productTabContent" class="tab-content">
+                                    {% for produit3 in produit.prod.produit3 %}
+                                        {% if loop.first %}
+                                            <div class="tab-pane fade in active" id="{{ produit3.id }}">
+                                            {% else %}
+                                                <div class="tab-pane fade" id="{{ produit3.id }}">
+                                                {% endif %}
+                                                <div class="product-color-size-area">
+
+                                                    <div class="color-area">
+                                                        <h2 class="saider-bar-title">Matière</h2>
+                                                        <div class="color">
+                                                            <ul>
+                                                                {{ produit.prod.produit1.matiere|capitalize }}
+                                                            </ul>
                                                         </div>
                                                     </div>
-                                                    <div class="item-info">
-                                                        <div class="info-inner">
-                                                            <div class="item-title"> <a title="{{ produit.produit1Nom|capitalize }} - {{ produit.libelle|capitalize }}" href="{{ path('product', {'id' : produit.id}) }}">{{ produit.produit1Nom|capitalize }}-{{ produit.libelle|capitalize }}</a> </div>
-                                                            <div class="item-content">
-                                                                <div class="item-price">
-                                                                    {% if produit.reduction == 0 %}
-                                                                        <div class="price-box"> <span class="regular-price"> <span class="price">{{ prixReduction|number_format(2) }} €</span> </span> </div>
-                                                                    {% else %}
-                                                                    <div class="price-box">
-                                                                        <p class="special-price"> <span class="price-label">Special Price</span> <span class="price">{{ prixReduction|number_format(2) }} €</span> </p>
-                                                                        <p class="old-price"> <span class="price-label">Regular Price:</span> <span class="price">{{ produit.europrix|number_format(2) }} €</span> </p>
-                                                                    </div>
-                                                                    {% endif %}
-                                                                </div>
-                                                                <center>
-                                                                    <div class="language-currency-wrapper left">
-                                                                        <div class="inner-cl">
-                                                                            <div class="block block-language form-language ">
-                                                                                <div class="myaccount"><a href="{{ path('espace_marque', {'id' : produit.id}) }}" title="Aller à la marque {{ produit.produit1MarqueM|capitalize }}"><img src="{{ produit.produit1ImageAssetM|imagine_filter('marqueLogoThumb') }}" alt="">&nbsp;&nbsp;&nbsp;<span class="hidden-xs"> {{ produit.produit1MarqueM|capitalize }}</span></a></div>
-                                                                                <ul>
-                                                                                    <li>
-                                                                                        <strong><a title="Voir tous les produits de la marque {{ produit.produit1MarqueM|capitalize }}" href="{{ path('espace_marque', {'id' : produit.id}) }}"><span class="hidden-xs">{{ produit.produit1MarqueM|capitalize }}</span></a></strong>
-                                                                                    </li>
-                                                                                </ul>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </center>
-                                                                <div class="pro-action">
-                                                                    <a href="{{ path('quickView', {'id' : produit.id}) }}">
-                                                                        <button type="button" class="add-to-cart-mt"> <img src="{{ 'css/cart.jpg'|imagine_filter('rechercheThumbItem') }}" alt=""><span> Ajouter au panier</span> </button>
-                                                                    </a>
-                                                                </div>
-                                                            </div>
+
+                                                    <div class="size-area">
+                                                        <h2 class="saider-bar-title">Taille</h2>
+                                                        <div class="size">
+                                                            <ul>
+                                                                <li><a>{{ produit3.taille }}</a></li>
+                                                            </ul>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            {% set nbr = nbr + 1 %}
-                                        {% endif %}
-                                    {% endif %}
-                                {% endfor %}
-                            </div>
-                        </div>
-                    </div>
-                    <div class="slider-items-products tab-pane fade" id="last-sellers">
-                        <div id="special-products-slider" class="product-flexslider hidden-buttons">
-                            <div class="slider-items slider-width-col4">
-
-                                {% set nbr = 0 %}
-                                {% for produit in dernieresVentes %}
-                                    {% if produit.europrix %}
-                                        {% if nbr < 12 %}
-                                            {% set prixReduction = 0 %}
-                                            {% set prixReduction = produit.europrix - (produit.europrix * produit.reduction/100) %}
-
-                                            <div class="product-item">
-                                                <div class="item-inner">
-                                                    <div class="product-thumb has-hover-img">
-                                                        <figure>
-                                                            <center>
-                                                                {% for image in images %}
-                                                                    {% if image.produit2 == produit.prod and image.top == 0 %}
-                                                                        <a href="{{ path('product', {'id' : produit.id}) }}">
-                                                                            <img src="{{ image.AssetPath |imagine_filter('resizeThumb') }}" alt="">
-                                                                        </a>
-                                                                        {% if image.path2 %}
-                                                                        <a class="hover-img" href="{{ path('product', {'id' : produit.id}) }}">
-                                                                            <img src="{{ image.AssetPath2 |imagine_filter('resizeThumb') }}" alt="">
-                                                                        </a>
-                                                                        {% endif %}
-                                                                        {% if image.path3 %}
-                                                                        <a class="hover-img" href="{{ path('product', {'id' : produit.id}) }}">
-                                                                            <img src="{{ image.AssetPath3 |imagine_filter('resizeThumb') }}" alt="">
-                                                                        </a>
-                                                                        {% endif %}
-                                                                    {% endif %}
-                                                                {% endfor %}
-                                                            </center>
-                                                        </figure>
-                                                        <div class="pr-info-area animated animate4">
-                                                            <a title="Réserver ce produit" href="{{ path('quickView', {'id' : produit.id}) }}" class="quick-view"><i class="fa fa-save"><span>Reserver</span></i></a>
-                                                            <a title="Ajouter aux souhaits" href="{{ path('quickView', {'id' : produit.id}) }}" class="wishlist"><i class="fa fa-heart"><span>Wishlist</span></i></a>
-                                                            <a title="Comparer ce produit" href="{{ path('quickView', {'id' : produit.id}) }}" class="compare"><i class="fa fa-exchange"><span>Compare</span></i></a>
-                                                            {% if produit.europrixCommande %}
-                                                                <a title="Commander sur mesure, prix pour une commande sur mesure : {{ produit.europrixCommande|number_format(2) }} €" href="{{ path('commande_mesures_new_item', {'id' : produit.id}) }}" class="wishlist"><i class="fa fa-pencil"><span>Commander sur mesure</span></i></a>
-                                                            {% endif %}
+                                                <div class="product-variation">
+                                                    <form action="{{ path('ajoutpanier', {'id' : produit3.id}) }}" method="get">
+                                                        <div class="cart-plus-minus">
+                                                            <label for="qty">Quantité:</label>
+                                                            <div class="numbers-row">
+                                                                <select name="qte" class="select form-control">
+                                                                    {% for i in 1 .. produit3.stock|abs %}
+                                                                        <option value="{{ i }}">{{ i }}</option>
+                                                                    {% endfor %}
+                                                                </select>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="item-info">
-                                                        <div class="info-inner">
-                                                            <div class="item-title"> <a title="{{ produit.produit1Nom|capitalize }} - {{ produit.libelle|capitalize }}" href="{{ path('product', {'id' : produit.id}) }}">{{ produit.produit1Nom|capitalize }}-{{ produit.libelle|capitalize }}</a> </div>
-                                                            <div class="item-content">
-                                                                <div class="item-price">
-                                                                    {% if produit.reduction == 0 %}
-                                                                        <div class="price-box"> <span class="regular-price"> <span class="price">{{ prixReduction|number_format(2) }} €</span> </span> </div>
-                                                                    {% else %}
-                                                                    <div class="price-box">
-                                                                        <p class="special-price"> <span class="price-label">Special Price</span> <span class="price">{{ prixReduction|number_format(2) }} €</span> </p>
-                                                                        <p class="old-price"> <span class="price-label">Regular Price:</span> <span class="price">{{ produit.europrix|number_format(2) }} €</span> </p>
-                                                                    </div>
+                                                        <button class="button pro-add-to-cart" type="submit" title="Ajouter au panier" type="button"><span><i class="fa fa-shopping-cart"></i> Ajouter au panier</span></button>
+                                                    </form>
+                                                </div>
+                                                <div class="product-cart-option">
+                                                    <ul>
+                                                        <li><a title="Réserver ce produit" href="{{ path('reserve_new', {'id' : produit3.id}) }}"><i class="fa fa-save"></i><span>Reservation</span></a></li>
+                                                        <li><a title="Ajouter à vos souhaits" href="{{ path('ajoutwishlist', {'id' : produit3.id}) }}"><i class="fa fa-heart"></i><span>Souhait</span></a></li>
+                                                        <li><a title="Comparer ce produit" href="{{ path('ajoutcompare', {'id' : produit3.id}) }}"><i class="fa fa-exchange"></i><span>Comparaison</span></a></li>
+                                                                    {% if produit.prixCommande %}
+                                                            <li><a title="Commander sur mesure ce produit, prix commande: {{ produit.prixCommande| currency_convert(targetCurrency, decimal, amountCurrency) }} {{ device_cible.symbole }}" href="{{ path('commande_mesures_new_item', {'id' : produit3.produit2.id}) }}"><i class="fa fa-pencil"></i><span>Commande sur mesure</span></a></li>
                                                                     {% endif %}
-                                                                </div>
-                                                                <center>
-                                                                    <div class="language-currency-wrapper left">
-                                                                        <div class="inner-cl">
-                                                                            <div class="block block-language form-language ">
-                                                                                <div class="myaccount"><a href="{{ path('espace_marque', {'id' : produit.id}) }}" title="Aller à la marque {{ produit.produit1MarqueM|capitalize }}"><img src="{{ produit.produit1ImageAssetM|imagine_filter('marqueLogoThumb') }}" alt="">&nbsp;&nbsp;&nbsp;<span class="hidden-xs"> {{ produit.produit1MarqueM|capitalize }}</span></a></div>
-                                                                                <ul>
-                                                                                    <li>
-                                                                                        <strong><a title="Voir tous les produits de la marque {{ produit.produit1MarqueM|capitalize }}" href="{{ path('espace_marque', {'id' : produit.id}) }}"><span class="hidden-xs">{{ produit.produit1MarqueM|capitalize }}</span></a></strong>
-                                                                                    </li>
-                                                                                </ul>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </center>
-                                                                <div class="pro-action">
-                                                                    <a href="{{ path('quickView', {'id' : produit.id}) }}">
-                                                                        <button type="button" class="add-to-cart-mt"> <img src="{{ 'css/cart.jpg'|imagine_filter('rechercheThumbItem') }}" alt=""><span> Ajouter au panier</span> </button>
-                                                                    </a>
-                                                                </div>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="modal-footer">
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+            </div>
+        {% endfor %}
+
+        {% for produit in populaires %}
+            <!-- Modal -->
+            <div class="modal fade" id="{{ produit.id_quick }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+
+
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span style="display: inline;" id="quick_view_popup-close"><i class="fa fa-times-circle"></i></span>
+                        </button>
+
+                        <div class="modal-body">
+                            <div class="product-view-area">
+
+                                {% set targetCurrency = device_cible.devise.code %}
+                                {% set amountCurrency = produit.devise %}
+                                {% set decimal = true %}
+                                {% set prixReduction = 0 %}
+                                {% set prixReduction = produit.prix - (produit.prix * produit.reduction/100) %}
+
+                                <div class="product-big-image col-xs-12 col-sm-5 col-lg-5 col-md-5">
+                                    <div class="large-image">
+                                        {% for image in images %}
+                                            {% if image.produit2 == produit.prod and image.top == 0 %}
+                                                <a href="{{ asset(image.AssetPath) }}" class="cloud-zoom" id="zoom1" rel="useWrapper: false, adjustY:0, adjustX:20"> 
+                                                    <img class="zoom-img" src="{{ image.AssetPath|imagine_filter('resizeQuick') }}"> 
+                                                </a> 
+                                            {% endif %} 
+                                        {% endfor %} 
+                                    </div>
+
+                                    <div class="flexslider flexslider-thumb">
+                                        <ul class="previews-list slides">
+                                            {% for image in images %}
+                                                {% if image.produit2 == produit.prod and image.top == 0 %}
+                                                    <li><a href='{{ asset(image.AssetPath) }}' class='cloud-zoom-gallery' rel="useZoom: 'zoom1', smallImage: '{{ asset(image.AssetPath) }}' "><img src="{{ asset(image.AssetPath) }}" alt = ""/></a></li>
+                                                            {% if image.path2%}
+                                                        <li><a href='{{ asset(image.AssetPath2) }}' class='cloud-zoom-gallery' rel="useZoom: 'zoom1', smallImage: '{{ asset(image.AssetPath2) }}' "><img src="{{ asset(image.AssetPath2) }}" alt = ""/></a></li>
+                                                            {% endif %}
+                                                            {% if image.path3%}
+                                                        <li><a href='{{ asset(image.AssetPath3) }}' class='cloud-zoom-gallery' rel="useZoom: 'zoom1', smallImage: '{{ asset(image.AssetPath3) }}' "><img src="{{ asset(image.AssetPath3) }}" alt = ""/></a></li>
+                                                            {% endif %} 
+                                                        {% endif %} 
+                                                    {% endfor %}
+                                        </ul>
+                                    </div>
+                                    <!-- end: more-images --> 
+                                </div>
+
+                                <div class="col-xs-12 col-sm-7 col-lg-7 col-md-7">
+                                    <div class="product-name">
+                                        <h1>{{ produit.produit1Nom|capitalize }} - {{ produit.libelle.libelle|capitalize }}</h1>
+                                    </div>
+                                    {% if produit.reduction == 0 %}
+                                        <div class="price-box"> <span class="regular-price"> <span class="price">{{ produit.prix | currency_convert(targetCurrency, decimal, amountCurrency) }} {{ device_cible.symbole }}</span> </span> </div>
+                                    {% else %}
+                                        <div class="price-box">
+                                            <p class="special-price"> <span class="price-label">Special Price</span> <span class="price">{{ prixReduction| currency_convert(targetCurrency, decimal, amountCurrency) }} {{ device_cible.symbole }}</span> </p>
+                                            <p class="old-price"> <span class="price-label">Regular Price:</span> <span class="price">{{ prixReduction| currency_convert(targetCurrency, decimal, amountCurrency) }} {{ device_cible.symbole }}</span> </p>
+                                        </div>
+                                    {% endif %}
+
+                                    <ul id="product-detail-tab" class="nav-tabs product-tabs cart_product center">
+                                        {% for produit3 in produit.prod.produit3 %}
+                                            {% if loop.first %}
+                                                <li class="active"> <a href="#{{ produit3.id }}" data-toggle="tab">{{ produit3.taille }}</a> </li>
+                                                {% else %}
+                                                <li> <a href="#{{ produit3.id }}" data-toggle="tab">{{ produit3.taille }}</a> </li>
+                                                {% endif %}    
+                                            {% endfor %}
+                                    </ul>
+
+                                    <div id="productTabContent" class="tab-content">
+                                        {% for produit3 in produit.prod.produit3 %}
+                                            {% if loop.first %}
+                                                <div class="tab-pane fade in active" id="{{ produit3.id }}">
+                                                {% else %}
+                                                    <div class="tab-pane fade" id="{{ produit3.id }}">
+                                                    {% endif %}
+                                                    <div class="product-color-size-area">
+
+                                                        <div class="color-area">
+                                                            <h2 class="saider-bar-title">Matière</h2>
+                                                            <div class="color">
+                                                                <ul>
+                                                                    {{ produit.prod.produit1.matiere|capitalize }}
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="size-area">
+                                                            <h2 class="saider-bar-title">Taille</h2>
+                                                            <div class="size">
+                                                                <ul>
+                                                                    <li><a>{{ produit3.taille }}</a></li>
+                                                                </ul>
                                                             </div>
                                                         </div>
                                                     </div>
+                                                    <div class="product-variation">
+                                                        <form action="{{ path('ajoutpanier', {'id' : produit3.id}) }}" method="get">
+                                                            <div class="cart-plus-minus">
+                                                                <label for="qty">Quantité:</label>
+                                                                <div class="numbers-row">
+                                                                    <select name="qte" class="select form-control">
+                                                                        {% for i in 1 .. produit3.stock|abs %}
+                                                                            <option value="{{ i }}">{{ i }}</option>
+                                                                        {% endfor %}
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <button class="button pro-add-to-cart" type="submit" title="Ajouter au panier" type="button"><span><i class="fa fa-shopping-cart"></i> Ajouter au panier</span></button>
+                                                        </form>
+                                                    </div>
+                                                    <div class="product-cart-option">
+                                                        <ul>
+                                                            <li><a title="Réserver ce produit" href="{{ path('reserve_new', {'id' : produit3.id}) }}"><i class="fa fa-save"></i><span>Reservation</span></a></li>
+                                                            <li><a title="Ajouter à vos souhaits" href="{{ path('ajoutwishlist', {'id' : produit3.id}) }}"><i class="fa fa-heart"></i><span>Souhait</span></a></li>
+                                                            <li><a title="Comparer ce produit" href="{{ path('ajoutcompare', {'id' : produit3.id}) }}"><i class="fa fa-exchange"></i><span>Comparaison</span></a></li>
+                                                                        {% if produit.prixCommande %}
+                                                                <li><a title="Commander sur mesure ce produit, prix commande: {{ produit.prixCommande| currency_convert(targetCurrency, decimal, amountCurrency) }} {{ device_cible.symbole }}" href="{{ path('commande_mesures_new_item', {'id' : produit3.produit2.id}) }}"><i class="fa fa-pencil"></i><span>Commande sur mesure</span></a></li>
+                                                                        {% endif %}
+                                                        </ul>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            {% set nbr = nbr + 1 %}
-                                        {% endif %}
-                                    {% endif %}
-                                {% endfor %}
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
 
+
+                                <div class="modal-footer">
+                                </div>
 
                             </div>
+
                         </div>
+
+
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
+            {% endfor %}
 
-    <!-- End code by ChrisME -->
+            {% for produit in dernieresVentes %}
+                <!-- Modal -->
+                <div class="modal fade" id="{{ produit.id_quick }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content">
 
 
-    <div id="all" class="main-container col1-layout">
-        <div class="container">
-            <div class="special-products">
-                <div class="page-header">
-                    <h2>Tous nos produits</h2>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-main col-sm-12 col-xs-12">
-                    <div class="shop-inner">
-                        <div class="product-grid-area">
-                            <ul class="products-grid">
-                                {% for produit in pagination %}
-                                    {% if produit.europrix %}
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span style="display: inline;" id="quick_view_popup-close"><i class="fa fa-times-circle"></i></span>
+                            </button>
+
+                            <div class="modal-body">
+                                <div class="product-view-area">
+
+                                    {% set targetCurrency = device_cible.devise.code %}
+                                    {% set amountCurrency = produit.devise %}
+                                    {% set decimal = true %}
+                                    {% set prixReduction = 0 %}
+                                    {% set prixReduction = produit.prix - (produit.prix * produit.reduction/100) %}
+
+                                    <div class="product-big-image col-xs-12 col-sm-5 col-lg-5 col-md-5">
+                                        <div class="large-image">
+                                            {% for image in images %}
+                                                {% if image.produit2 == produit.prod and image.top == 0 %}
+                                                    <a href="{{ asset(image.AssetPath) }}" class="cloud-zoom" id="zoom1" rel="useWrapper: false, adjustY:0, adjustX:20"> 
+                                                        <img class="zoom-img" src="{{ image.AssetPath|imagine_filter('resizeQuick') }}"> 
+                                                    </a> 
+                                                {% endif %} 
+                                            {% endfor %} 
+                                        </div>
+
+                                        <div class="flexslider flexslider-thumb">
+                                            <ul class="previews-list slides">
+                                                {% for image in images %}
+                                                    {% if image.produit2 == produit.prod and image.top == 0 %}
+                                                        <li><a href='{{ asset(image.AssetPath) }}' class='cloud-zoom-gallery' rel="useZoom: 'zoom1', smallImage: '{{ asset(image.AssetPath) }}' "><img src="{{ asset(image.AssetPath) }}" alt = ""/></a></li>
+                                                                {% if image.path2%}
+                                                            <li><a href='{{ asset(image.AssetPath2) }}' class='cloud-zoom-gallery' rel="useZoom: 'zoom1', smallImage: '{{ asset(image.AssetPath2) }}' "><img src="{{ asset(image.AssetPath2) }}" alt = ""/></a></li>
+                                                                {% endif %}
+                                                                {% if image.path3%}
+                                                            <li><a href='{{ asset(image.AssetPath3) }}' class='cloud-zoom-gallery' rel="useZoom: 'zoom1', smallImage: '{{ asset(image.AssetPath3) }}' "><img src="{{ asset(image.AssetPath3) }}" alt = ""/></a></li>
+                                                                {% endif %} 
+                                                            {% endif %} 
+                                                        {% endfor %}
+                                            </ul>
+                                        </div>
+                                        <!-- end: more-images --> 
+                                    </div>
+
+                                    <div class="col-xs-12 col-sm-7 col-lg-7 col-md-7">
+                                        <div class="product-name">
+                                            <h1>{{ produit.produit1Nom|capitalize }} - {{ produit.libelle.libelle|capitalize }}</h1>
+                                        </div>
+                                        {% if produit.reduction == 0 %}
+                                            <div class="price-box"> <span class="regular-price"> <span class="price">{{ produit.prix | currency_convert(targetCurrency, decimal, amountCurrency) }} {{ device_cible.symbole }}</span> </span> </div>
+                                        {% else %}
+                                            <div class="price-box">
+                                                <p class="special-price"> <span class="price-label">Special Price</span> <span class="price">{{ prixReduction| currency_convert(targetCurrency, decimal, amountCurrency) }} {{ device_cible.symbole }}</span> </p>
+                                                <p class="old-price"> <span class="price-label">Regular Price:</span> <span class="price">{{ prixReduction| currency_convert(targetCurrency, decimal, amountCurrency) }} {{ device_cible.symbole }}</span> </p>
+                                            </div>
+                                        {% endif %}
+
+                                        <ul id="product-detail-tab" class="nav-tabs product-tabs cart_product center">
+                                            {% for produit3 in produit.prod.produit3 %}
+                                                {% if loop.first %}
+                                                    <li class="active"> <a href="#{{ produit3.id }}" data-toggle="tab">{{ produit3.taille }}</a> </li>
+                                                    {% else %}
+                                                    <li> <a href="#{{ produit3.id }}" data-toggle="tab">{{ produit3.taille }}</a> </li>
+                                                    {% endif %}    
+                                                {% endfor %}
+                                        </ul>
+
+                                        <div id="productTabContent" class="tab-content">
+                                            {% for produit3 in produit.prod.produit3 %}
+                                                {% if loop.first %}
+                                                    <div class="tab-pane fade in active" id="{{ produit3.id }}">
+                                                    {% else %}
+                                                        <div class="tab-pane fade" id="{{ produit3.id }}">
+                                                        {% endif %}
+                                                        <div class="product-color-size-area">
+
+                                                            <div class="color-area">
+                                                                <h2 class="saider-bar-title">Matière</h2>
+                                                                <div class="color">
+                                                                    <ul>
+                                                                        {{ produit.prod.produit1.matiere|capitalize }}
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="size-area">
+                                                                <h2 class="saider-bar-title">Taille</h2>
+                                                                <div class="size">
+                                                                    <ul>
+                                                                        <li><a>{{ produit3.taille }}</a></li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="product-variation">
+                                                            <form action="{{ path('ajoutpanier', {'id' : produit3.id}) }}" method="get">
+                                                                <div class="cart-plus-minus">
+                                                                    <label for="qty">Quantité:</label>
+                                                                    <div class="numbers-row">
+                                                                        <select name="qte" class="select form-control">
+                                                                            {% for i in 1 .. produit3.stock|abs %}
+                                                                                <option value="{{ i }}">{{ i }}</option>
+                                                                            {% endfor %}
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <button class="button pro-add-to-cart" type="submit" title="Ajouter au panier" type="button"><span><i class="fa fa-shopping-cart"></i> Ajouter au panier</span></button>
+                                                            </form>
+                                                        </div>
+                                                        <div class="product-cart-option">
+                                                            <ul>
+                                                                <li><a title="Réserver ce produit" href="{{ path('reserve_new', {'id' : produit3.id}) }}"><i class="fa fa-save"></i><span>Reservation</span></a></li>
+                                                                <li><a title="Ajouter à vos souhaits" href="{{ path('ajoutwishlist', {'id' : produit3.id}) }}"><i class="fa fa-heart"></i><span>Souhait</span></a></li>
+                                                                <li><a title="Comparer ce produit" href="{{ path('ajoutcompare', {'id' : produit3.id}) }}"><i class="fa fa-exchange"></i><span>Comparaison</span></a></li>
+                                                                            {% if produit.prixCommande %}
+                                                                    <li><a title="Commander sur mesure ce produit, prix commande: {{ produit.prixCommande| currency_convert(targetCurrency, decimal, amountCurrency) }} {{ device_cible.symbole }}" href="{{ path('commande_mesures_new_item', {'id' : produit3.produit2.id}) }}"><i class="fa fa-pencil"></i><span>Commande sur mesure</span></a></li>
+                                                                            {% endif %}
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="modal-footer">
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                        </div>
+                    </div>
+                {% endfor %}
+
+                {% for produit in nouveaux %}
+                    <!-- Modal -->
+                    <div class="modal fade" id="{{ produit.id_quick }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg" role="document">
+                            <div class="modal-content">
+
+
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span style="display: inline;" id="quick_view_popup-close"><i class="fa fa-times-circle"></i></span>
+                                </button>
+
+                                <div class="modal-body">
+                                    <div class="product-view-area">
+
+                                        {% set targetCurrency = device_cible.devise.code %}
+                                        {% set amountCurrency = produit.devise %}
+                                        {% set decimal = true %}
                                         {% set prixReduction = 0 %}
-                                        {% set prixReduction = produit.europrix - (produit.europrix * produit.reduction/100) %}
-                                        <li class="item col-lg-3 col-md-4 col-sm-6 col-xs-6  ">
-                                            <div class="product-item">
-                                                <div class="item-inner">
-                                                    <div class="product-thumb has-hover-img">
-                                                        
+                                        {% set prixReduction = produit.prix - (produit.prix * produit.reduction/100) %}
 
-                                                    <figure>
-                                                        <center>
-                                                            {% for image in images %}
-                                                                {% if image.produit2 == produit and image.top == 0 %}
-                                                                <a href="{{ path('product', {'id' : produit.id}) }}">
-                                                                    <img src="{{ image.AssetPath |imagine_filter('resizeThumb') }}" alt="">
-                                                                </a>
-                                                                {% if image.path2 %}
-                                                                <a class="hover-img" href="{{ path('product', {'id' : produit.id}) }}">
-                                                                    <img src="{{ image.AssetPath2 |imagine_filter('resizeThumb') }}" alt="">
-                                                                </a>
-                                                                {% endif %}
-                                                                {% if image.path3 %}
-                                                                <a class="hover-img" href="{{ path('product', {'id' : produit.id}) }}">
-                                                                    <img src="{{ image.AssetPath3 |imagine_filter('resizeThumb') }}" alt="">
-                                                                </a>
-                                                                {% endif %}
-                                                                {% endif %}
-                                                            {% endfor %}
-                                                        </center>
-                                                    </figure>
+                                        <div class="product-big-image col-xs-12 col-sm-5 col-lg-5 col-md-5">
+                                            <div class="large-image">
+                                                {% for image in images %}
+                                                    {% if image.produit2 == produit.prod and image.top == 0 %}
+                                                        <a href="{{ asset(image.AssetPath) }}" class="cloud-zoom" id="zoom1" rel="useWrapper: false, adjustY:0, adjustX:20"> 
+                                                            <img class="zoom-img" src="{{ image.AssetPath|imagine_filter('resizeQuick') }}"> 
+                                                        </a> 
+                                                    {% endif %} 
+                                                {% endfor %} 
+                                            </div>
 
-                                                        <div class="pr-info-area animated animate4">
-                                                            <a title="Réserver ce produit" href="{{ path('quickViewAllProducts', {'id' : produit.id}) }}" class="quick-view"><i class="fa fa-save"><span>Reserver</span></i></a>
-                                                            <a title="Ajouter aux souhaits" href="{{ path('quickViewAllProducts', {'id' : produit.id}) }}" class="wishlist"><i class="fa fa-heart"><span>Wishlist</span></i></a>
-                                                            <a title="Comparer ce produit" href="{{ path('quickViewAllProducts', {'id' : produit.id}) }}" class="compare"><i class="fa fa-exchange"><span>Compare</span></i></a>
-                                                            {% if produit.europrixCommande %}
-                                                                <a title="Commander sur mesure, prix pour une commande sur mesure : {{ produit.europrixCommande|number_format(2) }} €" href="{{ path('commande_mesures_new_item', {'id' : produit.id}) }}" class="wishlist"><i class="fa fa-pencil"><span>Commander sur mesure</span></i></a>
-                                                            {% endif %}
-                                                        </div>
-                                                    </div>
-                                                    <div class="item-info">
-                                                        <div class="info-inner">
-                                                            <div class="item-title"> <a title="{{ produit.produit1.nom|capitalize }} - {{ produit.libelle.libelle|capitalize }}" href="{{ path('product', {'id' : produit.id}) }}">{{ produit.produit1.nom|capitalize }} - {{ produit.libelle.libelle|capitalize }}</a> </div>
-                                                            <div class="item-content">
-                                                                <div class="item-price">
-                                                                    {% if produit.reduction == 0 %}
-                                                                        <div class="price-box"> <span class="regular-price"> <span class="price">{{ prixReduction|number_format(2) }} €</span> </span> </div>
-                                                                    {% else %}
-                                                                        <div class="price-box">
-                                                                            <p class="special-price"> <span class="price-label">Special Price</span> <span class="price">{{ prixReduction|number_format(2) }} €</span> </p>
-                                                                            <p class="old-price"> <span class="price-label">Regular Price:</span> <span class="price">{{ produit.europrix|number_format(2) }} €</span> </p>
-                                                                        </div>
+                                            <div class="flexslider flexslider-thumb">
+                                                <ul class="previews-list slides">
+                                                    {% for image in images %}
+                                                        {% if image.produit2 == produit.prod and image.top == 0 %}
+                                                            <li><a href='{{ asset(image.AssetPath) }}' class='cloud-zoom-gallery' rel="useZoom: 'zoom1', smallImage: '{{ asset(image.AssetPath) }}' "><img src="{{ asset(image.AssetPath) }}" alt = ""/></a></li>
+                                                                    {% if image.path2%}
+                                                                <li><a href='{{ asset(image.AssetPath2) }}' class='cloud-zoom-gallery' rel="useZoom: 'zoom1', smallImage: '{{ asset(image.AssetPath2) }}' "><img src="{{ asset(image.AssetPath2) }}" alt = ""/></a></li>
                                                                     {% endif %}
+                                                                    {% if image.path3%}
+                                                                <li><a href='{{ asset(image.AssetPath3) }}' class='cloud-zoom-gallery' rel="useZoom: 'zoom1', smallImage: '{{ asset(image.AssetPath3) }}' "><img src="{{ asset(image.AssetPath3) }}" alt = ""/></a></li>
+                                                                    {% endif %} 
+                                                                {% endif %} 
+                                                            {% endfor %}
+                                                </ul>
+                                            </div>
+                                            <!-- end: more-images --> 
+                                        </div>
+
+                                        <div class="col-xs-12 col-sm-7 col-lg-7 col-md-7">
+                                            <div class="product-name">
+                                                <h1>{{ produit.produit1Nom|capitalize }} - {{ produit.libelle.libelle|capitalize }}</h1>
+                                            </div>
+                                            {% if produit.reduction == 0 %}
+                                                <div class="price-box"> <span class="regular-price"> <span class="price">{{ produit.prix | currency_convert(targetCurrency, decimal, amountCurrency) }} {{ device_cible.symbole }}</span> </span> </div>
+                                            {% else %}
+                                                <div class="price-box">
+                                                    <p class="special-price"> <span class="price-label">Special Price</span> <span class="price">{{ prixReduction| currency_convert(targetCurrency, decimal, amountCurrency) }} {{ device_cible.symbole }}</span> </p>
+                                                    <p class="old-price"> <span class="price-label">Regular Price:</span> <span class="price">{{ prixReduction| currency_convert(targetCurrency, decimal, amountCurrency) }} {{ device_cible.symbole }}</span> </p>
+                                                </div>
+                                            {% endif %}
+
+                                            <ul id="product-detail-tab" class="nav-tabs product-tabs cart_product center">
+                                                {% for produit3 in produit.prod.produit3 %}
+                                                    {% if loop.first %}
+                                                        <li class="active"> <a href="#{{ produit3.id }}" data-toggle="tab">{{ produit3.taille }}</a> </li>
+                                                        {% else %}
+                                                        <li> <a href="#{{ produit3.id }}" data-toggle="tab">{{ produit3.taille }}</a> </li>
+                                                        {% endif %}    
+                                                    {% endfor %}
+                                            </ul>
+
+                                            <div id="productTabContent" class="tab-content">
+                                                {% for produit3 in produit.prod.produit3 %}
+                                                    {% if loop.first %}
+                                                        <div class="tab-pane fade in active" id="{{ produit3.id }}">
+                                                        {% else %}
+                                                            <div class="tab-pane fade" id="{{ produit3.id }}">
+                                                            {% endif %}
+                                                            <div class="product-color-size-area">
+
+                                                                <div class="color-area">
+                                                                    <h2 class="saider-bar-title">Matière</h2>
+                                                                    <div class="color">
+                                                                        <ul>
+                                                                            {{ produit.prod.produit1.matiere|capitalize }}
+                                                                        </ul>
+                                                                    </div>
                                                                 </div>
-                                                                <center>
-                                                                    <div class="language-currency-wrapper left">
-                                                                        <div class="inner-cl">
-                                                                            <div class="block block-language form-language ">
-                                                                            <div class="myaccount">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="{{ path('espace_marque', {'id' : produit.id}) }}" title="Aller à la marque {{ produit.produit1.marque.marque|capitalize }}"><img src="{{ produit.produit1.marque.image.AssetPath|imagine_filter('marqueLogoThumb') }}" alt="">&nbsp;&nbsp;&nbsp;<span class="hidden-xs"> {{ produit.produit1.marque.marque|capitalize }}</span></a></div>
-                                                                                <ul>
-                                                                                    <li>
-                                                                                        <strong><a title="Voir tous les produits de la marque {{ produit.produit1.marque.marque|capitalize }}" href="{{ path('espace_marque', {'id' : produit.id}) }}"><span class="hidden-xs">{{ produit.produit1.marque.marque|capitalize }}</span></a></strong>
-                                                                                    </li>
-                                                                                </ul>
+
+                                                                <div class="size-area">
+                                                                    <h2 class="saider-bar-title">Taille</h2>
+                                                                    <div class="size">
+                                                                        <ul>
+                                                                            <li><a>{{ produit3.taille }}</a></li>
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="product-variation">
+                                                                <form action="{{ path('ajoutpanier', {'id' : produit3.id}) }}" method="get">
+                                                                    <div class="cart-plus-minus">
+                                                                        <label for="qty">Quantité:</label>
+                                                                        <div class="numbers-row">
+                                                                            <select name="qte" class="select form-control">
+                                                                                {% for i in 1 .. produit3.stock|abs %}
+                                                                                    <option value="{{ i }}">{{ i }}</option>
+                                                                                {% endfor %}
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                    <button class="button pro-add-to-cart" type="submit" title="Ajouter au panier" type="button"><span><i class="fa fa-shopping-cart"></i> Ajouter au panier</span></button>
+                                                                </form>
+                                                            </div>
+                                                            <div class="product-cart-option">
+                                                                <ul>
+                                                                    <li><a title="Réserver ce produit" href="{{ path('reserve_new', {'id' : produit3.id}) }}"><i class="fa fa-save"></i><span>Reservation</span></a></li>
+                                                                    <li><a title="Ajouter à vos souhaits" href="{{ path('ajoutwishlist', {'id' : produit3.id}) }}"><i class="fa fa-heart"></i><span>Souhait</span></a></li>
+                                                                    <li><a title="Comparer ce produit" href="{{ path('ajoutcompare', {'id' : produit3.id}) }}"><i class="fa fa-exchange"></i><span>Comparaison</span></a></li>
+                                                                                {% if produit.prixCommande %}
+                                                                        <li><a title="Commander sur mesure ce produit, prix commande: {{ produit.prixCommande| currency_convert(targetCurrency, decimal, amountCurrency) }} {{ device_cible.symbole }}" href="{{ path('commande_mesures_new_item', {'id' : produit3.produit2.id}) }}"><i class="fa fa-pencil"></i><span>Commande sur mesure</span></a></li>
+                                                                                {% endif %}
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    {% endfor %}
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="modal-footer">
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+                        </div>
+                    {% endfor %}
+
+
+                    {% for produit in pagination %}
+                    <!-- Modal -->
+                    <div class="modal fade" id="{{ produit.id_quick }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg" role="document">
+                            <div class="modal-content">
+
+
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span style="display: inline;" id="quick_view_popup-close"><i class="fa fa-times-circle"></i></span>
+                                </button>
+
+                                <div class="modal-body">
+                                    <div class="product-view-area">
+
+                                        {% set targetCurrency = device_cible.devise.code %}
+                                        {% set amountCurrency = produit.devise %}
+                                        {% set decimal = true %}
+                                        {% set prixReduction = 0 %}
+                                        {% set prixReduction = produit.prix - (produit.prix * produit.reduction/100) %}
+
+                                        <div class="product-big-image col-xs-12 col-sm-5 col-lg-5 col-md-5">
+                                            <div class="large-image">
+                                                {% for image in images %}
+                                                    {% if image.produit2 == produit.prod and image.top == 0 %}
+                                                        <a href="{{ asset(image.AssetPath) }}" class="cloud-zoom" id="zoom1" rel="useWrapper: false, adjustY:0, adjustX:20"> 
+                                                            <img class="zoom-img" src="{{ image.AssetPath|imagine_filter('resizeQuick') }}"> 
+                                                        </a> 
+                                                    {% endif %} 
+                                                {% endfor %} 
+                                            </div>
+
+                                            <div class="flexslider flexslider-thumb">
+                                                <ul class="previews-list slides">
+                                                    {% for image in images %}
+                                                        {% if image.produit2 == produit.prod and image.top == 0 %}
+                                                            <li><a href='{{ asset(image.AssetPath) }}' class='cloud-zoom-gallery' rel="useZoom: 'zoom1', smallImage: '{{ asset(image.AssetPath) }}' "><img src="{{ asset(image.AssetPath) }}" alt = ""/></a></li>
+                                                                    {% if image.path2%}
+                                                                <li><a href='{{ asset(image.AssetPath2) }}' class='cloud-zoom-gallery' rel="useZoom: 'zoom1', smallImage: '{{ asset(image.AssetPath2) }}' "><img src="{{ asset(image.AssetPath2) }}" alt = ""/></a></li>
+                                                                    {% endif %}
+                                                                    {% if image.path3%}
+                                                                <li><a href='{{ asset(image.AssetPath3) }}' class='cloud-zoom-gallery' rel="useZoom: 'zoom1', smallImage: '{{ asset(image.AssetPath3) }}' "><img src="{{ asset(image.AssetPath3) }}" alt = ""/></a></li>
+                                                                    {% endif %} 
+                                                                {% endif %} 
+                                                            {% endfor %}
+                                                </ul>
+                                            </div>
+                                            <!-- end: more-images --> 
+                                        </div>
+
+                                        <div class="col-xs-12 col-sm-7 col-lg-7 col-md-7">
+                                            <div class="product-name">
+                                                <h1>{{ produit.produit1Nom|capitalize }} - {{ produit.libelle.libelle|capitalize }}</h1>
+                                            </div>
+                                            {% if produit.reduction == 0 %}
+                                                <div class="price-box"> <span class="regular-price"> <span class="price">{{ produit.prix | currency_convert(targetCurrency, decimal, amountCurrency) }} {{ device_cible.symbole }}</span> </span> </div>
+                                            {% else %}
+                                                <div class="price-box">
+                                                    <p class="special-price"> <span class="price-label">Special Price</span> <span class="price">{{ prixReduction| currency_convert(targetCurrency, decimal, amountCurrency) }} {{ device_cible.symbole }}</span> </p>
+                                                    <p class="old-price"> <span class="price-label">Regular Price:</span> <span class="price">{{ prixReduction| currency_convert(targetCurrency, decimal, amountCurrency) }} {{ device_cible.symbole }}</span> </p>
+                                                </div>
+                                            {% endif %}
+
+                                            <ul id="product-detail-tab" class="nav-tabs product-tabs cart_product center">
+                                                {% for produit3 in produit.prod.produit3 %}
+                                                    {% if loop.first %}
+                                                        <li class="active"> <a href="#{{ produit3.id }}" data-toggle="tab">{{ produit3.taille }}</a> </li>
+                                                        {% else %}
+                                                        <li> <a href="#{{ produit3.id }}" data-toggle="tab">{{ produit3.taille }}</a> </li>
+                                                        {% endif %}    
+                                                    {% endfor %}
+                                            </ul>
+
+                                            <div id="productTabContent" class="tab-content">
+                                                {% for produit3 in produit.prod.produit3 %}
+                                                    {% if loop.first %}
+                                                        <div class="tab-pane fade in active" id="{{ produit3.id }}">
+                                                        {% else %}
+                                                            <div class="tab-pane fade" id="{{ produit3.id }}">
+                                                            {% endif %}
+                                                            <div class="product-color-size-area">
+
+                                                                <div class="color-area">
+                                                                    <h2 class="saider-bar-title">Matière</h2>
+                                                                    <div class="color">
+                                                                        <ul>
+                                                                            {{ produit.prod.produit1.matiere|capitalize }}
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="size-area">
+                                                                    <h2 class="saider-bar-title">Taille</h2>
+                                                                    <div class="size">
+                                                                        <ul>
+                                                                            <li><a>{{ produit3.taille }}</a></li>
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="product-variation">
+                                                                <form action="{{ path('ajoutpanier', {'id' : produit3.id}) }}" method="get">
+                                                                    <div class="cart-plus-minus">
+                                                                        <label for="qty">Quantité:</label>
+                                                                        <div class="numbers-row">
+                                                                            <select name="qte" class="select form-control">
+                                                                                {% for i in 1 .. produit3.stock|abs %}
+                                                                                    <option value="{{ i }}">{{ i }}</option>
+                                                                                {% endfor %}
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                    <button class="button pro-add-to-cart" type="submit" title="Ajouter au panier" type="button"><span><i class="fa fa-shopping-cart"></i> Ajouter au panier</span></button>
+                                                                </form>
+                                                            </div>
+                                                            <div class="product-cart-option">
+                                                                <ul>
+                                                                    <li><a title="Réserver ce produit" href="{{ path('reserve_new', {'id' : produit3.id}) }}"><i class="fa fa-save"></i><span>Reservation</span></a></li>
+                                                                    <li><a title="Ajouter à vos souhaits" href="{{ path('ajoutwishlist', {'id' : produit3.id}) }}"><i class="fa fa-heart"></i><span>Souhait</span></a></li>
+                                                                    <li><a title="Comparer ce produit" href="{{ path('ajoutcompare', {'id' : produit3.id}) }}"><i class="fa fa-exchange"></i><span>Comparaison</span></a></li>
+                                                                                {% if produit.prixCommande %}
+                                                                        <li><a title="Commander sur mesure ce produit, prix commande: {{ produit.prixCommande| currency_convert(targetCurrency, decimal, amountCurrency) }} {{ device_cible.symbole }}" href="{{ path('commande_mesures_new_item', {'id' : produit3.produit2.id}) }}"><i class="fa fa-pencil"></i><span>Commande sur mesure</span></a></li>
+                                                                                {% endif %}
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    {% endfor %}
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="modal-footer">
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+                        </div>
+                    {% endfor %}
+
+                    <!-- Code by ChrisME-->
+                    {% set targetCurrency = device_cible.devise.code %}
+
+                    <div class="container new-layout" style="margin-top: 30px;">
+                        <div class="special-products">
+                            <div class="home-tab">
+                                <ul class="nav home-nav-tabs home-product-tabs">
+                                    <li class="active"><a href="#featured" data-toggle="tab" aria-expanded="false">Meilleures ventes </a></li>
+                                    <li> <a href="#top-sellers" data-toggle="tab" aria-expanded="false">Bon plans</a> </li>
+                                </ul>
+                                <div class="special-products-pro tab-content">
+                                    <div class="slider-items-products tab-pane active in" id="featured">
+                                        <div id="special-products-slider" class="product-flexslider hidden-buttons">
+                                            <div class="slider-items slider-width-col4">
+
+                                                {% set nbr = 0 %}
+                                                {% for produit in populaires %}
+                                                    {% if produit.prix %}
+                                                        {% set amountCurrency = produit.devise %}
+                                                        {% set decimal = true %}
+
+                                                        {% if nbr < 12 %}
+                                                            {% set prixReduction = 0 %}
+                                                            {% set prixReduction = produit.prix - (produit.prix * produit.reduction/100) %}
+
+                                                            <div class="product-item">
+                                                                <div class="item-inner">
+                                                                    <div class="product-thumb has-hover-img">
+                                                                        <figure>
+                                                                            <center>
+                                                                                {% for image in images %}
+                                                                                    {% if image.produit2 == produit.prod and image.top == 0 %}
+                                                                                        <a href="{{ path('product', {'id' : produit.id}) }}">
+                                                                                            <img src="{{ image.AssetPath |imagine_filter('resizeThumb') }}" alt="">
+                                                                                        </a>
+                                                                                        {% if image.path2 %}
+                                                                                            <a class="hover-img" href="{{ path('product', {'id' : produit.id}) }}">
+                                                                                                <img src="{{ image.AssetPath2 |imagine_filter('resizeThumb') }}" alt="">
+                                                                                            </a>
+                                                                                        {% endif %}
+                                                                                        {% if image.path3 %}
+                                                                                            <a class="hover-img" href="{{ path('product', {'id' : produit.id}) }}">
+                                                                                                <img src="{{ image.AssetPath3 |imagine_filter('resizeThumb') }}" alt="">
+                                                                                            </a>
+                                                                                        {% endif %}
+                                                                                    {% endif %}
+                                                                                {% endfor %}
+                                                                            </center>
+                                                                        </figure>
+                                                                        <div class="pr-info-area animated animate4">
+                                                                            <a title="Réserver ce produit" data-toggle="modal" data-target="#{{ produit.id_quick }}" class="quick-view"><i class="fa fa-save"><span>Reserver</span></i></a>
+                                                                            <a title="Ajouter aux souhaits" data-toggle="modal" data-target="#{{ produit.id_quick }}" class="wishlist"><i class="fa fa-heart"><span>Wishlist</span></i></a>
+                                                                            <a title="Comparer ce produit" data-toggle="modal" data-target="#{{ produit.id_quick }}" class="compare"><i class="fa fa-exchange"><span>Compare</span></i></a>
+                                                                            {% if produit.prixCommande %}
+                                                                                <a title="Commander sur mesure, prix pour une commande sur mesure : {{ produit.prixCommande| currency_convert(targetCurrency, decimal, amountCurrency) }} {{ device_cible.symbole }}" href="{{ path('commande_mesures_new_item', {'id' : produit.id}) }}" class="wishlist"><i class="fa fa-pencil"><span>Commander sur mesure</span></i></a>
+                                                                            {% endif %}
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="item-info">
+                                                                        <div class="info-inner">
+                                                                            <div class="item-title"> <a title="{{ produit.produit1Nom|capitalize }} - {{ produit.libelle|capitalize }}" href="{{ path('product', {'id' : produit.id}) }}">{{ produit.produit1Nom|capitalize }}-{{ produit.libelle|capitalize }}</a> </div>
+                                                                            <div class="item-content">
+                                                                                <div class="item-price">
+                                                                                    {% if produit.reduction == 0 %}
+                                                                                        <div class="price-box"> <span class="regular-price"> <span class="price">{{ prixReduction | currency_convert(targetCurrency, decimal, amountCurrency) }} {{ device_cible.symbole }}</span> </span> </div>
+                                                                                    {% else %}
+                                                                                        <div class="price-box">
+                                                                                            <p class="special-price"> <span class="price-label">Special Price</span> <span class="price">{{ prixReduction | currency_convert(targetCurrency, decimal, amountCurrency) }} {{ device_cible.symbole }} </span> </p>
+                                                                                            <p class="old-price"> <span class="price-label">Regular Price:</span> <span class="price">{{ produit.prix | currency_convert(targetCurrency, decimal, amountCurrency) }} {{ device_cible.symbole }} </span> </p>
+                                                                                        </div>
+                                                                                    {% endif %}
+                                                                                </div>
+                                                                                <center>
+                                                                                    <div class="language-currency-wrapper left">
+                                                                                        <div class="inner-cl">
+                                                                                            <div class="block block-language form-language ">
+                                                                                                <div class="myaccount"><a href="{{ path('espace_marque', {'id' : produit.id}) }}" title="Aller à la marque {{ produit.produit1MarqueM|capitalize }}"><img src="{{ produit.produit1ImageAssetM|imagine_filter('marqueLogoThumb') }}" alt="">&nbsp;&nbsp;&nbsp;<span class="hidden-xs"> {{ produit.produit1MarqueM|capitalize }}</span></a></div>
+
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </center>
+                                                                                <div class="pro-action">
+                                                                                    <button type="button" class="add-to-cart-mt" data-toggle="modal" data-target="#{{ produit.id_quick }}"> <img src="{{ 'css/cart.jpg'|imagine_filter('rechercheThumbItem') }}" alt=""><span> Ajouter au panier</span> </button>
+                                                                                </div>
                                                                             </div>
                                                                         </div>
                                                                     </div>
-                                                                </center>
-                                                                <div class="pro-action">
-                                                                    <a href="{{ path('quickViewAllProducts', {'id' : produit.id}) }}">
-                                                                        <button type="button" class="add-to-cart-mt"> <img src="{{ 'css/cart.jpg'|imagine_filter('rechercheThumbItem') }}" alt=""><span> Ajouter au panier</span> </button>
-                                                                    </a>                                                                        </div>
+                                                                    <!-- Button trigger modal -->
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                                            {% set nbr = nbr + 1 %}
+                                                        {% endif %}
+                                                    {% endif %}
+
+                                                {% endfor %}
                                             </div>
-                                        </li>
-                                    {% endif %}
-                                {% endfor %}
-                            </ul>
-                        </div>
-                        <div class="col-lg-4 col-lg-offset-4 navigation">
-                            {{ knp_pagination_render(pagination) }}
+                                        </div>
+                                    </div>
+
+                                    <div class="slider-items-products tab-pane fade" id="top-sellers">
+                                        <div id="special-products-slider" class="product-flexslider hidden-buttons">
+
+
+                                            <div class="slider-items slider-width-col4">
+                                                {% set nbr = 0 %}
+                                                {% for produit in reductions %}
+                                                    {% if produit.prix %}
+                                                        {% if nbr < 12 %}
+                                                            {% set amountCurrency = produit.devise %}
+                                                            {% set decimal = true %}
+                                                            {% set prixReduction = 0 %}
+                                                            {% set prixReduction = produit.prix - (produit.prix * produit.reduction/100) %}
+
+                                                            <div class="product-item">
+                                                                <div class="item-inner">
+                                                                    <div class="product-thumb has-hover-img">
+                                                                        <figure>
+                                                                            <center>
+                                                                                {% for image in images %}
+                                                                                    {% if image.produit2 == produit.prod and image.top == 0 %}
+                                                                                        <a href="{{ path('product', {'id' : produit.id}) }}">
+                                                                                            <img src="{{ image.AssetPath |imagine_filter('resizeThumb') }}" alt="">
+                                                                                        </a>
+                                                                                        {% if image.path2 %}
+                                                                                            <a class="hover-img" href="{{ path('product', {'id' : produit.id}) }}">
+                                                                                                <img src="{{ image.AssetPath2 |imagine_filter('resizeThumb') }}" alt="">
+                                                                                            </a>
+                                                                                        {% endif %}
+                                                                                        {% if image.path3 %}
+                                                                                            <a class="hover-img" href="{{ path('product', {'id' : produit.id}) }}">
+                                                                                                <img src="{{ image.AssetPath3 |imagine_filter('resizeThumb') }}" alt="">
+                                                                                            </a>
+                                                                                        {% endif %}
+                                                                                    {% endif %}
+                                                                                {% endfor %}
+                                                                            </center>
+                                                                        </figure>
+                                                                        <div class="pr-info-area animated animate4">
+                                                                            <a title="Réserver ce produit" data-toggle="modal" data-target="#{{ produit.id_quick }}" class="quick-view"><i class="fa fa-save"><span>Reserver</span></i></a>
+                                                                            <a title="Ajouter aux souhaits" data-toggle="modal" data-target="#{{ produit.id_quick }}" class="wishlist"><i class="fa fa-heart"><span>Wishlist</span></i></a>
+                                                                            <a title="Comparer ce produit" data-toggle="modal" data-target="#{{ produit.id_quick }}" class="compare"><i class="fa fa-exchange"><span>Compare</span></i></a>
+                                                                            {% if produit.prixCommande %}
+                                                                                <a title="Commander sur mesure, prix pour une commande sur mesure : {{ produit.prixCommande | currency_convert(targetCurrency, decimal, amountCurrency) }} {{ device_cible.symbole }}" href="{{ path('commande_mesures_new_item', {'id' : produit.id}) }}" class="wishlist"><i class="fa fa-pencil"><span>Commander sur mesure</span></i></a>
+                                                                            {% endif %}
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="item-info">
+                                                                        <div class="info-inner">
+                                                                            <div class="item-title"> <a title="{{ produit.produit1Nom|capitalize }} - {{ produit.libelle|capitalize }}" href="{{ path('product', {'id' : produit.id}) }}">{{ produit.produit1Nom|capitalize }}-{{ produit.libelle|capitalize }}</a> </div>
+                                                                            <div class="item-content">
+                                                                                <div class="item-price">
+                                                                                    {% if produit.reduction == 0 %}
+                                                                                        <div class="price-box"> <span class="regular-price"> <span class="price"> {{ prixReduction| currency_convert(targetCurrency, decimal, amountCurrency) }} {{ device_cible.symbole }}</span> </span> </div>
+                                                                                    {% else %}
+                                                                                        <div class="price-box">
+                                                                                            <p class="special-price"> <span class="price-label">Special Price</span> <span class="price">{{ prixReduction| currency_convert(targetCurrency, decimal, amountCurrency) }} {{ device_cible.symbole }}</span> </p>
+                                                                                            <p class="old-price"> <span class="price-label">Regular Price:</span> <span class="price">{{ produit.prix| currency_convert(targetCurrency, decimal, amountCurrency) }} {{ device_cible.symbole }}</span> </p>
+                                                                                        </div>
+                                                                                    {% endif %}
+                                                                                </div>
+                                                                                <center>
+                                                                                    <div class="language-currency-wrapper left">
+                                                                                        <div class="inner-cl">
+                                                                                            <div class="block block-language form-language ">
+                                                                                                <div class="myaccount"><a href="{{ path('espace_marque', {'id' : produit.id}) }}" title="Aller à la marque {{ produit.produit1MarqueM|capitalize }}"><img src="{{ produit.produit1ImageAssetM|imagine_filter('marqueLogoThumb') }}" alt=""></a></div>
+                                                                                                <ul>
+                                                                                                    <li>
+                                                                                                        <strong><a title="Voir tous les produits de la marque {{ produit.produit1MarqueM|capitalize }}" href="{{ path('espace_marque', {'id' : produit.id}) }}"><span class="hidden-xs">{{ produit.produit1MarqueM|capitalize }}</span></a></strong>
+                                                                                                    </li>
+                                                                                                </ul>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </center>
+                                                                                <div class="pro-action">
+                                                                                    <button type="button" class="add-to-cart-mt" data-toggle="modal" data-target="#{{ produit.id_quick }}"> <img src="{{ 'css/cart.jpg'|imagine_filter('rechercheThumbItem') }}" alt=""><span> Ajouter au panier</span> </button>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            {% set nbr = nbr + 1 %}
+                                                        {% endif %}
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
+
+                    {% if popup|length == 0 and activate == 1 %}
+                        <!-- Beginning of the popup -->
+                        <!-- Modal -->
+                        <div class="modal fade" id="myModal" role="dialog">
+                            <div class="modal-dialog">
+
+                                <!-- Modal content-->
+                                <div class="modal-content" style="background-image: url('{{ asset('images/newsletter.jpg') }}'); background-repeat : no-repeat; background-size: 100% 100%;">
+                                    <div class="modal-header">
+                                        <div class="col-sm-11"><center><h4><label>Inscrivez vous et gagnez une réduction de 15% sur votre premier achat </label></h4> </center></div>
+                                        <div class="col-sm-1"><button type="button" class="close" data-dismiss="modal">&times;</button></div>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form action="{{ path("kountac_pop_up_registration") }}" method="post">
+                                            {{ form_start(form) }} 
+                                            {{ form_errors(form) }}
+                                            <div class="col-sm-5">
+                                                <label>Votre identifiant</label><span class="required">*</span>
+                                            </div><!--/ [col] -->
+                                            <div class="col-sm-7">
+                                                {{ form_widget(form.username) }}
+                                            </div><!--/ [col] -->
+                                            <br><br>
+                                            <div class="col-sm-5">
+                                                <label>Adresse email</label><span class="required">*</span>
+                                            </div><!--/ [col] -->
+                                            <div class="col-sm-7">
+                                                {{ form_widget(form.email) }}
+                                            </div><!--/ [col] -->
+                                            <br><br>
+                                            <div class="col-sm-5">
+                                                <label>Code Parrain</label>
+                                            </div><!--/ [col] -->
+                                            <div class="col-sm-7">
+                                                {{ form_widget(form.codeparrain) }}
+                                            </div><!--/ [col] -->
+                                            <br><br>
+                                            <div class="col-sm-5">
+                                                {{ form_label(form.plainPassword.first) }}<span class="required">*</span>
+                                            </div>
+                                            <div class="col-sm-7">
+                                                {{ form_widget(form.plainPassword.first) }}
+                                            </div>
+                                            <br><br>
+                                            <div class="col-sm-5">
+                                                {{ form_label(form.plainPassword.second) }}<span class="required">*</span>
+                                            </div>
+                                            <div class="col-sm-7">
+                                                {{ form_widget(form.plainPassword.second) }}
+                                            </div>
+                                            <br><br><br>
+                                            <div class="col-sm-12">
+                                                <label class="inline" for="newsletter">
+                                                    {{ form_widget(form.newsletter) }} &nbsp; &nbsp; {{ form_label(form.newsletter) }}
+                                                </label>
+                                            </div>
+                                            <br>
+                                            <div class="col-sm-12">
+                                                <label class="inline" for="condition">
+                                                    <input type="checkbox" id="condition" name="_condition" value="on" required/> &nbsp; &nbsp; Acceptez les conditions d'utilisation
+                                                </label>
+                                            </div>
+                                            <br><br><br>
+                                            <button class="button" type="submit"><span>Créez votre compte</span>&nbsp;<i class="icon-check"></i> </button>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            Déjà un Compte ? <label><a href="{{ path("fos_user_security_login") }}">Se connecter</a></label>
+                                        </form>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                        <!-- End Pop up -->
+                    {% endif %}
+                    <!-- Begin Corresponding JS code -->
+                    <script type="text/javascript">
+                        var count = -1; // initially -1 as we are having a delay of 1000ms
+                        var counter = setInterval(timer, 1000); //1000 will  run it every 1 second
+                        function timer()
+                        {
+                            count = count + 1;
+                            if (count >= 60000) {//+1 than the req time as we have a delay of 1000ms
+                                clearInterval(counter);
+                                $("#myModal").modal();
+                                return;
+                            }
+                            document.getElementById("timer").innerHTML = count + " secs"; // watch for spelling
+                        }
+
+                    </script>            
+
+
+                    <div class="container new-layout"  style="margin-top: 30px;">
+                        <div class="special-products">
+                            <div class="home-tab">
+                                <ul class="nav home-nav-tabs home-product-tabs">
+                                    <li class="active"><a href="#new" data-toggle="tab" aria-expanded="false">Nouveautés</a></li>
+                                    <li> <a href="#last-sellers" data-toggle="tab" aria-expanded="false">Dernières ventes</a> </li>
+                                </ul>
+                                <div class="special-products-pro tab-content">
+                                    <div class="slider-items-products tab-pane active in" id="new">
+                                        <div id="special-products-slider" class="product-flexslider hidden-buttons">
+                                            <div class="slider-items slider-width-col4">
+                                                {% set nbr = 0 %}
+                                                {% for produit in nouveaux %}
+                                                    {% if produit.prix %}
+                                                        {% if nbr < 12 %}
+                                                            {% set amountCurrency = produit.devise %}
+                                                            {% set decimal = true %}
+                                                            {% set prixReduction = 0 %}
+                                                            {% set prixReduction = produit.prix - (produit.prix * produit.reduction/100) %}
+
+                                                            <div class="product-item">
+                                                                <div class="item-inner">
+                                                                    <div class="product-thumb has-hover-img">
+                                                                        <figure>
+                                                                            <center>
+                                                                                {% for image in images %}
+                                                                                    {% if image.produit2 == produit.prod and image.top == 0 %}
+                                                                                        <a href="{{ path('product', {'id' : produit.id}) }}">
+                                                                                            <img src="{{ image.AssetPath |imagine_filter('resizeThumb') }}" alt="">
+                                                                                        </a>
+                                                                                        {% if image.path2 %}
+                                                                                            <a class="hover-img" href="{{ path('product', {'id' : produit.id}) }}">
+                                                                                                <img src="{{ image.AssetPath2 |imagine_filter('resizeThumb') }}" alt="">
+                                                                                            </a>
+                                                                                        {% endif %}
+                                                                                        {% if image.path3 %}
+                                                                                            <a class="hover-img" href="{{ path('product', {'id' : produit.id}) }}">
+                                                                                                <img src="{{ image.AssetPath3 |imagine_filter('resizeThumb') }}" alt="">
+                                                                                            </a>
+                                                                                        {% endif %}
+                                                                                    {% endif %}
+                                                                                {% endfor %}
+                                                                            </center>
+                                                                        </figure>
+                                                                        <div class="pr-info-area animated animate4">
+                                                                            <a title="Réserver ce produit" data-toggle="modal" data-target="#{{ produit.id_quick }}" class="quick-view"><i class="fa fa-save"><span>Reserver</span></i></a>
+                                                                            <a title="Ajouter aux souhaits" data-toggle="modal" data-target="#{{ produit.id_quick }}" class="wishlist"><i class="fa fa-heart"><span>Wishlist</span></i></a>
+                                                                            <a title="Comparer ce produit" data-toggle="modal" data-target="#{{ produit.id_quick }}" class="compare"><i class="fa fa-exchange"><span>Compare</span></i></a>
+                                                                            {% if produit.prixCommande %}
+                                                                                <a title="Commander sur mesure, prix pour une commande sur mesure : {{ produit.prixCommande| currency_convert(targetCurrency, decimal, amountCurrency) }} {{ device_cible.symbole }}" href="{{ path('commande_mesures_new_item', {'id' : produit.id}) }}" class="wishlist"><i class="fa fa-pencil"><span>Commander sur mesure</span></i></a>
+                                                                            {% endif %}
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="item-info">
+                                                                        <div class="info-inner">
+                                                                            <div class="item-title"> <a title="{{ produit.produit1Nom|capitalize }} - {{ produit.libelle|capitalize }}" href="{{ path('product', {'id' : produit.id}) }}">{{ produit.produit1Nom|capitalize }}-{{ produit.libelle|capitalize }}</a> </div>
+                                                                            <div class="item-content">
+                                                                                <div class="item-price">
+                                                                                    {% if produit.reduction == 0 %}
+                                                                                        <div class="price-box"> <span class="regular-price"> <span class="price">{{ prixReduction| currency_convert(targetCurrency, decimal, amountCurrency) }} {{ device_cible.symbole }}</span> </span> </div>
+                                                                                    {% else %}
+                                                                                        <div class="price-box">
+                                                                                            <p class="special-price"> <span class="price-label">Special Price</span> <span class="price">{{ prixReduction| currency_convert(targetCurrency, decimal, amountCurrency) }} {{ device_cible.symbole }}</span> </p>
+                                                                                            <p class="old-price"> <span class="price-label">Regular Price:</span> <span class="price">{{ produit.prix| currency_convert(targetCurrency, decimal, amountCurrency) }} {{ device_cible.symbole }}</span> </p>
+                                                                                        </div>
+                                                                                    {% endif %}
+                                                                                </div>
+                                                                                <center>
+                                                                                    <div class="language-currency-wrapper left">
+                                                                                        <div class="inner-cl">
+                                                                                            <div class="block block-language form-language ">
+                                                                                                <div class="myaccount"><a href="{{ path('espace_marque', {'id' : produit.id}) }}" title="Aller à la marque {{ produit.produit1MarqueM|capitalize }}"><img src="{{ produit.produit1ImageAssetM|imagine_filter('marqueLogoThumb') }}" alt="">&nbsp;&nbsp;&nbsp;<span class="hidden-xs"> {{ produit.produit1MarqueM|capitalize }}</span></a></div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </center>
+                                                                                <div class="pro-action">
+                                                                                    <button type="button" class="add-to-cart-mt" data-toggle="modal" data-target="#{{ produit.id_quick }}"> <img src="{{ 'css/cart.jpg'|imagine_filter('rechercheThumbItem') }}" alt=""><span> Ajouter au panier</span> </button>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            {% set nbr = nbr + 1 %}
+                                                        {% endif %}
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="slider-items-products tab-pane fade" id="last-sellers">
+                                        <div id="special-products-slider" class="product-flexslider hidden-buttons">
+                                            <div class="slider-items slider-width-col4">
+
+                                                {% set nbr = 0 %}
+                                                {% for produit in dernieresVentes %}
+                                                    {% if produit.prix %}
+                                                        {% if nbr < 12 %}
+                                                            {% set amountCurrency = produit.devise %}
+                                                            {% set decimal = true %}
+                                                            {% set prixReduction = 0 %}
+                                                            {% set prixReduction = produit.prix - (produit.prix * produit.reduction/100) %}
+
+                                                            <div class="product-item">
+                                                                <div class="item-inner">
+                                                                    <div class="product-thumb has-hover-img">
+                                                                        <figure>
+                                                                            <center>
+                                                                                {% for image in images %}
+                                                                                    {% if image.produit2 == produit.prod and image.top == 0 %}
+                                                                                        <a href="{{ path('product', {'id' : produit.id}) }}">
+                                                                                            <img src="{{ image.AssetPath |imagine_filter('resizeThumb') }}" alt="">
+                                                                                        </a>
+                                                                                        {% if image.path2 %}
+                                                                                            <a class="hover-img" href="{{ path('product', {'id' : produit.id}) }}">
+                                                                                                <img src="{{ image.AssetPath2 |imagine_filter('resizeThumb') }}" alt="">
+                                                                                            </a>
+                                                                                        {% endif %}
+                                                                                        {% if image.path3 %}
+                                                                                            <a class="hover-img" href="{{ path('product', {'id' : produit.id}) }}">
+                                                                                                <img src="{{ image.AssetPath3 |imagine_filter('resizeThumb') }}" alt="">
+                                                                                            </a>
+                                                                                        {% endif %}
+                                                                                    {% endif %}
+                                                                                {% endfor %}
+                                                                            </center>
+                                                                        </figure>
+                                                                        <div class="pr-info-area animated animate4">
+                                                                            <a title="Réserver ce produit" data-toggle="modal" data-target="#{{ produit.id_quick }}" class="quick-view"><i class="fa fa-save"><span>Reserver</span></i></a>
+                                                                            <a title="Ajouter aux souhaits" data-toggle="modal" data-target="#{{ produit.id_quick }}" class="wishlist"><i class="fa fa-heart"><span>Wishlist</span></i></a>
+                                                                            <a title="Comparer ce produit" data-toggle="modal" data-target="#{{ produit.id_quick }}" class="compare"><i class="fa fa-exchange"><span>Compare</span></i></a>
+                                                                            {% if produit.prixCommande %}
+                                                                                <a title="Commander sur mesure, prix pour une commande sur mesure : {{ produit.prixCommande| currency_convert(targetCurrency, decimal, amountCurrency) }} {{ device_cible.symbole }}" href="{{ path('commande_mesures_new_item', {'id' : produit.id}) }}" class="wishlist"><i class="fa fa-pencil"><span>Commander sur mesure</span></i></a>
+                                                                            {% endif %}
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="item-info">
+                                                                        <div class="info-inner">
+                                                                            <div class="item-title"> <a title="{{ produit.produit1Nom|capitalize }} - {{ produit.libelle|capitalize }}" href="{{ path('product', {'id' : produit.id}) }}">{{ produit.produit1Nom|capitalize }}-{{ produit.libelle|capitalize }}</a> </div>
+                                                                            <div class="item-content">
+                                                                                <div class="item-price">
+                                                                                    {% if produit.reduction == 0 %}
+                                                                                        <div class="price-box"> <span class="regular-price"> <span class="price">{{ prixReduction| currency_convert(targetCurrency, decimal, amountCurrency) }} {{ device_cible.symbole }}</span> </span> </div>
+                                                                                    {% else %}
+                                                                                        <div class="price-box">
+                                                                                            <p class="special-price"> <span class="price-label">Special Price</span> <span class="price">{{ prixReduction| currency_convert(targetCurrency, decimal, amountCurrency) }} {{ device_cible.symbole }}</span> </p>
+                                                                                            <p class="old-price"> <span class="price-label">Regular Price:</span> <span class="price">{{ produit.prix| currency_convert(targetCurrency, decimal, amountCurrency) }} {{ device_cible.symbole }}</span> </p>
+                                                                                        </div>
+                                                                                    {% endif %}
+                                                                                </div>
+                                                                                <center>
+                                                                                    <div class="language-currency-wrapper left">
+                                                                                        <div class="inner-cl">
+                                                                                            <div class="block block-language form-language ">
+                                                                                                <div class="myaccount"><a href="{{ path('espace_marque', {'id' : produit.id}) }}" title="Aller à la marque {{ produit.produit1MarqueM|capitalize }}"><img src="{{ produit.produit1ImageAssetM|imagine_filter('marqueLogoThumb') }}" alt="">&nbsp;&nbsp;&nbsp;<span class="hidden-xs"> {{ produit.produit1MarqueM|capitalize }}</span></a></div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </center>
+                                                                                <div class="pro-action">
+                                                                                    <button type="button" class="add-to-cart-mt" data-toggle="modal" data-target="#{{ produit.id_quick }}"> <img src="{{ 'css/cart.jpg'|imagine_filter('rechercheThumbItem') }}" alt=""><span> Ajouter au panier</span> </button>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            {% set nbr = nbr + 1 %}
+                                                        {% endif %}
+                                                    {% endif %}
+                                                {% endfor %}
+                                           </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- End code by ChrisME -->
+
+
+                    <div id="all" class="main-container col1-layout">
+                        <div class="container">
+                            <div class="special-products">
+                                <div class="page-header">
+                                    <h2>Tous nos produits</h2>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-main col-sm-12 col-xs-12">
+                                    <div class="shop-inner">
+                                        <div class="product-grid-area">
+                                            <ul class="products-grid">
+                                                {% for produit in pagination %}
+                                                    {% if produit.prix %}
+                                                        {% set amountCurrency = produit.devise %}
+                                                        {% set decimal = true %}
+                                                        {% set prixReduction = 0 %}
+                                                        {% set prixReduction = produit.prix - (produit.prix * produit.reduction/100) %}
+                                                        <li class="item col-lg-3 col-md-4 col-sm-6 col-xs-6  ">
+                                                            <div class="product-item">
+                                                                <div class="item-inner">
+                                                                    <div class="product-thumb has-hover-img">
+
+                                                                        <figure>
+                                                                            <center>
+                                                                                {% for image in images %}
+                                                                                    {% if image.produit2 == produit.prod and image.top == 0 %}
+                                                                                        <a href="{{ path('product', {'id' : produit.id}) }}">
+                                                                                            <img src="{{ image.AssetPath |imagine_filter('resizeThumb') }}" alt="">
+                                                                                        </a>
+                                                                                        {% if image.path2 %}
+                                                                                            <a class="hover-img" href="{{ path('product', {'id' : produit.id}) }}">
+                                                                                                <img src="{{ image.AssetPath2 |imagine_filter('resizeThumb') }}" alt="">
+                                                                                            </a>
+                                                                                        {% endif %}
+                                                                                        {% if image.path3 %}
+                                                                                            <a class="hover-img" href="{{ path('product', {'id' : produit.id}) }}">
+                                                                                                <img src="{{ image.AssetPath3 |imagine_filter('resizeThumb') }}" alt="">
+                                                                                            </a>
+                                                                                        {% endif %}
+                                                                                    {% endif %}
+                                                                                {% endfor %}
+                                                                            </center>
+                                                                        </figure>
+
+                                                                        <div class="pr-info-area animated animate4">
+                                                                            <a title="Réserver ce produit" data-toggle="modal" data-target="#{{ produit.id_quick }}" class="quick-view"><i class="fa fa-save"><span>Reserver</span></i></a>
+                                                                            <a title="Ajouter aux souhaits" data-toggle="modal" data-target="#{{ produit.id_quick }}" class="wishlist"><i class="fa fa-heart"><span>Wishlist</span></i></a>
+                                                                            <a title="Comparer ce produit" data-toggle="modal" data-target="#{{ produit.id_quick }}" class="compare"><i class="fa fa-exchange"><span>Compare</span></i></a>
+                                                                            {% if produit.prixCommande %}
+                                                                                <a title="Commander sur mesure, prix pour une commande sur mesure : {{ produit.prixCommande| currency_convert(targetCurrency, decimal, amountCurrency) }} {{ device_cible.symbole }}" href="{{ path('commande_mesures_new_item', {'id' : produit.id}) }}" class="wishlist"><i class="fa fa-pencil"><span>Commander sur mesure</span></i></a>
+                                                                            {% endif %}
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="item-info">
+                                                                        <div class="info-inner">
+                                                                            <div class="item-title"> <a title="{{ produit.produit1Nom|capitalize }} - {{ produit.libelle|capitalize }}" href="{{ path('product', {'id' : produit.id}) }}">{{ produit.produit1Nom|capitalize }} - {{ produit.libelle|capitalize }}</a> </div>
+                                                                            <div class="item-content">
+                                                                                <div class="item-price">
+                                                                                    {% if produit.reduction == 0 %}
+                                                                                        <div class="price-box"> <span class="regular-price"> <span class="price">{{ prixReduction| currency_convert(targetCurrency, decimal, amountCurrency) }} {{ device_cible.symbole }}</span> </span> </div>
+                                                                                    {% else %}
+                                                                                        <div class="price-box">
+                                                                                            <p class="special-price"> <span class="price-label">Special Price</span> <span class="price">{{ prixReduction| currency_convert(targetCurrency, decimal, amountCurrency) }} {{ device_cible.symbole }}</span> </p>
+                                                                                            <p class="old-price"> <span class="price-label">Regular Price:</span> <span class="price">{{ produit.prix| currency_convert(targetCurrency, decimal, amountCurrency) }} {{ device_cible.symbole }}</span> </p>
+                                                                                        </div>
+                                                                                    {% endif %}
+                                                                                </div>
+                                                                                <center>
+                                                                                    <div class="language-currency-wrapper left">
+                                                                                        <div class="inner-cl">
+                                                                                            <div class="block block-language form-language ">
+                                                                                                <div class="myaccount">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="{{ path('espace_marque', {'id' : produit.id}) }}" title="Aller à la marque {{ produit.produit1MarqueM|capitalize }}"><img src="{{ produit.prod.produit1.marque.image.AssetPath|imagine_filter('marqueLogoThumb') }}" alt="">&nbsp;&nbsp;&nbsp;<span class="hidden-xs"> {{ produit.produit1MarqueM|capitalize }}</span></a></div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </center>
+                                                                                <div class="pro-action">
+                                                                                    <button type="button" class="add-to-cart-mt" data-toggle="modal" data-target="#{{ produit.id_quick }}"> <img src="{{ 'css/cart.jpg'|imagine_filter('rechercheThumbItem') }}" alt=""><span> Ajouter au panier</span> </button>                                                                      
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </ul>
+                                        </div>
+                                        <div class="col-lg-6 col-lg-offset-3 navigation">
+                                            {{ knp_pagination_render(pagination) }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="container">
+                    </div>
+
                 </div>
-            </div>
-        </div>
-    </div>
 
-    
-    <div class="container">
-    </div>
-
-</div>
-{% elseif cfa|length != 0 %}
-    {% include 'KountacBundle:Default:index_cfa.html.twig' %}
-{% elseif livre|length != 0 %}
-    {% include 'KountacBundle:Default:index_livre.html.twig' %}
-{% elseif all|length != 0 %}
-    {% include 'KountacBundle:Default:index_all.html.twig' %}
-{% elseif usa|length != 0 %}
-    {% include 'KountacBundle:Default:index_usa.html.twig' %}
-{% elseif naira|length != 0 %}
-    {% include 'KountacBundle:Default:index_naira.html.twig' %}
-{% endif %}
-{% endblock %}
+            {% endblock %}
 
 

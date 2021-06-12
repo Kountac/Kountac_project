@@ -1,7 +1,6 @@
 {% extends "::base.html.twig" %}
 
 {% block body %}
-   {% if euro|length != 0 %}
     <div>
         <div class="breadcrumbs">
             <div class="container">
@@ -64,12 +63,14 @@
                 <div id="quick_view_popup-content">
                     <div style="width:auto;height:auto;overflow: auto;position:relative;">
                         <div class="product-view-area">
-                            {% if produit.europrix %}
+                            
+                                {% set targetCurrency = device_cible.devise.code %}
+                                {% set amountCurrency = produit.devise %}
+                                {% set decimal = false %}
                             {% set prixReduction = 0 %}
-                            {% set prixReduction = produit.europrix - (produit.europrix * produit.reduction/100) %}
+                            {% set prixReduction = produit.prix - (produit.prix * produit.reduction/100) %}
 
                             <div class="product-big-image col-xs-12 col-sm-5 col-lg-5 col-md-5">
-                                <div class="icon-sale-label sale-left">Sale</div>
                                 <div class="large-image">
                                     {% for image in images %}
                                         {% if image.produit2 == produit and image.top == 0 %}
@@ -105,8 +106,8 @@
                                     <div class="price-box"> <span class="regular-price"> <span class="price">{{ prixReduction|number_format(2) }} €</span> </span> </div>
                                 {% else %}
                                     <div class="price-box">
-                                        <p class="special-price"> <span class="price-label">Special Price</span> <span class="price">{{ prixReduction|number_format(2) }} €</span> </p>
-                                        <p class="old-price"> <span class="price-label">Regular Price:</span> <span class="price">{{ produit.europrix|number_format(2) }} €</span> </p>
+                                        <p class="special-price"> <span class="price-label">Special Price</span> <span class="price">{{ prixReduction| currency_convert(targetCurrency, decimal, amountCurrency) }} {{ device_cible.symbole }}</span> </p>
+                                        <p class="old-price"> <span class="price-label">Regular Price:</span> <span class="price">{{ produit.prix| currency_convert(targetCurrency, decimal, amountCurrency) }} {{ device_cible.symbole }}</span> </p>
                                     </div>
                                 {% endif %}
 
@@ -180,8 +181,8 @@
                                                         <li><a title="Réserver ce produit" href="{{ path('reserve_new', {'id' : produit3.id}) }}"><i class="fa fa-save"></i><span>Reservation</span></a></li>
                                                         <li><a title="Ajouter à vos souhaits" href="{{ path('ajoutwishlist', {'id' : produit3.id}) }}"><i class="fa fa-heart"></i><span>Souhait</span></a></li>
                                                         <li><a title="Comparer ce produit" href="{{ path('ajoutcompare', {'id' : produit3.id}) }}"><i class="fa fa-exchange"></i><span>Comparaison</span></a></li>
-                                                        {% if produit.europrixCommande %}
-                                                            <li><a title="Commander sur mesure ce produit, prix commande: {{ produit.europrixCommande|number_format(2) }}€" href="{{ path('commande_mesures_new_item', {'id' : produit3.produit2.id}) }}"><i class="fa fa-pencil"></i><span>Commande sur mesure</span></a></li>
+                                                        {% if produit.prixCommande %}
+                                                            <li><a title="Commander sur mesure ce produit, prix commande: {{ produit.prixCommande| currency_convert(targetCurrency, decimal, amountCurrency) }} {{ device_cible.symbole }}" href="{{ path('commande_mesures_new_item', {'id' : produit3.produit2.id}) }}"><i class="fa fa-pencil"></i><span>Commande sur mesure</span></a></li>
                                                         {% endif %}
                                                     </ul>
                                                 </div>
@@ -192,7 +193,7 @@
                                     
                                     
                             </div>
-                            {% endif %}
+                        
                             </div>
             
                 
@@ -256,15 +257,5 @@
         var iid1 = "countbox_1";
         CountBack_slider(gsecs1, "countbox_1", 1);
     </script>
-{% elseif cfa|length !=0 %}
-    {% include 'KountacBundle:Default:produits/cfa/quickView.html.twig' %}
-{% elseif usa|length !=0 %}
-    {% include 'KountacBundle:Default:produits/usa/quickView.html.twig' %}
-{% elseif livre|length !=0 %}
-    {% include 'KountacBundle:Default:produits/livre/quickView.html.twig' %}
-{% elseif naira|length !=0 %}
-    {% include 'KountacBundle:Default:produits/naira/quickView.html.twig' %}
-{% elseif all|length !=0 %}
-    {% include 'KountacBundle:Default:produits/all/quickView.html.twig' %}
-{% endif %}
+
 {% endblock %}

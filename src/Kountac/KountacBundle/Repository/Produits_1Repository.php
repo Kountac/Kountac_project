@@ -80,7 +80,8 @@ class Produits_1Repository extends EntityRepository
                 ->select('u')
                 ->where('u.stock >= :seuil')
                 ->orderBy('u.popularite', 'DESC')
-                ->setParameter('seuil', '1');
+                ->setParameter('seuil', '1')
+                ->setMaxResults(15);
         return $qb->getQuery()->getResult();
     }
     
@@ -91,7 +92,7 @@ class Produits_1Repository extends EntityRepository
                 ->where('u.stock >= :seuil')
                 ->orderBy('u.dateachat', 'DESC')
                 ->setParameter('seuil', '1')
-                ->setMaxResults(6)
+                ->setMaxResults(15)
                 ;
         return $qb->getQuery()->getResult();
     }
@@ -103,7 +104,7 @@ class Produits_1Repository extends EntityRepository
                 ->where('u.stock >= :seuil')
                 ->orderBy('u.id', 'DESC')
                 ->setParameter('seuil', '1')
-                ->setMaxResults(10);
+                ->setMaxResults(15);
         return $qb->getQuery()->getResult();
     }
     
@@ -119,6 +120,7 @@ class Produits_1Repository extends EntityRepository
                 ->setParameter('categorie', $categorie)
                 ->setParameter('seuil', '1')
                 ->orderBy('u.popularite', 'DESC')
+                ->setMaxResults(50)
         ;
         return $qb->getQuery()->getResult();
     }

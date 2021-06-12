@@ -63,7 +63,35 @@ class Produits_2
      * @ORM\Column(name="reduction", type="float")
      */
     private $reduction;
+    
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="prix", type="float", nullable=true)
+     */
+    private $prix;
 
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="prixCommande", type="float", nullable=true)
+     */
+    private $prixCommande;
+    
+        /**
+     * @var bool
+     * 
+     * @ORM\Column(name="precommande", type="boolean", nullable=true)
+     */
+    private $precommande;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="devise", type="string", length=5, nullable=true)
+     */
+    private $devise;
+    
         /**
      * @var float
      *
@@ -867,5 +895,101 @@ class Produits_2
     public function getRandValue()
     {
         return $this->randValue;
+    }
+
+    /**
+     * Set prix
+     *
+     * @param float $prix
+     *
+     * @return Produits_2
+     */
+    public function setPrix($prix)
+    {
+        $this->prix = $prix;
+    
+        return $this;
+    }
+
+    /**
+     * Get prix
+     *
+     * @return float
+     */
+    public function getPrix()
+    {
+        return $this->prix;
+    }
+
+    /**
+     * Set prixCommande
+     *
+     * @param float $prixCommande
+     *
+     * @return Produits_2
+     */
+    public function setPrixCommande($prixCommande)
+    {
+        $this->prixCommande = $prixCommande;
+    
+        return $this;
+    }
+
+    /**
+     * Get prixCommande
+     *
+     * @return float
+     */
+    public function getPrixCommande()
+    {
+        return $this->prixCommande;
+    }
+
+    /**
+     * Set devise
+     *
+     * @param string $devise
+     *
+     * @return Produits_2
+     */
+    public function setDevise($devise)
+    {
+        $this->devise = $devise;
+    
+        return $this;
+    }
+
+    /**
+     * Get devise
+     *
+     * @return string
+     */
+    public function getDevise()
+    {
+        return $this->devise;
+    }
+
+    /**
+     * Set precommande
+     *
+     * @param boolean $precommande
+     *
+     * @return Produits_2
+     */
+    public function setPrecommande($precommande)
+    {
+        $this->precommande = $precommande;
+    
+        return $this;
+    }
+
+    /**
+     * Get precommande
+     *
+     * @return boolean
+     */
+    public function getPrecommande()
+    {
+        return $this->precommande;
     }
 }

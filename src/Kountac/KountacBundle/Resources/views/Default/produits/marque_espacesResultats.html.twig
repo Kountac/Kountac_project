@@ -1,7 +1,7 @@
 {% extends "::base.html.twig" %}
 
 {% block body %}
-    {% if euro|length != 0 %}
+   {% set targetCurrency = device_cible.devise.code %}
     <!-- Breadcrumbs -->
 
     <div class="breadcrumbs">
@@ -85,9 +85,11 @@
                         <div class="product-grid-area">
                             <ul class="products-grid">
                                 {% for produit in images %}
-                                    {% if produit.produit2.europrix %}
-                                    {% set prixReduction = 0 %}
-                                    {% set prixReduction = produit.produit2.europrix - (produit.produit2.europrix * produit.produit2.reduction/100) %}
+                                    {% if produit.produit2.prix %}
+                                        {% set amountCurrency = produit.devise %}
+                                        {% set decimal = true %}
+                                        {% set prixReduction = 0 %}
+                                        {% set prixReduction = produit.produit2.prix - (produit.produit2.prix * produit.produit2.reduction/100) %}
                                     <li class="item col-lg-4 col-md-4 col-sm-6 col-xs-6 ">
                                         <div class="product-item">
                                             <div class="item-inner">
@@ -96,30 +98,30 @@
                                                         <center>
                                                             {% if produit.top == 0 %}
                                                                     <a href="{{ path('product', {'id' : produit.produit2.id}) }}">
-                                                                        <img src="{{ produit.AssetPath|imagine_filter('produitAllThumb') }}" alt="">
+                                                                        <img src="{{ produit.AssetPath|imagine_filter('resizeThumb') }}" alt="">
                                                                     </a>
                                                                     {% if produit.path2 %}
                                                                     <a class="hover-img" href="{{ path('product', {'id' : produit.produit2.id}) }}">
-                                                                        <img src="{{ produit.AssetPath2|imagine_filter('produitAllThumb') }}" alt="">
+                                                                        <img src="{{ produit.AssetPath2|imagine_filter('resizeThumb') }}" alt="">
                                                                     </a>
                                                                     {% endif %}
                                                                     {% if produit.path3 %}
                                                                     <a class="hover-img" href="{{ path('product', {'id' : produit.produit2.id}) }}">
-                                                                        <img src="{{ produit.AssetPath3|imagine_filter('produitAllThumb') }}" alt="">
+                                                                        <img src="{{ produit.AssetPath3|imagine_filter('resizeThumb') }}" alt="">
                                                                     </a>
                                                                     {% endif %}
                                                                 {% else %}
                                                                     <a href="{{ path('product_mannequin', {'id': produit.produit2.id, 'id_image': produit.id}) }}">
-                                                                        <img src="{{ produit.AssetPath|imagine_filter('produitAllThumb') }}" alt="">
+                                                                        <img src="{{ produit.AssetPath|imagine_filter('resizeThumb') }}" alt="">
                                                                     </a>
                                                                     {% if produit.path2 %}
                                                                     <a class="hover-img" href="{{ path('product_mannequin', {'id': produit.produit2.id, 'id_image': produit.id}) }}">
-                                                                        <img src="{{ produit.AssetPath2|imagine_filter('produitAllThumb') }}" alt="">
+                                                                        <img src="{{ produit.AssetPath2|imagine_filter('resizeThumb') }}" alt="">
                                                                     </a>
                                                                     {% endif %}
                                                                     {% if produit.path3 %}
                                                                     <a class="hover-img" href="{{ path('product_mannequin', {'id': produit.produit2.id, 'id_image': produit.id}) }}">
-                                                                        <img src="{{ produit.AssetPath3|imagine_filter('produitAllThumb') }}" alt="">
+                                                                        <img src="{{ produit.AssetPath3|imagine_filter('resizeThumb') }}" alt="">
                                                                     </a>
                                                                     {% endif %}
                                                                 {% endif %}
@@ -131,8 +133,8 @@
                                                         <a title="Reserver ce produit" href="{{ path('quickViewEspaceMarque', {'id' : produit.produit2.id}) }}" class="quick-view"><i class="fa fa-save"><span>Reserver</span></i></a> 
                                                         <a title="Ajouter à vos souhaits" href="{{ path('quickViewEspaceMarque', {'id' : produit.produit2.id}) }}" class="wishlist"><i class="fa fa-heart"><span>Wishlist</span></i></a> 
                                                         <a title="Comparer ce produit" href="{{ path('quickViewEspaceMarque', {'id' : produit.produit2.id}) }}" class="compare"><i class="fa fa-exchange"><span>Compare</span></i></a> 
-                                                        {% if produit.produit2.europrixCommande %}
-                                                            <a title="Commander sur mesure, prix pour une commande sur mesure : {{ produit.produit2.europrixCommande|number_format(2) }} €" href="{{ path('commande_mesures_new_item', {'id' : produit.produit2.id}) }}" class="wishlist"><i class="fa fa-pencil"><span>Commander sur mesure</span></i></a> 
+                                                        {% if produit.produit2.prixCommande %}
+                                                            <a title="Commander sur mesure, prix pour une commande sur mesure : {{ produit.produit2.prixCommande| currency_convert(targetCurrency, decimal, amountCurrency) }} {{ device_cible.symbole }}" href="{{ path('commande_mesures_new_item', {'id' : produit.produit2.id}) }}" class="wishlist"><i class="fa fa-pencil"><span>Commander sur mesure</span></i></a> 
                                                         {% endif %}
                                                     </div>
                                                 </div>
@@ -142,11 +144,11 @@
                                                         <div class="item-content">
                                                             <div class="item-price">
                                                                 {% if produit.produit2.reduction == 0 %}
-                                                                    <div class="price-box"> <span class="regular-price"> <span class="price">{{ prixReduction|number_format(2) }} €</span> </span> </div>
+                                                                    <div class="price-box"> <span class="regular-price"> <span class="price">{{ prixReduction| currency_convert(targetCurrency, decimal, amountCurrency) }} {{ device_cible.symbole }}</span> </span> </div>
                                                                 {% else %}
                                                                     <div class="price-box">
-                                                                        <p class="special-price"> <span class="price-label">Special Price</span> <span class="price">{{ prixReduction|number_format(2) }} €</span> </p>
-                                                                        <p class="old-price"> <span class="price-label">Regular Price:</span> <span class="price">{{ produit.produit2.europrix|number_format(2) }} €</span> </p>
+                                                                        <p class="special-price"> <span class="price-label">Special Price</span> <span class="price">{{ prixReduction| currency_convert(targetCurrency, decimal, amountCurrency) }} {{ device_cible.symbole }}</span> </p>
+                                                                        <p class="old-price"> <span class="price-label">Regular Price:</span> <span class="price">{{ produit.produit2.prix| currency_convert(targetCurrency, decimal, amountCurrency) }} {{ device_cible.symbole }}</span> </p>
                                                                     </div>
                                                                 {% endif %}
                                                             </div>
@@ -179,13 +181,13 @@
 
                             <div class="block-content">
                                 <div class="layered-Category">
-                                    <h2 class="saider-bar-title">Prix (€)</h2>
+                                    <h2 class="saider-bar-title">Prix ({{ device_cible.symbole }})</h2>
                                     <div class="layered-content">
                                         <ul class="check-box-list">
                                             <li>
                                                 <fieldset>
-                                                    <!--output name="prix">{{ europrix[0].mineuro }}</output>
-                                                    <input type="range" multiple name="prix" min="{{ europrix[0].mineuro }}" max="{{ europrix[0].maxeuro }}" value="0" step="1" oninput="prix.value=parseInt(prix.value)" autocomplete="off" /-->
+                                                    <!--output name="prix">{{ prix[0].minprix }}</output>
+                                                    <input type="range" multiple name="prix" min="{{ prix[0].minprix }}" max="{{ prix[0].maxprix }}" value="0" step="1" oninput="prix.value=parseInt(prix.value)" autocomplete="off" /-->
                                                     <input type="text" name="prix" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold; margin: 10px;">
                                                     <div id="slider-range" style=" margin-left: 10px; margin-right: 10px;"></div>
                                                 </fieldset>
@@ -395,9 +397,9 @@
             $( function() {
                 $( "#slider-range" ).slider({
                     range: true,
-                    min: {{ europrix[0].mineuro }},
-                    max: {{ europrix[0].maxeuro }},
-                    values: [ {{ europrix[0].mineuro }}, {{ europrix[0].maxeuro }} ],
+                    min: {{ prix[0].minprix }},
+                    max: {{ prix[0].maxprix }},
+                    values: [ {{ prix[0].minprix }}, {{ prix[0].maxprix }} ],
                     slide: function( event, ui ) {
                         $( "#amount" ).val(ui.values[ 0 ].toLocaleString('en') + " - " + ui.values[ 1 ].toLocaleString('en')  );
                     }
@@ -406,15 +408,5 @@
                     $( "#slider-range" ).slider( "values", 1 ).toLocaleString('en') );
             } );
         </script>
-    {% elseif cfa|length != 0 %}
-        {% include 'KountacBundle:Default:produits/cfa/marque_espacesTaillePoids.html.twig' %}
-    {% elseif livre|length != 0 %}
-        {% include 'KountacBundle:Default:produits/livre/marque_espacesTaillePoids.html.twig' %}
-    {% elseif usa|length != 0 %}
-        {% include 'KountacBundle:Default:produits/usa/marque_espacesTaillePoids.html.twig' %}
-    {% elseif naira|length != 0 %}
-        {% include 'KountacBundle:Default:produits/naira/marque_espacesTaillePoids.html.twig' %}
-    {% elseif all|length != 0 %}
-        {% include 'KountacBundle:Default:produits/all/marque_espacesTaillePoids.html.twig' %}
-    {% endif %}
+ 
 {% endblock %}

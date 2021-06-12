@@ -1,7 +1,6 @@
 {% extends "::base.html.twig" %}
 
 {% block body %}
-   {% if euro|length != 0 %}
     <div>
         <div class="breadcrumbs">
             <div class="container">
@@ -256,15 +255,5 @@
         var iid1 = "countbox_1";
         CountBack_slider(gsecs1, "countbox_1", 1);
     </script>
-{% elseif cfa|length !=0 %}
-    {% include 'KountacBundle:Default:produits/cfa/quickView.html.twig' %}
-{% elseif usa|length !=0 %}
-    {% include 'KountacBundle:Default:produits/usa/quickView.html.twig' %}
-{% elseif livre|length !=0 %}
-    {% include 'KountacBundle:Default:produits/livre/quickView.html.twig' %}
-{% elseif naira|length !=0 %}
-    {% include 'KountacBundle:Default:produits/naira/quickView.html.twig' %}
-{% elseif all|length !=0 %}
-    {% include 'KountacBundle:Default:produits/all/quickView.html.twig' %}
-{% endif %}
+
 {% endblock %}

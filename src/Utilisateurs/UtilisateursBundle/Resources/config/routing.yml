@@ -1,3 +1,8 @@
+kountac_pop_up_registration:
+    path:     /registration_pop_up
+    defaults: { _controller: "UtilisateursBundle:Registration:registerPopUP" }
+    methods:  [GET, POST]
+    
 kountac_commande:
     resource: "@UtilisateursBundle/Resources/config/routingCommande.yml"
     prefix:   /profile/Commande/

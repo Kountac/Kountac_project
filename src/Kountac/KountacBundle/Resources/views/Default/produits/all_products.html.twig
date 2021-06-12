@@ -1,16 +1,12 @@
 {% extends "::baseAllProduct.html.twig" %}
-
-{% block title %}
-  {{ euro|length != 0 ? "Filtre" : "Recherche" }}
-{% endblock %}
  
 {% block meta %}
-  <meta name="description" content="{{ euro|length != 0 ? "Filtre" : "Recherche" }} -  Achetez le nouveau prêt à porter africain -  Les dernières tendances modes Africaine en un clic -  The new made in Africa, la qualité africaine livrée chez vous -  Originalité et authenticité, la mode africaine chez vous" />
+  <meta name="description" content=" Achetez le nouveau prêt à porter africain -  Les dernières tendances modes Africaine en un clic -  The new made in Africa, la qualité africaine livrée chez vous -  Originalité et authenticité, la mode africaine chez vous" />
 {% endblock %}
                
 {% block body %}
-    {% if euro|length != 0 %}
     <!-- Breadcrumbs -->
+    {% set targetCurrency = device_cible.devise.code %}
 
     <div class="breadcrumbs">
         <div class="container">
@@ -92,9 +88,11 @@
                         <div class="product-grid-area">
                             <ul class="products-grid">
                                 {% for produit in produits %}
-                                    {% if produit.europrix %}
+                                    {% if produit.prix %}
+                                        {% set amountCurrency = produit.devise %}
+                                        {% set decimal = true %}
                                     {% set prixReduction = 0 %}
-                                    {% set prixReduction = produit.europrix - (produit.europrix * produit.reduction/100) %}
+                                    {% set prixReduction = produit.prix - (produit.prix * produit.reduction/100) %}
                                     <li class="item col-lg-4 col-md-4 col-sm-6 col-xs-6 ">
                                         <div class="product-item">
                                             <div class="item-inner">
@@ -123,8 +121,8 @@
                                                         <a title="Reserver ce produit" href="{{ path('quickViewAllProducts', {'id' : produit.id}) }}" class="quick-view"><i class="fa fa-save"><span>Reserver</span></i></a> 
                                                         <a title="Ajouter à vos souhaits" href="{{ path('quickViewAllProducts', {'id' : produit.id}) }}" class="wishlist"><i class="fa fa-heart"><span>Wishlist</span></i></a> 
                                                         <a title="Comparer ce produit" href="{{ path('quickViewAllProducts', {'id' : produit.id}) }}" class="compare"><i class="fa fa-exchange"><span>Compare</span></i></a> 
-                                                        {% if produit.europrixCommande %}
-                                                            <a title="Commander sur mesure, prix pour une commande sur mesure : {{ produit.europrixCommande|number_format(2) }} €" href="{{ path('commande_mesures_new_item', {'id' : produit.id}) }}" class="wishlist"><i class="fa fa-pencil"><span>Commander sur mesure</span></i></a> 
+                                                        {% if produit.prixCommande %}
+                                                            <a title="Commander sur mesure, prix pour une commande sur mesure : {{ produit.prixCommande| currency_convert(targetCurrency, decimal, amountCurrency) }} {{ device_cible.symbole }}" href="{{ path('commande_mesures_new_item', {'id' : produit.id}) }}" class="wishlist"><i class="fa fa-pencil"><span>Commander sur mesure</span></i></a> 
                                                         {% endif %}
                                                     </div>
                                                 </div>
@@ -134,11 +132,11 @@
                                                         <div class="item-content">
                                                             <div class="item-price">
                                                                 {% if produit.reduction == 0 %}
-                                                                    <div class="price-box"> <span class="regular-price"> <span class="price">{{ prixReduction|number_format(2) }} €</span> </span> </div>
+                                                                    <div class="price-box"> <span class="regular-price"> <span class="price">{{ prixReduction| currency_convert(targetCurrency, decimal, amountCurrency) }} {{ device_cible.symbole }}</span> </span> </div>
                                                                 {% else %}
                                                                     <div class="price-box">
-                                                                        <p class="special-price"> <span class="price-label">Special Price</span> <span class="price">{{ prixReduction|number_format(2) }} €</span> </p>
-                                                                        <p class="old-price"> <span class="price-label">Regular Price:</span> <span class="price">{{ produit.europrix|number_format(2) }} €</span> </p>
+                                                                        <p class="special-price"> <span class="price-label">Special Price</span> <span class="price">{{ prixReduction| currency_convert(targetCurrency, decimal, amountCurrency) }} {{ device_cible.symbole }}</span> </p>
+                                                                        <p class="old-price"> <span class="price-label">Regular Price:</span> <span class="price">{{ produit.prix| currency_convert(targetCurrency, decimal, amountCurrency) }} {{ device_cible.symbole }}</span> </p>
                                                                     </div>
                                                                 {% endif %}
                                                             </div>
@@ -186,13 +184,13 @@
 
                             <div class="block-content">
                                 <div class="layered-Category">
-                                    <h2 class="saider-bar-title">Prix (€)</h2>
+                                    <h2 class="saider-bar-title">Prix ({{ device_cible.symbole }})</h2>
                                     <div class="layered-content">
                                         <ul class="check-box-list">
                                             <li>
                                                 <fieldset>
-                                                    <!--output name="prix">{{ europrix[0].mineuro }}</output>
-                                                    <input type="range" multiple name="prix" min="{{ europrix[0].mineuro }}" max="{{ europrix[0].maxeuro }}" value="0" step="1" oninput="prix.value=parseInt(prix.value)" autocomplete="off" /-->
+                                                    <!--output name="prix">{{ prix[0].minprix }}</output>
+                                                    <input type="range" multiple name="prix" min="{{ prix[0].minprix }}" max="{{ prix[0].maxprix }}" value="0" step="1" oninput="prix.value=parseInt(prix.value)" autocomplete="off" /-->
                                                     <input type="text" name="prix" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold; margin: 10px;">
                                                     <div id="slider-range" style=" margin-left: 10px; margin-right: 10px;"></div>
                                                 </fieldset>
@@ -489,9 +487,9 @@
             $( function() {
                 $( "#slider-range" ).slider({
                     range: true,
-                    min: {{ europrix[0].mineuro }},
-                    max: {{ europrix[0].maxeuro }},
-                    values: [ {{ europrix[0].mineuro }}, {{ europrix[0].maxeuro }} ],
+                    min: {{ prix[0].minprix }},
+                    max: {{ prix[0].maxprix }},
+                    values: [ {{ prix[0].minprix }}, {{ prix[0].maxprix }} ],
                     slide: function( event, ui ) {
                         $( "#amount" ).val(ui.values[ 0 ].toLocaleString('en') + " - " + ui.values[ 1 ].toLocaleString('en')  );
                     }
@@ -500,15 +498,5 @@
                     $( "#slider-range" ).slider( "values", 1 ).toLocaleString('en') );
             } );
         </script>
-    {% elseif cfa|length != 0 %}
-        {% include 'KountacBundle:Default:produits/cfa/all_products.html.twig' %}
-    {% elseif usa|length != 0 %}
-        {% include 'KountacBundle:Default:produits/usa/all_products.html.twig' %}
-    {% elseif livre|length != 0 %}
-        {% include 'KountacBundle:Default:produits/livre/all_products.html.twig' %}
-    {% elseif naira|length != 0 %}
-        {% include 'KountacBundle:Default:produits/naira/all_products.html.twig' %}
-    {% elseif all|length != 0 %}
-        {% include 'KountacBundle:Default:produits/all/all_products.html.twig' %}
-    {% endif %}
+
 {% endblock %}
