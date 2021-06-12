@@ -17,12 +17,15 @@ class ProduitController extends Controller
         include 'localisation.php';
         
         $TousProduits = $em->getRepository('KountacBundle:Produits_2')->getAll();
-        $europrix = $em->getRepository('KountacBundle:Produits_2')->getPrixEuro();
+        $prix = $em->getRepository('KountacBundle:Produits_2')->getPrix();
+        /*$europrix = $em->getRepository('KountacBundle:Produits_2')->getPrixEuro();
         $cfaprix = $em->getRepository('KountacBundle:Produits_2')->getPrixCFA();
         $usaprix = $em->getRepository('KountacBundle:Produits_2')->getPrixUSA();
         $livreprix = $em->getRepository('KountacBundle:Produits_2')->getPrixLivre();
         $nairaprix = $em->getRepository('KountacBundle:Produits_2')->getPrixNaira();
         $allprix = $em->getRepository('KountacBundle:Produits_2')->getPrixAll();
+         * 
+         */
         $categories = $em->getRepository('KountacBundle:Categories')->getCategoriesByName();
         $mannequins = $em->getRepository('KountacBundle:Mannequin')->findAll();
         $images = $em->getRepository('KountacBundle:Media_motif')->getImagesWithPath1();
@@ -155,14 +158,10 @@ class ProduitController extends Controller
                 $session->set('tri', '1');
         
             return $this->render('KountacBundle:Default:produits/all_products.html.twig', array('produits' => $produits_resultat,
-                'cfaprix' => $cfaprix,
-                'europrix' => $europrix,
-                'usaprix' => $usaprix,
-                'livreprix' => $livreprix,
-                'nairaprix' => $nairaprix,
-                'allprix' => $allprix,
-                'minPrix' => $minPrix,
-                'maxPrix' => $maxPrix,
+                                                                                            'prix' => $prix,
+                                                                                            'minPrix' => $minPrix,
+                                                                                            'maxPrix' => $maxPrix,
+                                                                                            'device_cible' => $target_country,                                                                            
                                                                                             'categories' => $categories,
                                                                                             'marques' => $marques,
                                                                                             'mannequins' => $mannequins,
@@ -170,34 +169,18 @@ class ProduitController extends Controller
                                                                                             'motifs' => $motifs,
                                                                                             'form' => $form_taillePoids->createView(),
                                                                                             'tri' => $session->get('tri'),
-                                                                                            'all' => $this->getRequest()->getSession()->get('all'),                                                                            
-                                                                                            'euro' => $this->getRequest()->getSession()->get('euro'),
-                                                                                            'livre' => $this->getRequest()->getSession()->get('livre'),
-                                                                                            'usa' => $this->getRequest()->getSession()->get('usa'),
-                                                                                            'naira' => $this->getRequest()->getSession()->get('naira'),
-                                                                                            'cfa' => $this->getRequest()->getSession()->get('cfa'),
                                                                                             ));
         }
        
         return $this->render('KountacBundle:Default:produits/all_products.html.twig', array('produits' => $produits,
-                                                                                            'cfaprix' => $cfaprix,
-                                                                                            'europrix' => $europrix,
-                                                                                            'usaprix' => $usaprix,
-                                                                                            'livreprix' => $livreprix,
-                                                                                            'nairaprix' => $nairaprix,
-                                                                                            'allprix' => $allprix,
+                                                                                            'prix' => $prix,
                                                                                             'marques' => $marques,
                                                                                             'motifs' => $motifs,
+                                                                                            'device_cible' => $target_country,
                                                                                             'categories' => $categories,
                                                                                             'mannequins' => $mannequins,
                                                                                             'images' => $images,
                                                                                             'form' => $form_taillePoids->createView(),
-                                                                                            'all' => $this->getRequest()->getSession()->get('all'),                                                                                
-                                                                                            'euro' => $this->getRequest()->getSession()->get('euro'),
-                                                                                            'livre' => $this->getRequest()->getSession()->get('livre'),
-                                                                                            'usa' => $this->getRequest()->getSession()->get('usa'),
-                                                                                            'naira' => $this->getRequest()->getSession()->get('naira'),
-                                                                                            'cfa' => $this->getRequest()->getSession()->get('cfa'),
                                                                                             ));
     }
     
@@ -212,12 +195,13 @@ class ProduitController extends Controller
         }
         $marque_id = $produit_2->getProduit1()->getMarque();
         $TousProduits = $em->getRepository('KountacBundle:Produits_2')->getProduitByMarque($marque_id);
-        $europrix = $em->getRepository('KountacBundle:Produits_2')->getPrixEuro();
+        $prix = $em->getRepository('KountacBundle:Produits_2')->getPrix();
+        /*$europrix = $em->getRepository('KountacBundle:Produits_2')->getPrixEuro();
         $cfaprix = $em->getRepository('KountacBundle:Produits_2')->getPrixCFA();
         $usaprix = $em->getRepository('KountacBundle:Produits_2')->getPrixUSA();
         $livreprix = $em->getRepository('KountacBundle:Produits_2')->getPrixLivre();
         $nairaprix = $em->getRepository('KountacBundle:Produits_2')->getPrixNaira();
-        $allprix = $em->getRepository('KountacBundle:Produits_2')->getPrixAll();
+        $allprix = $em->getRepository('KountacBundle:Produits_2')->getPrixAll();*/
         $categories = $em->getRepository('KountacBundle:Categories')->getCategoriesByName();
         $mannequins = $em->getRepository('KountacBundle:Mannequin')->findAll();
         $images = $em->getRepository('KountacBundle:Media_motif')->getImagesWithPath1();
@@ -338,43 +322,23 @@ class ProduitController extends Controller
             return $this->render('KountacBundle:Default:produits/marque_espaces.html.twig', array('produits' => $produits_resultat,
                                                                                             'categories' => $categories,'produit2' => $produit_2,
                                                                                             'motifs' => $motifs,
-                                                                                            'cfaprix' => $cfaprix,
-                                                                                            'europrix' => $europrix,
-                                                                                            'usaprix' => $usaprix,
-                                                                                            'livreprix' => $livreprix,
-                                                                                            'nairaprix' => $nairaprix,
-                                                                                            'allprix' => $allprix,
+                                                                                            'prix' => $prix,
+                                                                                            'device_cible' => $target_country,
                                                                                             'images' => $images,
                                                                                             'form' => $form_taillePoids->createView(),
                                                                                             'mannequins' => $mannequins,
                                                                                             'tri' => $session->get('tri'),
-                                                                                            'euro' => $this->getRequest()->getSession()->get('euro'),
-                                                                                            'all' => $this->getRequest()->getSession()->get('all'),                                                                            
-                                                                                            'livre' => $this->getRequest()->getSession()->get('livre'),
-                                                                                            'usa' => $this->getRequest()->getSession()->get('usa'),
-                                                                                            'naira' => $this->getRequest()->getSession()->get('naira'),
-                                                                                            'cfa' => $this->getRequest()->getSession()->get('cfa'),
                                                                                             ));
         }
        
         return $this->render('KountacBundle:Default:produits/marque_espaces.html.twig', array('produits' => $produits,'produit2' => $produit_2,
                                                                                             'motifs' => $motifs,
-            'cfaprix' => $cfaprix,
-            'europrix' => $europrix,
-            'usaprix' => $usaprix,
-            'livreprix' => $livreprix,
-            'nairaprix' => $nairaprix,
-            'allprix' => $allprix,
+                                                                                            'prix' => $prix,
+                                                                                            'device_cible' => $target_country,
                                                                                             'form' => $form_taillePoids->createView(),
                                                                                             'mannequins' => $mannequins,
                                                                                             'images' => $images,
                                                                                             'categories' => $categories,
-                                                                                            'euro' => $this->getRequest()->getSession()->get('euro'),
-                                                                                            'all' => $this->getRequest()->getSession()->get('all'),                                                                                
-                                                                                            'livre' => $this->getRequest()->getSession()->get('livre'),
-                                                                                            'usa' => $this->getRequest()->getSession()->get('usa'),
-                                                                                            'naira' => $this->getRequest()->getSession()->get('naira'),
-                                                                                            'cfa' => $this->getRequest()->getSession()->get('cfa'),
                                                                                             ));
     }
 
@@ -389,12 +353,7 @@ class ProduitController extends Controller
         }
         $marque_id = $produit_2->getProduit1()->getMarque();
         $TousProduits = $em->getRepository('KountacBundle:Produits_2')->getProduitByMarque($marque_id);
-        $europrix = $em->getRepository('KountacBundle:Produits_2')->getPrixEuro();
-        $cfaprix = $em->getRepository('KountacBundle:Produits_2')->getPrixCFA();
-        $usaprix = $em->getRepository('KountacBundle:Produits_2')->getPrixUSA();
-        $livreprix = $em->getRepository('KountacBundle:Produits_2')->getPrixLivre();
-        $nairaprix = $em->getRepository('KountacBundle:Produits_2')->getPrixNaira();
-        $allprix = $em->getRepository('KountacBundle:Produits_2')->getPrixAll();
+        $prix = $em->getRepository('KountacBundle:Produits_2')->getPrix();
         $categories = $em->getRepository('KountacBundle:Categories')->getCategoriesByName();
         $mannequins = $em->getRepository('KountacBundle:Mannequin')->findAll();
         $images = $em->getRepository('KountacBundle:Media_motif')->getImagesWithPath1();
@@ -558,7 +517,7 @@ class ProduitController extends Controller
     public function productAction(Request $request, $id)
     {
         $session = $this->getRequest()->getSession();
-        $session = $this->getRequest()->getSession();
+        
         include 'localisation.php';
         $em = $this->getDoctrine()->getManager();
         $produit = $em->getRepository('KountacBundle:Produits_2')->find($id);
@@ -567,13 +526,6 @@ class ProduitController extends Controller
         }
         
         $images = $em->getRepository('KountacBundle:Media_motif')->findImagesTops($produit);
-        
-        $europrix = $em->getRepository('KountacBundle:Produits_2')->getPrixEuro();
-        $cfaprix = $em->getRepository('KountacBundle:Produits_2')->getPrixCFA();
-        $usaprix = $em->getRepository('KountacBundle:Produits_2')->getPrixUSA();
-        $livreprix = $em->getRepository('KountacBundle:Produits_2')->getPrixLivre();
-        $nairaprix = $em->getRepository('KountacBundle:Produits_2')->getPrixNaira();
-        $allprix = $em->getRepository('KountacBundle:Produits_2')->getPrixAll();
         
         $images_all = $em->getRepository('KountacBundle:Media_motif')->findAll();
         $images_autres = $em->getRepository('KountacBundle:Media_motif')->findImagesAutres($produit);
@@ -635,12 +587,7 @@ class ProduitController extends Controller
                                                                                                 'mannequins' => $mannequins,
                                                                                                 'images' => $images,
                                                                                                 'images_rest' => $images_rest,
-                                                                                                'cfaprix' => $cfaprix,
-                                                                                                'europrix' => $europrix,
-                                                                                                'usaprix' => $usaprix,
-                                                                                                'livreprix' => $livreprix,
-                                                                                                'nairaprix' => $nairaprix,
-                                                                                                'allprix' => $allprix,
+                                                                                                'device_cible' => $target_country,
                                                                                                 'images_all' => $images_all,
                                                                                                 'images_autres' => $images_autres,
                                                                                                 'commentaire' => $commentaire,
@@ -649,13 +596,7 @@ class ProduitController extends Controller
                                                                                                 'panier '=> $panier,
                                                                                                 'souhait' => $souhait,
                                                                                                 'compare' => $compare,
-                                                                                                'marque' => $marque,
-                                                                                                'euro' => $this->getRequest()->getSession()->get('euro'),
-                                                                                                'all' => $this->getRequest()->getSession()->get('all'),                                                                                    
-                                                                                                'livre' => $this->getRequest()->getSession()->get('livre'),
-                                                                                                'usa' => $this->getRequest()->getSession()->get('usa'),
-                                                                                                'naira' => $this->getRequest()->getSession()->get('naira'),
-                                                                                                'cfa' => $this->getRequest()->getSession()->get('cfa')
+                                                                                                'marque' => $marque                                                                                                
                                                                                               ));
     }
 	
@@ -666,12 +607,6 @@ class ProduitController extends Controller
         include 'localisation.php';
         $em = $this->getDoctrine()->getManager();
         $produit = $em->getRepository('KountacBundle:Produits_2')->find($id);
-        $europrix = $em->getRepository('KountacBundle:Produits_2')->getPrixEuro();
-        $cfaprix = $em->getRepository('KountacBundle:Produits_2')->getPrixCFA();
-        $usaprix = $em->getRepository('KountacBundle:Produits_2')->getPrixUSA();
-        $livreprix = $em->getRepository('KountacBundle:Produits_2')->getPrixLivre();
-        $nairaprix = $em->getRepository('KountacBundle:Produits_2')->getPrixNaira();
-        $allprix = $em->getRepository('KountacBundle:Produits_2')->getPrixAll();
         $image = $em->getRepository('KountacBundle:Media_motif')->find($id_image);
         $images_autres = $em->getRepository('KountacBundle:Media_motif')->findImagesAutresMannequins($produit, $image);
         $images = $em->getRepository('KountacBundle:Media_motif')->findImagesTops($produit);
@@ -733,12 +668,7 @@ class ProduitController extends Controller
                                                                                                 'commentaires' => $commentaires,
                                                                                                 'mannequins' => $mannequins,
                                                                                                 'images' => $images,
-                                                                                                'cfaprix' => $cfaprix,
-                                                                                                'europrix' => $europrix,
-                                                                                                'usaprix' => $usaprix,
-                                                                                                'livreprix' => $livreprix,
-                                                                                                'nairaprix' => $nairaprix,
-                                                                                                'allprix' => $allprix,
+                                                                                                'device_cible' => $target_country,
                                                                                                 'image' => $image,
                                                                                                 'images_rest' => $images_rest,
                                                                                                 'images_all' => $images_all,
@@ -750,13 +680,7 @@ class ProduitController extends Controller
                                                                                                 'souhait' => $souhait,
                                                                                                 'compare' => $compare,
                                                                                                 'marque' => $marque,
-                                                                                                'euro' => $this->getRequest()->getSession()->get('euro'),
-                                                                                                'all' => $this->getRequest()->getSession()->get('all'),                                                                                    
-                                                                                                'livre' => $this->getRequest()->getSession()->get('livre'),
-                                                                                                'usa' => $this->getRequest()->getSession()->get('usa'),
-                                                                                                'naira' => $this->getRequest()->getSession()->get('naira'),
-                                                                                                'cfa' => $this->getRequest()->getSession()->get('cfa')
-                                                                                              ));
+                                                                                                ));
     }
     
     public function categorie_2Action($categorie)
@@ -777,12 +701,13 @@ class ProduitController extends Controller
         $categories = $em->getRepository('KountacBundle:Categories')->findAll();
         $mannequins = $em->getRepository('KountacBundle:Mannequin')->findAll();
         $images = $em->getRepository('KountacBundle:Media_motif')->getImagesWithPath1();
-        $europrix = $em->getRepository('KountacBundle:Produits_2')->getPrixEuro();
+        $prix = $em->getRepository('KountacBundle:Produits_2')->getPrix();
+        /*$europrix = $em->getRepository('KountacBundle:Produits_2')->getPrixEuro();
         $cfaprix = $em->getRepository('KountacBundle:Produits_2')->getPrixCFA();
         $usaprix = $em->getRepository('KountacBundle:Produits_2')->getPrixUSA();
         $livreprix = $em->getRepository('KountacBundle:Produits_2')->getPrixLivre();
         $nairaprix = $em->getRepository('KountacBundle:Produits_2')->getPrixNaira();
-        $allprix = $em->getRepository('KountacBundle:Produits_2')->getPrixAll();
+        $allprix = $em->getRepository('KountacBundle:Produits_2')->getPrixAll();*/
         $marques = $em->getRepository('UtilisateursBundle:Utilisateurs')->getAllMarques();
         $motifs = $em->getRepository('KountacBundle:Libelles_motif')->findAll();
         $form_taillePoids = $this->createForm(new Taille_PoidsType());                       
@@ -794,24 +719,14 @@ class ProduitController extends Controller
         return $this->render('KountacBundle:Default:produits/all_products.html.twig', array('produits' => $produits,
                                                                                             'nom' => $nomCategorie,
                                                                                             'marques' => $marques,
-            'cfaprix' => $cfaprix,
-            'europrix' => $europrix,
-            'usaprix' => $usaprix,
-            'livreprix' => $livreprix,
-            'nairaprix' => $nairaprix,
-            'allprix' => $allprix,
+                                                                                            'prix' => $prix,
+                                                                                            'device_cible' => $target_country,
                                                                                             'form' => $form_taillePoids->createView(),
                                                                                             'motifs' => $motifs,
                                                                                             'categories' => $categories,
                                                                                             'mannequins' => $mannequins,
                                                                                             'images' => $images,
-                                                                                            'euro' => $this->getRequest()->getSession()->get('euro'),
-                                                                                            'all' => $this->getRequest()->getSession()->get('all'),                                                                                
-                                                                                            'livre' => $this->getRequest()->getSession()->get('livre'),
-                                                                                            'usa' => $this->getRequest()->getSession()->get('usa'),
-                                                                                            'naira' => $this->getRequest()->getSession()->get('naira'),
-                                                                                            'cfa' => $this->getRequest()->getSession()->get('cfa'),
-                                                                                         'categorie' => $session->get('categorie')));
+                                                                                            'categorie' => $session->get('categorie')));
     }
     
     public function categorie_1Action($categorie)
@@ -827,12 +742,13 @@ class ProduitController extends Controller
         $categories_enfants = $em->getRepository('KountacBundle:Categories')->find($categorie)->getChildren();
         $produitsCategorie = $em->getRepository('KountacBundle:Produits_2')->byCategorie_1($categorie, $categories_enfants);
         $images = $em->getRepository('KountacBundle:Media_motif')->getImagesWithPath1();
-        $europrix = $em->getRepository('KountacBundle:Produits_2')->getPrixEuro();
+        $prix = $em->getRepository('KountacBundle:Produits_2')->getPrix();
+        /*$europrix = $em->getRepository('KountacBundle:Produits_2')->getPrixEuro();
         $cfaprix = $em->getRepository('KountacBundle:Produits_2')->getPrixCFA();
         $usaprix = $em->getRepository('KountacBundle:Produits_2')->getPrixUSA();
         $livreprix = $em->getRepository('KountacBundle:Produits_2')->getPrixLivre();
         $nairaprix = $em->getRepository('KountacBundle:Produits_2')->getPrixNaira();
-        $allprix = $em->getRepository('KountacBundle:Produits_2')->getPrixAll();
+        $allprix = $em->getRepository('KountacBundle:Produits_2')->getPrixAll();*/
         $nomCategorie = $em->getRepository('KountacBundle:Categories')->find($categorie)->getNom();
         $categories = $em->getRepository('KountacBundle:Categories')->findAll();
         $mannequins = $em->getRepository('KountacBundle:Mannequin')->findAll();
@@ -844,25 +760,15 @@ class ProduitController extends Controller
 
         return $this->render('KountacBundle:Default:produits/all_products.html.twig', array('produits' => $produits,
                                                                                             'nom' => $nomCategorie,
-            'cfaprix' => $cfaprix,
-            'europrix' => $europrix,
-            'usaprix' => $usaprix,
-            'livreprix' => $livreprix,
-            'nairaprix' => $nairaprix,
-            'allprix' => $allprix,
+                                                                                            'prix' => $prix,
+                                                                                            'device_cible' => $target_country,
                                                                                             'marques' => $marques, 
                                                                                             'form' => $form_taillePoids->createView(),
                                                                                             'motifs' => $motifs,
                                                                                             'categories' => $categories,
                                                                                             'mannequins' => $mannequins,
                                                                                             'images' => $images,
-                                                                                            'euro' => $this->getRequest()->getSession()->get('euro'),
-                                                                                            'all' => $this->getRequest()->getSession()->get('all'),                                                                                
-                                                                                            'livre' => $this->getRequest()->getSession()->get('livre'),
-                                                                                            'usa' => $this->getRequest()->getSession()->get('usa'),
-                                                                                            'naira' => $this->getRequest()->getSession()->get('naira'),
-                                                                                            'cfa' => $this->getRequest()->getSession()->get('cfa'),
-                                                                                         'categorie' => $session->get('categorie')));
+                                                                                            'categorie' => $session->get('categorie')));
     }
     
     public function collectionAction($collection)
@@ -881,12 +787,13 @@ class ProduitController extends Controller
         $motifs = $em->getRepository('KountacBundle:Libelles_motif')->findAll();
         $images = $em->getRepository('KountacBundle:Media_motif')->getImagesWithPath1();
         $form_taillePoids = $this->createForm(new Taille_PoidsType());
-        $europrix = $em->getRepository('KountacBundle:Produits_2')->getPrixEuro();
+        $prix = $em->getRepository('KountacBundle:Produits_2')->getPrix();
+        /*$europrix = $em->getRepository('KountacBundle:Produits_2')->getPrixEuro();
         $cfaprix = $em->getRepository('KountacBundle:Produits_2')->getPrixCFA();
         $usaprix = $em->getRepository('KountacBundle:Produits_2')->getPrixUSA();
         $livreprix = $em->getRepository('KountacBundle:Produits_2')->getPrixLivre();
         $nairaprix = $em->getRepository('KountacBundle:Produits_2')->getPrixNaira();
-        $allprix = $em->getRepository('KountacBundle:Produits_2')->getPrixAll();
+        $allprix = $em->getRepository('KountacBundle:Produits_2')->getPrixAll();*/
         $produitsCollection = $em->getRepository('KountacBundle:Produits_2')->byCollection($collection);
         $nomCollection = $em->getRepository('KountacBundle:Collections')->find($collection)->getNom();
         $produits  = $this->get('knp_paginator')->paginate($produitsCollection,$this->get('request')->query->get('page', 1),20);
@@ -894,24 +801,14 @@ class ProduitController extends Controller
         return $this->render('KountacBundle:Default:produits/all_products.html.twig', array('produits' => $produits,
                                                                                             'nom' => $nomCollection,
                                                                                             'marques' => $marques,
-            'cfaprix' => $cfaprix,
-            'europrix' => $europrix,
-            'usaprix' => $usaprix,
-            'livreprix' => $livreprix,
-            'nairaprix' => $nairaprix,
-            'allprix' => $allprix,
+                                                                                            'prix' => $prix,
+                                                                                            'device_cible' => $target_country,
                                                                                             'form' => $form_taillePoids->createView(),
                                                                                             'motifs' => $motifs,
                                                                                             'images' => $images,
                                                                                             'categories' => $categories,
                                                                                             'mannequins' => $mannequins,
-                                                                                            'euro' => $this->getRequest()->getSession()->get('euro'),
-                                                                                            'all' => $this->getRequest()->getSession()->get('all'),                                                                                
-                                                                                            'livre' => $this->getRequest()->getSession()->get('livre'),
-                                                                                            'usa' => $this->getRequest()->getSession()->get('usa'),
-                                                                                            'naira' => $this->getRequest()->getSession()->get('naira'),
-                                                                                            'cfa' => $this->getRequest()->getSession()->get('cfa'),
-                                                                                         'collection' => $session->get('collection')));
+                                                                                            'collection' => $session->get('collection')));
     }
 	
 	public function lookAction($look)
@@ -929,12 +826,13 @@ class ProduitController extends Controller
         $mannequins = $em->getRepository('KountacBundle:Mannequin')->findAll();
         $marques = $em->getRepository('UtilisateursBundle:Utilisateurs')->getAllMarques();
         $motifs = $em->getRepository('KountacBundle:Libelles_motif')->findAll();
-        $europrix = $em->getRepository('KountacBundle:Produits_2')->getPrixEuro();
+        $prix = $em->getRepository('KountacBundle:Produits_2')->getPrix();
+        /*$europrix = $em->getRepository('KountacBundle:Produits_2')->getPrixEuro();
         $cfaprix = $em->getRepository('KountacBundle:Produits_2')->getPrixCFA();
         $usaprix = $em->getRepository('KountacBundle:Produits_2')->getPrixUSA();
         $livreprix = $em->getRepository('KountacBundle:Produits_2')->getPrixLivre();
         $nairaprix = $em->getRepository('KountacBundle:Produits_2')->getPrixNaira();
-        $allprix = $em->getRepository('KountacBundle:Produits_2')->getPrixAll();
+        $allprix = $em->getRepository('KountacBundle:Produits_2')->getPrixAll();*/
         $form_taillePoids = $this->createForm(new Taille_PoidsType());                       
         $produitsLooks = $em->getRepository('KountacBundle:Produits_2')->byIdeesLook($look);
         $nomIdeesLook = $em->getRepository('KountacBundle:Idees_looks')->find($look)->getNom();
@@ -943,24 +841,14 @@ class ProduitController extends Controller
         return $this->render('KountacBundle:Default:produits/all_products.html.twig', array('produits' => $produits,
                                                                                             'nom' => $nomIdeesLook,
                                                                                             'marques' => $marques,
-            'cfaprix' => $cfaprix,
-            'europrix' => $europrix,
-            'usaprix' => $usaprix,
-            'livreprix' => $livreprix,
-            'nairaprix' => $nairaprix,
-            'allprix' => $allprix,
+                                                                                            'prix' => $prix,
+                                                                                            'device_cible' => $target_country,
                                                                                             'images' => $images, 
                                                                                             'form' => $form_taillePoids->createView(),
                                                                                             'motifs' => $motifs,
                                                                                             'categories' => $categories,
                                                                                             'mannequins' => $mannequins,
-                                                                                            'euro' => $this->getRequest()->getSession()->get('euro'),
-                                                                                            'all' => $this->getRequest()->getSession()->get('all'),                                                                                
-                                                                                            'livre' => $this->getRequest()->getSession()->get('livre'),
-                                                                                            'usa' => $this->getRequest()->getSession()->get('usa'),
-                                                                                            'naira' => $this->getRequest()->getSession()->get('naira'),
-                                                                                            'cfa' => $this->getRequest()->getSession()->get('cfa'),
-                                                                                         'collection' => $session->get('collection')));
+                                                                                            'collection' => $session->get('collection')));
     }
     
     public function rechercheAction()
@@ -996,12 +884,13 @@ class ProduitController extends Controller
             $mannequins = $em->getRepository('KountacBundle:Mannequin')->findAll();
             $marques = $em->getRepository('UtilisateursBundle:Utilisateurs')->getAllMarques();
             $motifs = $em->getRepository('KountacBundle:Libelles_motif')->findAll();
-            $europrix = $em->getRepository('KountacBundle:Produits_2')->getPrixEuro();
+            $prix = $em->getRepository('KountacBundle:Produits_2')->getPrix();
+            /*$europrix = $em->getRepository('KountacBundle:Produits_2')->getPrixEuro();
             $cfaprix = $em->getRepository('KountacBundle:Produits_2')->getPrixCFA();
             $usaprix = $em->getRepository('KountacBundle:Produits_2')->getPrixUSA();
             $livreprix = $em->getRepository('KountacBundle:Produits_2')->getPrixLivre();
             $nairaprix = $em->getRepository('KountacBundle:Produits_2')->getPrixNaira();
-            $allprix = $em->getRepository('KountacBundle:Produits_2')->getPrixAll();
+            $allprix = $em->getRepository('KountacBundle:Produits_2')->getPrixAll();*/
             $form_taillePoids = $this->createForm(new Taille_PoidsType());                       
         
             $produitsRecherche = $em->getRepository('KountacBundle:Produits_2')->recherche($form['recherche']->getData());
@@ -1018,12 +907,8 @@ class ProduitController extends Controller
         
         return $this->render('KountacBundle:Default:produits/all_products.html.twig', array(
             'produits' => $produits, 
-            'cfaprix' => $cfaprix,
-            'europrix' => $europrix,
-            'usaprix' => $usaprix,
-            'livreprix' => $livreprix,
-            'nairaprix' => $nairaprix,
-            'allprix' => $allprix,
+            'prix' => $prix,
+            'device_cible' => $target_country,
             'mot' => $mot, 
             'marques' => $marques, 
             'images' => $images,
@@ -1031,12 +916,6 @@ class ProduitController extends Controller
             'motifs' => $motifs,
             'categories' => $categories,
             'mannequins' => $mannequins,
-            'euro' => $this->getRequest()->getSession()->get('euro'),
-            'all' => $this->getRequest()->getSession()->get('all'),
-            'livre' => $this->getRequest()->getSession()->get('livre'),
-            'usa' => $this->getRequest()->getSession()->get('usa'),
-            'naira' => $this->getRequest()->getSession()->get('naira'),
-            'cfa' => $this->getRequest()->getSession()->get('cfa'),
             'recherche' => $session->get('recherche')));
     }
     
@@ -1048,27 +927,11 @@ class ProduitController extends Controller
         $em = $this->getDoctrine()->getManager();
         $images = $em->getRepository('KountacBundle:Media_motif')->getImagesWithPath1();
         $produit = $em->getRepository('KountacBundle:Produits_2')->find($id);
-        $europrix = $em->getRepository('KountacBundle:Produits_2')->getPrixEuro();
-        $cfaprix = $em->getRepository('KountacBundle:Produits_2')->getPrixCFA();
-        $usaprix = $em->getRepository('KountacBundle:Produits_2')->getPrixUSA();
-        $livreprix = $em->getRepository('KountacBundle:Produits_2')->getPrixLivre();
-        $nairaprix = $em->getRepository('KountacBundle:Produits_2')->getPrixNaira();
-        $allprix = $em->getRepository('KountacBundle:Produits_2')->getPrixAll();
         
         return $this->render('KountacBundle:Default:produits/quickView.html.twig', array('produit' => $produit,
-                                                                                         'euro' => $this->getRequest()->getSession()->get('euro'),
-                                                                                            'all' => $this->getRequest()->getSession()->get('all'),                                                                                
                                                                                             'images' => $images,
-            'cfaprix' => $cfaprix,
-            'europrix' => $europrix,
-            'usaprix' => $usaprix,
-            'livreprix' => $livreprix,
-            'nairaprix' => $nairaprix,
-            'allprix' => $allprix,
-                                                                                            'livre' => $this->getRequest()->getSession()->get('livre'),
-                                                                                            'usa' => $this->getRequest()->getSession()->get('usa'),
-                                                                                            'naira' => $this->getRequest()->getSession()->get('naira'),
-                                                                                            'cfa' => $this->getRequest()->getSession()->get('cfa')));
+                                                                                            'device_cible' => $target_country,
+                                                                                            ));
     }
     
     public function quickViewAllProductsAction($id)
@@ -1078,27 +941,11 @@ class ProduitController extends Controller
         $em = $this->getDoctrine()->getManager();
         $images = $em->getRepository('KountacBundle:Media_motif')->getImagesWithPath1();
         $produit = $em->getRepository('KountacBundle:Produits_2')->find($id);
-        $europrix = $em->getRepository('KountacBundle:Produits_2')->getPrixEuro();
-        $cfaprix = $em->getRepository('KountacBundle:Produits_2')->getPrixCFA();
-        $usaprix = $em->getRepository('KountacBundle:Produits_2')->getPrixUSA();
-        $livreprix = $em->getRepository('KountacBundle:Produits_2')->getPrixLivre();
-        $nairaprix = $em->getRepository('KountacBundle:Produits_2')->getPrixNaira();
-        $allprix = $em->getRepository('KountacBundle:Produits_2')->getPrixAll();
         
         return $this->render('KountacBundle:Default:produits/quickViewAll.html.twig', array('produit' => $produit,
-                                                                                            'euro' => $this->getRequest()->getSession()->get('euro'),
+                                                                                            'device_cible' => $target_country,
                                                                                             'images' => $images,
-            'cfaprix' => $cfaprix,
-            'europrix' => $europrix,
-            'usaprix' => $usaprix,
-            'livreprix' => $livreprix,
-            'nairaprix' => $nairaprix,
-            'allprix' => $allprix,
-                                                                                            'all' => $this->getRequest()->getSession()->get('all'),                                                                                
-                                                                                            'livre' => $this->getRequest()->getSession()->get('livre'),
-                                                                                            'usa' => $this->getRequest()->getSession()->get('usa'),
-                                                                                            'naira' => $this->getRequest()->getSession()->get('naira'),
-                                                                                            'cfa' => $this->getRequest()->getSession()->get('cfa')));
+                                                                                            ));
     }
     
     public function quickViewEspaceMarqueAction($id)
@@ -1108,27 +955,11 @@ class ProduitController extends Controller
         $em = $this->getDoctrine()->getManager();
         $images = $em->getRepository('KountacBundle:Media_motif')->getImagesWithPath1();
         $produit = $em->getRepository('KountacBundle:Produits_2')->find($id);
-        $europrix = $em->getRepository('KountacBundle:Produits_2')->getPrixEuro();
-        $cfaprix = $em->getRepository('KountacBundle:Produits_2')->getPrixCFA();
-        $usaprix = $em->getRepository('KountacBundle:Produits_2')->getPrixUSA();
-        $livreprix = $em->getRepository('KountacBundle:Produits_2')->getPrixLivre();
-        $nairaprix = $em->getRepository('KountacBundle:Produits_2')->getPrixNaira();
-        $allprix = $em->getRepository('KountacBundle:Produits_2')->getPrixAll();
+        var_dump($produit->getPrix());die();
         
         return $this->render('KountacBundle:Default:produits/quickViewMarque.html.twig', array('produit' => $produit,
-                                                                                            'euro' => $this->getRequest()->getSession()->get('euro'),
                                                                                             'images' => $images,
-            'cfaprix' => $cfaprix,
-            'europrix' => $europrix,
-            'usaprix' => $usaprix,
-            'livreprix' => $livreprix,
-            'nairaprix' => $nairaprix,
-            'allprix' => $allprix,
-                                                                                            'all' => $this->getRequest()->getSession()->get('all'),                                                                                
-                                                                                            'livre' => $this->getRequest()->getSession()->get('livre'),
-                                                                                            'usa' => $this->getRequest()->getSession()->get('usa'),
-                                                                                            'naira' => $this->getRequest()->getSession()->get('naira'),
-                                                                                            'cfa' => $this->getRequest()->getSession()->get('cfa')));
+                                                                                            'device_cible' => $target_country,));
     }
     
     public function recherche_avatarAction()
@@ -1159,12 +990,13 @@ class ProduitController extends Controller
         $marques = $em->getRepository('UtilisateursBundle:Utilisateurs')->getAllMarques();
         $motifs = $em->getRepository('KountacBundle:Libelles_motif')->findAll();
         $form_taillePoids = $this->createForm(new Taille_PoidsType());
-        $europrix = $em->getRepository('KountacBundle:Produits_2')->getPrixEuro();
+        $prix = $em->getRepository('KountacBundle:Produits_2')->getPrix();
+        /*$europrix = $em->getRepository('KountacBundle:Produits_2')->getPrixEuro();
         $cfaprix = $em->getRepository('KountacBundle:Produits_2')->getPrixCFA();
         $usaprix = $em->getRepository('KountacBundle:Produits_2')->getPrixUSA();
         $livreprix = $em->getRepository('KountacBundle:Produits_2')->getPrixLivre();
         $nairaprix = $em->getRepository('KountacBundle:Produits_2')->getPrixNaira();
-        $allprix = $em->getRepository('KountacBundle:Produits_2')->getPrixAll();
+        $allprix = $em->getRepository('KountacBundle:Produits_2')->getPrixAll();*/
         $produits  = $this->get('knp_paginator')->paginate($imagesMannequins,$this->get('request')->query->get('page', 1),20);
        
         
@@ -1172,22 +1004,12 @@ class ProduitController extends Controller
         return $this->render('KountacBundle:Default:produits/all_productsResultats.html.twig', array('produits' => $produits,
                                                                                             'marques' => $marques,
                                                                                             'motifs' => $motifs,
-            'cfaprix' => $cfaprix,
-            'europrix' => $europrix,
-            'usaprix' => $usaprix,
-            'livreprix' => $livreprix,
-            'nairaprix' => $nairaprix,
-            'allprix' => $allprix,
+                                                                                            'prix' => $prix,
+                                                                                            'device_cible' => $target_country,
                                                                                             'categories' => $categories,
                                                                                             'images' => $images,
                                                                                             'mannequins' => $mannequins,
                                                                                             'form' => $form_taillePoids->createView(),
-                                                                                            'euro' => $this->getRequest()->getSession()->get('euro'),
-                                                                                            'all' => $this->getRequest()->getSession()->get('all'),                                                                                
-                                                                                            'livre' => $this->getRequest()->getSession()->get('livre'),
-                                                                                            'usa' => $this->getRequest()->getSession()->get('usa'),
-                                                                                            'naira' => $this->getRequest()->getSession()->get('naira'),
-                                                                                            'cfa' => $this->getRequest()->getSession()->get('cfa'),
                                                                                             ));
     }
     
@@ -1218,12 +1040,13 @@ class ProduitController extends Controller
         $categories = $em->getRepository('KountacBundle:Categories')->findAll();
         $mannequins = $em->getRepository('KountacBundle:Mannequin')->findAll();
         $motifs = $em->getRepository('KountacBundle:Libelles_motif')->findAll();
-        $europrix = $em->getRepository('KountacBundle:Produits_2')->getPrixEuro();
+        $prix = $em->getRepository('KountacBundle:Produits_2')->getPrix();
+        /*$europrix = $em->getRepository('KountacBundle:Produits_2')->getPrixEuro();
         $cfaprix = $em->getRepository('KountacBundle:Produits_2')->getPrixCFA();
         $usaprix = $em->getRepository('KountacBundle:Produits_2')->getPrixUSA();
         $livreprix = $em->getRepository('KountacBundle:Produits_2')->getPrixLivre();
         $nairaprix = $em->getRepository('KountacBundle:Produits_2')->getPrixNaira();
-        $allprix = $em->getRepository('KountacBundle:Produits_2')->getPrixAll();
+        $allprix = $em->getRepository('KountacBundle:Produits_2')->getPrixAll();*/
         $form_taillePoids = $this->createForm(new Taille_PoidsType());
         $images  = $this->get('knp_paginator')->paginate($imagesMannequins,$this->get('request')->query->get('page', 1),20);
        
@@ -1233,20 +1056,10 @@ class ProduitController extends Controller
                                                                                             'motifs' => $motifs,
                                                                                             'form' => $form_taillePoids->createView(),
                                                                                             'images' => $images,
-                                                                                            'cfaprix' => $cfaprix,
-                                                                                            'europrix' => $europrix,
-                                                                                            'usaprix' => $usaprix,
-                                                                                            'livreprix' => $livreprix,
-                                                                                            'nairaprix' => $nairaprix,
-                                                                                            'allprix' => $allprix,
                                                                                             'mannequins' => $mannequins,
                                                                                             'form' => $form_taillePoids->createView(),
-                                                                                            'euro' => $this->getRequest()->getSession()->get('euro'),
-                                                                                            'all' => $this->getRequest()->getSession()->get('all'),                                                                                
-                                                                                            'livre' => $this->getRequest()->getSession()->get('livre'),
-                                                                                            'usa' => $this->getRequest()->getSession()->get('usa'),
-                                                                                            'naira' => $this->getRequest()->getSession()->get('naira'),
-                                                                                            'cfa' => $this->getRequest()->getSession()->get('cfa'),
+                                                                                            'prix' => $prix,
+                                                                                            'device_cible' => $target_country,
                                                                                             ));
     }
     
@@ -1277,34 +1090,25 @@ class ProduitController extends Controller
         $mannequins = $em->getRepository('KountacBundle:Mannequin')->findAll();
         $marques = $em->getRepository('UtilisateursBundle:Utilisateurs')->getAllMarques();
         $motifs = $em->getRepository('KountacBundle:Libelles_motif')->findAll();
-        $europrix = $em->getRepository('KountacBundle:Produits_2')->getPrixEuro();
+        $prix = $em->getRepository('KountacBundle:Produits_2')->getPrix();
+        /*$europrix = $em->getRepository('KountacBundle:Produits_2')->getPrixEuro();
         $cfaprix = $em->getRepository('KountacBundle:Produits_2')->getPrixCFA();
         $usaprix = $em->getRepository('KountacBundle:Produits_2')->getPrixUSA();
         $livreprix = $em->getRepository('KountacBundle:Produits_2')->getPrixLivre();
         $nairaprix = $em->getRepository('KountacBundle:Produits_2')->getPrixNaira();
         $allprix = $em->getRepository('KountacBundle:Produits_2')->getPrixAll();
-        
+        */
         $this->get('session')->getFlashBag()->add('success','Résultat de la recherche par taille et poids');
         return $this->render('KountacBundle:Default:produits/all_productsResultats.html.twig', array('produits' => $produits,
                                                                                             'marques' => $marques,
                                                                                             'motifs' => $motifs,
                                                                                             'images' => $images,
-                                                                                            'cfaprix' => $cfaprix,
-                                                                                            'europrix' => $europrix,
-                                                                                            'usaprix' => $usaprix,
-                                                                                            'livreprix' => $livreprix,
-                                                                                            'nairaprix' => $nairaprix,
-                                                                                            'allprix' => $allprix,
+                                                                                            'prix' => $prix,
+                                                                                            'device_cible' => $target_country,
                                                                                             'categories' => $categories,
                                                                                             'mannequins' => $mannequins,
                                                                                             'form' => $form_taillePoids->createView(),
-                                                                                            'all' => $session->get('all'),         
                                                                                             //'tri_taillePoids' => $session->get('tri_taillePoids'), 
-                                                                                            'euro' => $session->get('euro'),
-                                                                                            'livre' => $session->get('livre'),
-                                                                                            'usa' => $session->get('usa'),
-                                                                                            'naira' => $session->get('naira'),
-                                                                                            'cfa' => $session->get('cfa'),
                                                                                             ));
     }
     
@@ -1330,32 +1134,23 @@ class ProduitController extends Controller
         $categories = $em->getRepository('KountacBundle:Categories')->findAll();
         $mannequins = $em->getRepository('KountacBundle:Mannequin')->findAll();
         $motifs = $em->getRepository('KountacBundle:Libelles_motif')->findAll();
-        $europrix = $em->getRepository('KountacBundle:Produits_2')->getPrixEuro();
+        $prix = $em->getRepository('KountacBundle:Produits_2')->getPrix();
+        /*$europrix = $em->getRepository('KountacBundle:Produits_2')->getPrixEuro();
         $cfaprix = $em->getRepository('KountacBundle:Produits_2')->getPrixCFA();
         $usaprix = $em->getRepository('KountacBundle:Produits_2')->getPrixUSA();
         $livreprix = $em->getRepository('KountacBundle:Produits_2')->getPrixLivre();
         $nairaprix = $em->getRepository('KountacBundle:Produits_2')->getPrixNaira();
         $allprix = $em->getRepository('KountacBundle:Produits_2')->getPrixAll();
-        
+        */
         $this->get('session')->getFlashBag()->add('success','Résultat de la recherche par taille et poids');
         return $this->render('KountacBundle:Default:produits/marque_espacesResultats.html.twig', array('categories' => $categories,'produit2' => $produit_2,
                                                                                             'motifs' => $motifs,
                                                                                             'form' => $form_taillePoids->createView(),
                                                                                             'images' => $images,
-            'cfaprix' => $cfaprix,
-            'europrix' => $europrix,
-            'usaprix' => $usaprix,
-            'livreprix' => $livreprix,
-            'nairaprix' => $nairaprix,
-            'allprix' => $allprix,
+                                                                                            'device_cible' => $target_country,
+                                                                                            'prix' => $prix,
                                                                                             'mannequins' => $mannequins,
                                                                                             'tri' => $this->getRequest()->getSession()->get('tri'),
-                                                                                            'all' => $this->getRequest()->getSession()->get('all'),                                                                                
-                                                                                            'euro' => $this->getRequest()->getSession()->get('euro'),
-                                                                                            'livre' => $this->getRequest()->getSession()->get('livre'),
-                                                                                            'usa' => $this->getRequest()->getSession()->get('usa'),
-                                                                                            'naira' => $this->getRequest()->getSession()->get('naira'),
-                                                                                            'cfa' => $this->getRequest()->getSession()->get('cfa'),
                                                                                             ));
     }
 }

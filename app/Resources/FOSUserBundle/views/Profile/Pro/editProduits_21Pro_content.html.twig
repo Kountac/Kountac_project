@@ -86,118 +86,32 @@
                             </li>
                             <br>
                             <br><br>
-                            <h3 class="checkout-step">Vendez en France (€)</h3>
+                            <h3 class="checkout-step">Détails du Prix</h3>
                             <br>
                             <li class="row">
                                 <div class="col-sm-2">
-                                    {{ form_row(form.europrix) }}
+                                    <label>Devise : {{ produit2.devise }} </label>
+                                </div>
+                                <div class="col-sm-2">
+                                    {{ form_row(form.prix) }}
                                 </div>
                                 <div class="col-sm-1">
                                 </div>
-                                <div class="col-sm-5">
-                                    {{ form_row(form.europrixCommande) }}
+                                <div class="col-sm-3">
+                                    {% if produit2.prixCommande %}
+                                        <label>Prix Commande sur mesure</label>
+                                        {{ form_widget(form.prixCommande) }}
+                                    {% endif %}
                                 </div>
                                 <div class="col-sm-4">
-                                    {{ form_label(form.europrecommande) }}
-                                    {{ form_row(form.europrecommande.0) }}
-                                    {{ form_row(form.europrecommande.1) }}
+                                    {{ form_label(form.precommande) }}
+                                    {{ form_row(form.precommande.0) }}
+                                    {{ form_row(form.precommande.1) }}
                                 </div>
                             </li>
                             <br>
                             <br>
-                            <h3 class="checkout-step">Vendez au Cameroun  (F CFA)</h3>
-                            <br>
-                            <li class="row">
-                                <div class="col-sm-2">
-                                    {{ form_row(form.cfaprix) }}
-                                </div>
-                                <div class="col-sm-1">
-                                </div>
-                                <div class="col-sm-5">
-                                    {{ form_row(form.cfaprixCommande) }}
-                                </div>
-                                <div class="col-sm-4">
-                                    {{ form_label(form.cfaprecommande) }}
-                                    {{ form_row(form.cfaprecommande.0) }}
-                                    {{ form_row(form.cfaprecommande.1) }}
-                                </div>
-                            </li>
-                            <br>
-                            <br>
-                            <h3 class="checkout-step">Vendez en Angleterre (£)</h3>
-                            <br>
-                            <li class="row">
-                                <div class="col-sm-2">
-                                    {{ form_row(form.livreprix) }}
-                                </div>
-                                <div class="col-sm-1">
-                                </div>
-                                <div class="col-sm-5">
-                                    {{ form_row(form.livreprixCommande) }}
-                                </div>
-                                <div class="col-sm-4">
-                                    {{ form_label(form.livreprecommande) }}
-                                    {{ form_row(form.livreprecommande.0) }}
-                                    {{ form_row(form.livreprecommande.1) }}
-                                </div>
-                            </li>
-                            <br>
-                            <br>
-                            <h3 class="checkout-step">Vendez en Allemagne (€)</h3>
-                            <br>
-                            <li class="row">
-                                <div class="col-sm-2">
-                                    {{ form_row(form.allprix) }}
-                                </div>
-                                <div class="col-sm-1">
-                                </div>
-                                <div class="col-sm-5">
-                                    {{ form_row(form.allprixCommande) }}
-                                </div>
-                                <div class="col-sm-4">
-                                    {{ form_label(form.allprecommande) }}
-                                    {{ form_row(form.allprecommande.0) }}
-                                    {{ form_row(form.allprecommande.1) }}
-                                </div>
-                            </li>
-                            <br>
-                            <br>
-                            <h3 class="checkout-step">Vendez aux Etats-unis d'Amérique ($)</h3>
-                            <br>
-                            <li class="row">
-                                <div class="col-sm-2">
-                                    {{ form_row(form.usaprix) }}
-                                </div>
-                                <div class="col-sm-1">
-                                </div>
-                                <div class="col-sm-5">
-                                    {{ form_row(form.usaprixCommande) }}
-                                </div>
-                                <div class="col-sm-4">
-                                    {{ form_label(form.usaprecommande) }}
-                                    {{ form_row(form.usaprecommande.0) }}
-                                    {{ form_row(form.usaprecommande.1) }}
-                                </div>
-                            </li>
-                            <br>
-                            <br>
-                            <h3 class="checkout-step">Vendez au Nigéria (₦)</h3>
-                            <br>
-                            <li class="row">
-                                <div class="col-sm-2">
-                                    {{ form_row(form.nairaprix) }}
-                                </div>
-                                <div class="col-sm-1">
-                                </div>
-                                <div class="col-sm-5">
-                                    {{ form_row(form.nairaprixCommande) }}
-                                </div>
-                                <div class="col-sm-4">
-                                    {{ form_label(form.nairaprecommande) }}
-                                    {{ form_row(form.nairaprecommande.0) }}
-                                    {{ form_row(form.nairaprecommande.1) }}
-                                </div>
-                            </li>
+                            
                             <li>
                                 <button class="button pull-right" type="submit"><i class="fa fa-angle-double-right"></i>&nbsp; &nbsp;<span>Continuer</span></button>
                             </li>

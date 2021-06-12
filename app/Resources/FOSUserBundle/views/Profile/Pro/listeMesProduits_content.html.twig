@@ -95,90 +95,23 @@
                                                                                 <div class="tab-pane fade in active" id="{{ produit2.id }}">
                                                                                 <br><label> <img src="{{ produit2.libelle.AssetPath|imagine_filter('MotifThumb') }}" alt="">&nbsp;{{ produit2.libelle.libelle|upper }}</label>
                                                                                 <p><strong>Stock motif :</strong><span class="regular-price"> <span class="price">{{ produit2.stock }} </span> </span></p>
-                                                                                {% if produit2.europrix %}
+                                                                                {% if produit2.prix %}
                                                                                     {% set prixReduction = 0 %}
-                                                                                    {% set prixReduction = produit2.europrix - (produit2.europrix * produit2.reduction/100) %}
+                                                                                    {% set prixReduction = produit2.prix - (produit2.prix * produit2.reduction/100) %}
 
                                                                                     {% if produit2.reduction == 0 %}
-                                                                                        <p><strong>France (€) :</strong><span class="regular-price"> <span class="price">{{ prixReduction|number_format(2) }} </span> </span></p>
+                                                                                        <p><strong>Prix (Devise) :</strong><span class="regular-price"> <span class="price">{{ prixReduction }} ({{ produit2.devise }}) </span> </span></p>
                                                                                     {% else %}
                                                                                     <div class="price-box">
                                                                                         <p class="special-price"><strong>France (€) :</strong>
-                                                                                         <span class="price-label">Special Price</span> <span class="price">{{ prixReduction|number_format(2) }} </span> </p>
-                                                                                        <p class="old-price"> <span class="price-label">Regular Price:</span> <span class="price">{{ produit2.europrix|number_format(2) }}</span> </p>
+                                                                                         <span class="price-label">Special Price</span> <span class="price">{{ prixReduction }} ({{ produit2.devise }})</span> </p>
+                                                                                        <p class="old-price"> <span class="price-label">Regular Price:</span> <span class="price">{{ produit2.prix }} ({{ produit2.devise }})</span> </p>
                                                                                     </div>
                                                                                     {% endif %}
                                                                                 {% else %}
-                                                                                    <p><strong>France (€) : </strong><span class="availability out-of-stock">Non défini</span></p>
+                                                                                    <p><strong>Prix (Devise) : </strong><span class="availability out-of-stock">Non défini</span></p>
                                                                                 {% endif %}
                                                                                 
-                                                                                {% if produit2.allprix %}
-                                                                                    {% set prixReduction = 0 %}
-                                                                                    {% set prixReduction = produit2.allprix - (produit2.allprix * produit2.reduction/100) %}
-
-                                                                                    {% if produit2.reduction == 0 %}
-                                                                                        <p><strong>Allemagne (€) :</strong><span class="regular-price"> <span class="price">{{ prixReduction|number_format(2) }} </span> </span></p>
-                                                                                    {% else %}
-                                                                                    <div class="price-box">
-                                                                                        <p class="special-price"><strong>Allemagne (€) :</strong>
-                                                                                         <span class="price-label">Special Price</span> <span class="price">{{ prixReduction|number_format(2) }} </span> </p>
-                                                                                        <p class="old-price"> <span class="price-label">Regular Price:</span> <span class="price">{{ produit2.allprix|number_format(2) }}</span> </p>
-                                                                                    </div>
-                                                                                    {% endif %}
-                                                                                {% else %}
-                                                                                    <p><strong>Allemagne (€) : </strong><span class="availability out-of-stock">Non défini</span></p>
-                                                                                {% endif %}
-
-                                                                                {% if produit2.livreprix %}
-                                                                                    {% set prixReduction = 0 %}
-                                                                                    {% set prixReduction = produit2.livreprix - (produit2.livreprix * produit2.reduction/100) %}
-
-                                                                                    {% if produit2.reduction == 0 %}
-                                                                                        <p><strong>Angleterre (£) :</strong><span class="regular-price"> <span class="price">{{ prixReduction|number_format(2) }} </span> </span></p>
-                                                                                    {% else %}
-                                                                                    <div class="price-box">
-                                                                                        <p class="special-price"><strong>Angleterre (£) :</strong>
-                                                                                         <span class="price-label">Special Price</span> <span class="price">{{ prixReduction|number_format(2) }} </span> </p>
-                                                                                        <p class="old-price"> <span class="price-label">Regular Price:</span> <span class="price">{{ produit2.livreprix|number_format(2) }}</span> </p>
-                                                                                    </div>
-                                                                                    {% endif %}
-                                                                                {% else %}
-                                                                                    <p><strong>Angleterre (£) : </strong><span class="availability out-of-stock">Non défini</span></p>
-                                                                                {% endif %}
-
-                                                                                {% if produit2.usaprix %}
-                                                                                    {% set prixReduction = 0 %}
-                                                                                    {% set prixReduction = produit2.usaprix - (produit2.usaprix * produit2.reduction/100) %}
-
-                                                                                    {% if produit2.reduction == 0 %}
-                                                                                        <p><strong>Etats-unis ($) :</strong><span class="regular-price"> <span class="price">{{ prixReduction|number_format(2) }} </span> </span></p>
-                                                                                    {% else %}
-                                                                                    <div class="price-box">
-                                                                                        <p class="special-price"><strong>Etats-unis ($) :</strong>
-                                                                                         <span class="price-label">Special Price</span> <span class="price">{{ prixReduction|number_format(2) }} </span> </p>
-                                                                                        <p class="old-price"> <span class="price-label">Regular Price:</span> <span class="price">{{ produit2.usaprix|number_format(2) }}</span> </p>
-                                                                                    </div>
-                                                                                    {% endif %}
-                                                                                {% else %}
-                                                                                    <p><strong>Etats-unis ($) : </strong><span class="availability out-of-stock">Non défini</span></p>
-                                                                                {% endif %}
-
-                                                                                {% if produit2.cfaprix %}
-                                                                                    {% set prixReduction = 0 %}
-                                                                                    {% set prixReduction = produit2.cfaprix - (produit2.cfaprix * produit2.reduction/100) %}
-
-                                                                                    {% if produit2.reduction == 0 %}
-                                                                                        <p><strong>Cameroun (F CFA) :</strong><span class="regular-price"> <span class="price">{{ prixReduction }}</span> </span></p>
-                                                                                    {% else %}
-                                                                                    <div class="price-box">
-                                                                                        <p class="special-price"><strong>Cameroun (F CFA) :</strong>
-                                                                                         <span class="price-label">Special Price</span> <span class="price">{{ prixReduction }} </span> </p>
-                                                                                        <p class="old-price"> <span class="price-label">Regular Price:</span> <span class="price">{{ produit2.cfaprix }}</span> </p>
-                                                                                    </div>
-                                                                                    {% endif %}
-                                                                                {% else %}
-                                                                                    <p><strong>Cameroun (F CFA) : </strong><span class="availability out-of-stock">Non défini</span></p>
-                                                                                {% endif %}
                                                                                 <br>
                                                                                 <label>Mannequin(s) disponible(s):</label><br>
                                                                                 {% for mannequin in mannequins %}
@@ -195,90 +128,23 @@
                                                                                 <div class="std">
                                                                                 <br><label> <img src="{{ produit2.libelle.AssetPath|imagine_filter('MotifThumb') }}" alt="">&nbsp;{{ produit2.libelle.libelle|upper }}</label>
                                                                                 <p><strong>Stock motif :</strong><span class="regular-price"> <span class="price">{{ produit2.stock }} </span> </span></p>
-                                                                                {% if produit2.europrix %}
+                                                                                {% if produit2.prix %}
                                                                                     {% set prixReduction = 0 %}
-                                                                                    {% set prixReduction = produit2.europrix - (produit2.europrix * produit2.reduction/100) %}
+                                                                                    {% set prixReduction = produit2.prix - (produit2.prix * produit2.reduction/100) %}
 
                                                                                     {% if produit2.reduction == 0 %}
-                                                                                        <p><strong>France (€) :</strong><span class="regular-price"> <span class="price">{{ prixReduction|number_format(2) }} </span> </span></p>
+                                                                                        <p><strong>Prix (Devise) :</strong><span class="regular-price"> <span class="price">{{ prixReduction }} ({{ produit2.devise }})</span> </span></p>
                                                                                     {% else %}
                                                                                     <div class="price-box">
-                                                                                        <p class="special-price"><strong>France (€) :</strong>
+                                                                                        <p class="special-price"><strong>Prix (Devise) :</strong>
                                                                                          <span class="price-label">Special Price</span> <span class="price">{{ prixReduction|number_format(2) }} </span> </p>
-                                                                                        <p class="old-price"> <span class="price-label">Regular Price:</span> <span class="price">{{ produit2.europrix|number_format(2) }}</span> </p>
+                                                                                        <p class="old-price"> <span class="price-label">Regular Price:</span> <span class="price">{{ produit2.prix }} ({{ produit2.devise }})</span> </p>
                                                                                     </div>
                                                                                     {% endif %}
                                                                                 {% else %}
-                                                                                    <p><strong>France (€) : </strong><span class="availability out-of-stock">Non défini</span></p>
+                                                                                    <p><strong>Prix (Devise) : </strong><span class="availability out-of-stock">Non défini</span></p>
                                                                                 {% endif %}
                                                                                 
-                                                                                {% if produit2.allprix %}
-                                                                                    {% set prixReduction = 0 %}
-                                                                                    {% set prixReduction = produit2.allprix - (produit2.allprix * produit2.reduction/100) %}
-
-                                                                                    {% if produit2.reduction == 0 %}
-                                                                                        <p><strong>Allemagne (€) :</strong><span class="regular-price"> <span class="price">{{ prixReduction|number_format(2) }} </span> </span></p>
-                                                                                    {% else %}
-                                                                                    <div class="price-box">
-                                                                                        <p class="special-price"><strong>Allemagne (€) :</strong>
-                                                                                         <span class="price-label">Special Price</span> <span class="price">{{ prixReduction|number_format(2) }} </span> </p>
-                                                                                        <p class="old-price"> <span class="price-label">Regular Price:</span> <span class="price">{{ produit2.allprix|number_format(2) }}</span> </p>
-                                                                                    </div>
-                                                                                    {% endif %}
-                                                                                {% else %}
-                                                                                    <p><strong>Allemagne (€) : </strong><span class="availability out-of-stock">Non défini</span></p>
-                                                                                {% endif %}
-
-                                                                                {% if produit2.livreprix %}
-                                                                                    {% set prixReduction = 0 %}
-                                                                                    {% set prixReduction = produit2.livreprix - (produit2.livreprix * produit2.reduction/100) %}
-
-                                                                                    {% if produit2.reduction == 0 %}
-                                                                                        <p><strong>Angleterre (£) :</strong><span class="regular-price"> <span class="price">{{ prixReduction|number_format(2) }} </span> </span></p>
-                                                                                    {% else %}
-                                                                                    <div class="price-box">
-                                                                                        <p class="special-price"><strong>Angleterre (£) :</strong>
-                                                                                         <span class="price-label">Special Price</span> <span class="price">{{ prixReduction|number_format(2) }} </span> </p>
-                                                                                        <p class="old-price"> <span class="price-label">Regular Price:</span> <span class="price">{{ produit2.livreprix|number_format(2) }}</span> </p>
-                                                                                    </div>
-                                                                                    {% endif %}
-                                                                                {% else %}
-                                                                                    <p><strong>Angleterre (£) : </strong><span class="availability out-of-stock">Non défini</span></p>
-                                                                                {% endif %}
-
-                                                                                {% if produit2.usaprix %}
-                                                                                    {% set prixReduction = 0 %}
-                                                                                    {% set prixReduction = produit2.usaprix - (produit2.usaprix * produit2.reduction/100) %}
-
-                                                                                    {% if produit2.reduction == 0 %}
-                                                                                        <p><strong>Etats-unis ($) :</strong><span class="regular-price"> <span class="price">{{ prixReduction|number_format(2) }} </span> </span></p>
-                                                                                    {% else %}
-                                                                                    <div class="price-box">
-                                                                                        <p class="special-price"><strong>Etats-unis ($) :</strong>
-                                                                                         <span class="price-label">Special Price</span> <span class="price">{{ prixReduction|number_format(2) }} </span> </p>
-                                                                                        <p class="old-price"> <span class="price-label">Regular Price:</span> <span class="price">{{ produit2.usaprix|number_format(2) }}</span> </p>
-                                                                                    </div>
-                                                                                    {% endif %}
-                                                                                {% else %}
-                                                                                    <p><strong>Etats-unis ($) : </strong><span class="availability out-of-stock">Non défini</span></p>
-                                                                                {% endif %}
-
-                                                                                {% if produit2.cfaprix %}
-                                                                                    {% set prixReduction = 0 %}
-                                                                                    {% set prixReduction = produit2.cfaprix - (produit2.cfaprix * produit2.reduction/100) %}
-
-                                                                                    {% if produit2.reduction == 0 %}
-                                                                                        <p><strong>Cameroun (F CFA) :</strong><span class="regular-price"> <span class="price">{{ prixReduction }}</span> </span></p>
-                                                                                    {% else %}
-                                                                                    <div class="price-box">
-                                                                                        <p class="special-price"><strong>Cameroun (F CFA) :</strong>
-                                                                                         <span class="price-label">Special Price</span> <span class="price">{{ prixReduction }} </span> </p>
-                                                                                        <p class="old-price"> <span class="price-label">Regular Price:</span> <span class="price">{{ produit2.cfaprix }}</span> </p>
-                                                                                    </div>
-                                                                                    {% endif %}
-                                                                                {% else %}
-                                                                                    <p><strong>Cameroun (F CFA) : </strong><span class="availability out-of-stock">Non défini</span></p>
-                                                                                {% endif %}
                                                                                 <br>
                                                                                 <label>Mannequin(s) disponible(s):</label><br>
                                                                                 {% for mannequin in mannequins %}

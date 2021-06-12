@@ -1,8 +1,0 @@
-services:
-    setNewReference:
-        class: Kountac\KountacBundle\Services\GetReference
-        arguments: [@security.context, @doctrine.orm.entity_manager]
-      
-    setNewFacture:
-        class: Kountac\KountacBundle\Services\GetFacture
-        arguments: [@service_container]

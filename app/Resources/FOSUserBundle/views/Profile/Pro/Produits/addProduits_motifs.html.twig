@@ -48,113 +48,27 @@
             </div><!--/ [col] -->
         </li>
         <br>
-        <h3 class="checkout-step">Vendez en France (€)</h3>
         <br>
-        <li class="row">
-            <div class="col-sm-2">
-                {{ form_row(form.europrix) }}
-            </div>
-            <div class="col-sm-1">
-            </div>
-            <div class="col-sm-5">
-                {{ form_row(form.europrixCommande) }}
-            </div>
-            <div class="col-sm-4">
-                {{ form_label(form.europrecommande) }}
-                {{ form_row(form.europrecommande.0) }}
-                {{ form_row(form.europrecommande.1) }}
-            </div>
-        </li>
-        <br>
-        <h3 class="checkout-step">Vendez au Cameroun  (F CFA)</h3>
-        <br>
-        <li class="row">
-            <div class="col-sm-2">
-                {{ form_row(form.cfaprix) }}
-            </div>
-            <div class="col-sm-1">
-            </div>
-            <div class="col-sm-5">
-                {{ form_row(form.cfaprixCommande) }}
-            </div>
-            <div class="col-sm-4">
-                {{ form_label(form.cfaprecommande) }}
-                {{ form_row(form.cfaprecommande.0) }}
-                {{ form_row(form.cfaprecommande.1) }}
-            </div>
-        </li>
-        <br>
-        <h3 class="checkout-step">Vendez en Angleterre (£)</h3>
-        <br>
-        <li class="row">
-            <div class="col-sm-2">
-                {{ form_row(form.livreprix) }}
-            </div>
-            <div class="col-sm-1">
-            </div>
-            <div class="col-sm-5">
-                {{ form_row(form.livreprixCommande) }}
-            </div>
-            <div class="col-sm-4">
-                {{ form_label(form.livreprecommande) }}
-                {{ form_row(form.livreprecommande.0) }}
-                {{ form_row(form.livreprecommande.1) }}
-            </div>
-        </li>
-        <br>
-        <h3 class="checkout-step">Vendez en Allemagne (€)</h3>
-        <br>
-        <li class="row">
-            <div class="col-sm-2">
-                {{ form_row(form.allprix) }}
-            </div>
-            <div class="col-sm-1">
-            </div>
-            <div class="col-sm-5">
-                {{ form_row(form.allprixCommande) }}
-            </div>
-            <div class="col-sm-4">
-                {{ form_label(form.allprecommande) }}
-                {{ form_row(form.allprecommande.0) }}
-                {{ form_row(form.allprecommande.1) }}
-            </div>
-        </li>
-        <br>
-        <h3 class="checkout-step">Vendez aux Etats-unis d'Amérique ($)</h3>
-        <br>
-        <li class="row">
-            <div class="col-sm-2">
-                {{ form_row(form.usaprix) }}
-            </div>
-            <div class="col-sm-1">
-            </div>
-            <div class="col-sm-5">
-                {{ form_row(form.usaprixCommande) }}
-            </div>
-            <div class="col-sm-4">
-                {{ form_label(form.usaprecommande) }}
-                {{ form_row(form.usaprecommande.0) }}
-                {{ form_row(form.usaprecommande.1) }}
-            </div>
-        </li>
-        <br>
-        <h3 class="checkout-step">Vendez au Nigéria (₦)</h3>
-        <br>
-        <li class="row">
-            <div class="col-sm-2">
-                {{ form_row(form.nairaprix) }}
-            </div>
-            <div class="col-sm-1">
-            </div>
-            <div class="col-sm-5">
-                {{ form_row(form.nairaprixCommande) }}
-            </div>
-            <div class="col-sm-4">
-                {{ form_label(form.nairaprecommande) }}
-                {{ form_row(form.nairaprecommande.0) }}
-                {{ form_row(form.nairaprecommande.1) }}
-            </div>
-        </li>
+                                    <h3 class="checkout-step">Détails sur les prix</h3>
+                                    <br>
+                                    <li class="row">
+                                        <div class="col-sm-3">
+                                            {{ form_row(form.prix) }}
+                                        </div>
+                                        <div class="col-sm-1">
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <label data-toggle="collapse" data-target="#demo">{{ form_label(form.prixCommande) }}</label>
+                                            <div id="demo" class="collapse">
+                                              {{ form_widget(form.prixCommande) }}
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            {{ form_label(form.precommande) }}
+                                            {{ form_row(form.precommande.0) }}
+                                            {{ form_row(form.precommande.1) }}
+                                        </div>
+                                    </li>
         <br>
         <li>
             <button class="button pull-left" type="submit"> &nbsp;<span>Modifier motif &nbsp; &nbsp;<i class="fa fa-check"></i></span></button>

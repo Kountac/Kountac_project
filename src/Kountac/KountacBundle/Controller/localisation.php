@@ -1,5 +1,6 @@
 <?php
-
+use Kountac\KountacBundle\Repository\PaysRepository;
+//use Kountac\KountacBundle\Form\RegistrationpopupType;
 /* Code for Geolocalisation by ChrisME */
 $pays = "";
 $devise = "";
@@ -190,3 +191,10 @@ if($pays == "France")
     if ($session->has('naira'))
         $session->remove('naira');
 }
+
+//Add by Damien in order to match the currency and the location of the user
+$pays = "Nigeria";
+$em = $this->getDoctrine()->getManager();
+$target_country = $em->getRepository('KountacBundle:Pays')->findOneByNom($pays); 
+
+// Fin modification

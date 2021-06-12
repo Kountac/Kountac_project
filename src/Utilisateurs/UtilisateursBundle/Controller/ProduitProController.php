@@ -116,11 +116,14 @@ class ProduitProController extends Controller
         $form->handleRequest($request);
         $form_motif = $this->createForm('Kountac\KountacBundle\Form\Libelles_motifType');
         $form_mannequin = $this->createForm('Kountac\KountacBundle\Form\MannequinType');
-        
+        $location_devise = $em->getRepository('KountacBundle:Pays')->findOneBy(['code' => $user->getPaysEntreprise()]);
         if ($request->getMethod() == 'POST') 
         {
             if ($form->isSubmitted() && $form->isValid()) {
                 $produit->setProduit1($produit_1);
+                $pays = $em->getRepository('KountacBundle:Pays')->findOneBy(['code' => $user->getPaysEntreprise()]);
+                $produit->setDevise($pays->getDevise()->getCode());
+                //var_dump($produit->getDevise());die();
                 $em->persist($produit);
                 $em->flush();
                 $this->get('session')->getFlashBag()->add('success','Nouveau motif ajouté avec succès');
@@ -130,6 +133,7 @@ class ProduitProController extends Controller
         return $this->render('FOSUserBundle:Profile:Pro/addProduits_2Pro.html.twig', array(
             'produit' => $produit,
             'libelles' => $libelles,
+            'location_devise' => $location_devise,
             'mannequins' => $mannequins,
             'produit_1' => $produit_1,
             'user' => $user,

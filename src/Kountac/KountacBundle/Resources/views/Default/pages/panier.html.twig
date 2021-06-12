@@ -2,9 +2,10 @@
 
 
 {% block body %}
-    {% if euro|length != 0 %}
-        {% set totalPanier = 0 %}
-        {% set totalPanier2 = 0 %}
+    {% set targetCurrency = device_cible.devise.code %}
+    {% set amountCurrency2 = "" %}
+    {% set totalPanier = 0 %}
+    {% set totalPanier2 = 0 %}
     <div>
         <div class="breadcrumbs">
             <div class="container">
@@ -95,17 +96,20 @@
                                         <tr>
                                             <th class="cart_product">Produit</th>
                                             <th>Description</th>
-                                            <th>Prix unitaire (€)</th>
+                                            <th>Prix unitaire ({{ device_cible.symbole }})</th>
                                             <th>Quantité</th>
-                                            <th>Total</th>
+                                            <th>Total ({{ device_cible.symbole }})</th>
                                             <th  class="action"><i class="fa fa-trash-o"></i></th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         {% for produit in produits %}
-                                            {% if produit.produit2.europrix %}
-                                            {% set prixReduction = 0 %}
-                                            {% set prixReduction = produit.produit2.europrix - (produit.produit2.europrix * produit.produit2.reduction/100) %}
+                                            ici
+                                                {% set amountCurrency = produit.produit2.devise %}
+                                                {% set amountCurrency2 = amountCurrency %}
+                                                {% set decimal = true %}
+                                                {% set prixReduction = 0 %}
+                                                {% set prixReduction = produit.produit2.prix - (produit.produit2.prix * produit.produit2.reduction/100) %}
                                             <tr>
                                                 <td class="cart_product">
                                                     <a href="{{ path('product', {'id' : produit.produit2.id}) }}">
@@ -122,11 +126,11 @@
                                                     <small><a><u>Taille</u> : {{ produit.taille|upper }}</a></small></td>
                                                 <td class="price">
                                                     {% if produit.produit2.reduction == 0 %}
-                                                        <div class="price-box"> <span class="regular-price"> <span class="price">{{ prixReduction|number_format(2) }} €</span> </span> </div>
+                                                        <div class="price-box"> <span class="regular-price"> <span class="price">{{ prixReduction| currency_convert(targetCurrency, decimal, amountCurrency) }} </span> </span> </div>
                                                     {% else %}
                                                         <div class="price-box">
-                                                            <p class="special-price"> <span class="price-label">Special Price</span> <span class="price">{{ prixReduction|number_format(2) }} €</span> </p><br><br>
-                                                            <br><br><p class="old-price"> <span class="price-label">Regular Price:</span> <span class="price">{{ produit.produit2.europrix|number_format(2) }} €</span> </p>
+                                                            <p class="special-price"> <span class="price-label">Special Price</span> <span class="price">{{ prixReduction| currency_convert(targetCurrency, decimal, amountCurrency) }} </span> </p><br><br>
+                                                            <br><br><p class="old-price"> <span class="price-label">Regular Price:</span> <span class="price">{{ produit.produit2.prix| currency_convert(targetCurrency, decimal, amountCurrency) }} </span> </p>
                                                         </div>
                                                     {% endif %}
                                                 </td>
@@ -139,18 +143,19 @@
                                                         </select>
                                                     </form>
                                                 </td>
-                                                <td class="price"><span>{{ (prixReduction * panier[produit.id])|number_format(2) }} €</span></td>
+                                                <td class="price"><span>{{ (prixReduction * panier[produit.id])| currency_convert(targetCurrency, decimal, amountCurrency) }} </span></td>
                                                 <td class="action"><a title="Retirer {{ produit.produit2.produit1.nom|capitalize }} de votre panier" href="{{ path('supprimerpanier', { 'id' : produit.id }) }}"><i class="icon-close"></i></a></td>
 
                                             </tr>
                                         {% set totalPanier = totalPanier + (prixReduction * panier[produit.id]) %}
-                                        {% endif %}
                                         {% endfor %}
                                         
                                         {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                                         {% for commande in commandes %}
-                                            {% if commande.produit.europrixCommande %}
-                                            {% set prixReduction = commande.produit.europrixCommande %}
+                                            {% if commande.produit.prixCommande %}
+                                                {% set amountCurrency = produit.devise %}
+                                                {% set decimal = true %}
+                                                {% set prixReduction = commande.produit.prixCommande %}
                                             <tr>
                                                 <td class="cart_product"><a href="{{ path('product', {'id' : commande.produit.id}) }}"><img src="{{ commande.produit.picture.AssetPath|imagine_filter('cartThumbItem') }}" alt=""></a></td>
                                                 <td class="cart_description"><p class="product-name">{{ commande.produit.produit1.nom|capitalize }} - {{ commande.produit.libelle.libelle|capitalize }} (Commande sur mesure)</p><br>
@@ -159,12 +164,12 @@
                                                     <small><a><u>Mesures</u> : Pour ''{{ commande.mesures.mesureCommande.titulaire|upper }}''</a></small><br>
                                                     <small><a><u>Ajouté le</u> : {{ commande.date|date('d M Y') }}</a></small></td>
                                                 <td class="price">
-                                                    <div class="price-box"> <span class="regular-price"> <span class="price">{{ prixReduction|number_format(2) }} €</span> </span> </div>
+                                                    <div class="price-box"> <span class="regular-price"> <span class="price">{{ prixReduction| currency_convert(targetCurrency, decimal, amountCurrency) }} </span> </span> </div>
                                                 </td>
                                                 <td class="qty">
                                                     1
                                                 </td>
-                                                <td class="price"><span>{{ (prixReduction)|number_format(2) }} €</span></td>
+                                                <td class="price"><span>{{ prixReduction| currency_convert(targetCurrency, decimal, amountCurrency) }} </span></td>
                                                 <td class="action"><a title="Retirer commande sur mesure ''{{ commande.intitule|capitalize }}'' de votre panier" href="{{ path('commande_delete_item', { 'id' : commande.id }) }}"><i class="icon-close"></i></a></td>
 
                                             </tr>
@@ -172,12 +177,13 @@
                                         {% endif %}
                                         {% endfor %}
                                         {% endif %}
+                                        {% set decimal = true %}
                                     </tbody>
                                     <tfoot>
                                         <tr>
                                             <td colspan="2" rowspan="2"></td>
-                                            <td colspan="3">TOTAL </td>
-                                            <td colspan="2">{{ (totalPanier + totalPanier2)|number_format(2) }} €</td>
+                                            <td colspan="3">TOTAL ({{ device_cible.symbole }})</td>
+                                            <td colspan="2">{{ (totalPanier + totalPanier2)| currency_convert(targetCurrency, decimal, amountCurrency2) }} </td>
                                         </tr>
                                     </tfoot>
                                 </table>
@@ -190,16 +196,5 @@
         </div>
     </section>
     <!-- service section -->
-{% elseif cfa|length != 0 %}
-    {% include 'KountacBundle:Default:pages/cfa/panier.html.twig' %}
-{% elseif usa|length != 0 %}
-    {% include 'KountacBundle:Default:pages/usa/panier.html.twig' %}
-{% elseif livre|length != 0 %}
-    {% include 'KountacBundle:Default:pages/livre/panier.html.twig' %}
-{% elseif naira|length != 0 %}
-    {% include 'KountacBundle:Default:pages/naira/panier.html.twig' %}
-{% elseif all|length != 0 %}
-    {% include 'KountacBundle:Default:pages/all/panier.html.twig' %}
-{% endif %}
 
 {% endblock %}

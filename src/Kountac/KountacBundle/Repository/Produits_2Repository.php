@@ -13,6 +13,16 @@ use Doctrine\ORM\EntityRepository;
 class Produits_2Repository extends EntityRepository
 {
 
+    public function getAllProductPriceNull() 
+    {
+        $qb = $this->createQueryBuilder('u')
+                ->select('u')
+                ->where('u.prix is Null')
+                ->orderBy('u.id', 'ASC');
+        ;
+        return $qb->getQuery()->getResult();
+    }
+    
     public function findByRand() 
     {
         return  $this->createQueryBuilder('u')
@@ -44,14 +54,64 @@ class Produits_2Repository extends EntityRepository
             ->setParameter('id', $marque_id);
         return $qb->getQuery()->getResult();
     }
-
+/*
     public function getAll()
     {
         $qb = $this->createQueryBuilder('p2')
             ->select('p2')
-            ->orderBy('p2.randValue', 'DESC');
+            ->orderBy('p2.randValue', 'ASC')
+            ->setMaxResults(500);
         return $qb->getQuery()->getResult();
     }
+ */
+    public function getAll()
+    {
+        $qb = $this->createQueryBuilder('p2')
+            ->select('p2')
+            ->leftJoin('p2.produit_1', 'p1')
+            ->addSelect('p1')
+            ->orderBy('p1.dateajout', 'DESC');
+        return $qb->getQuery()->getResult();
+    }
+
+    public function countProduct()
+    {
+        $qb = $this->createQueryBuilder('p2')
+            ->select('count(p2.id)')
+            ;
+        return $qb->getQuery()->getSingleScalarResult();
+    }
+    
+    public function getAllSup($val)
+    {
+        $qb = $this->createQueryBuilder('p2')
+            ->select('p2')
+            ->where('p2.id <= :val')
+            ->orderBy('p2.id', 'DESC')
+            ->setParameter('val', $val)
+            ->setMaxResults(1000);
+        return $qb->getQuery()->getResult();
+    }
+    
+    public function getAllInf($val)
+    {
+        $qb = $this->createQueryBuilder('p2')
+            ->select('p2')
+            ->where('p2.id >= :val')
+            ->orderBy('p2.id', 'ASC')
+            ->setParameter('val', $val)
+            ->setMaxResults(1000);
+        return $qb->getQuery()->getResult();
+    }
+    
+    public function getAllDesc()
+    {
+        $qb = $this->createQueryBuilder('p2')
+            ->select('p2')
+            ->orderBy('p2.stock', 'DESC');
+        return $qb->getQuery()->getResult();
+    }
+    
 
 
     public function getAllByGroup()
@@ -59,6 +119,13 @@ class Produits_2Repository extends EntityRepository
         $qb = $this->createQueryBuilder('p2')
             ->select('p2')
             ->groupBy('p2.produit_1');
+        return $qb->getQuery()->getResult();
+    }
+    
+    public function getPrix() 
+    {
+        $qb = $this->createQueryBuilder('p2')
+                ->select('MIN(p2.prix) AS minprix, MAX(p2.prix) AS maxprix');
         return $qb->getQuery()->getResult();
     }
 
@@ -2602,7 +2669,8 @@ class Produits_2Repository extends EntityRepository
     {
         $qb = $this->createQueryBuilder('u')
                 ->select('u')
-                ->orderBy('u.reduction', 'DESC');
+                ->orderBy('u.reduction', 'DESC')
+                ->setMaxResults(15);
         return $qb->getQuery()->getResult();
     }
     

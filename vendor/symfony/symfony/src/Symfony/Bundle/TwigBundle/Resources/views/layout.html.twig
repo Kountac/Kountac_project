@@ -42,3 +42,36 @@
         </div>
     </body>
 </html>
+{#%}
+<html lang="fr">
+    <head>
+        <meta charset="{{ _charset }}" />
+        <meta name="robots" content="noindex,nofollow" />
+        <title>Kountac | The new made in Africa | Mode, Art, Déco d'Afrique | {% block title %}{% endblock %}</title>
+  
+        <link href="{{ absolute_url(asset('css/style.css')) }}" rel="stylesheet" />
+        <link href="{{ absolute_url(asset('css/bootstrap.min.css')) }}" rel="stylesheet" />
+        <!-- Favicon  -->
+        <link rel="shortcut icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
+
+        {% block head %}{% endblock %}
+    </head>
+         
+  <!--Container -->
+  
+  <div class="error-page">
+    <div class="container">
+      <div class="error_pagenotfound"> <strong>4<span id="animate-arrow">0</span>4 </strong> <br />
+        <b>Oops... Page non trouvée</b> <em>Désolé, cette page ne peut pas être trouvée.</em>
+        <p>Utiliser le bouton ci-dessous pour revenir sur Kountac.</p>
+        
+        <em>Toute l'équipe Kountac s'excuse pour ce désagrément et corrigera au plutôt le problème.</em>
+        <br />
+        <a href="{{ path('kountac_homepage') }}" class="button-back"><i class="fa fa-arrow-circle-left fa-lg"></i>&nbsp; Revenir sur Kountac</a> </div>
+      <!-- end error page notfound --> 
+      
+    </div>
+  </div>
+</html>
+
+{#}

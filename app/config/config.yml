@@ -119,6 +119,18 @@ liip_imagine:
             filters:
                 thumbnail: { size: [1000, 1500], mode: outbound }
                 background: {size: [1000, 1500], position : center, color : '#000000'}
+                
+        resizeQuick:
+            quality: 100
+            filters:
+                thumbnail: { size: [700, 1200], mode: outbound }
+                background: {size: [700, 1200], position : center, color : '#000000'}
+                
+        resizeQuickSmall:
+            quality: 100
+            filters:
+                thumbnail: { size: [100, 113], mode: outbound }
+                background: {size: [100, 113], position : center, color : '#000000'}
 
 
         produitThumb:
@@ -237,7 +249,6 @@ liip_imagine:
             filters:
                 thumbnail: { size: [200, 200], mode: inset  }
 
-
 stfalcon_tinymce:
         include_jquery: true
         tinymce_jquery: true
@@ -271,3 +282,14 @@ stfalcon_tinymce:
                 plugins: ["bbcode, code, link, preview"]
                 menubar: false
                 toolbar1: "bold,italic,underline,undo,redo,link,unlink,removeformat,cleanup,code,preview"
+                
+lexik_currency:
+    currencies:
+        default: EUR              # [required] the default currency
+        managed: [EUR, USD, GBP, ETB, EGP, TZS, RUB, BRL, CNY, DZD, MAD, CAF, XOF, GHS, MZN, MGA, GNF, UAH, PLN, RON, ANG, MXN, COP, ARS, ILS, JMD, BOB, CAD, VES, PEN, CLP, GTQ, CUC, DOP, CNY, INR, IDR, PKR, BDT, JPY, NZD, SEK, CHE, CHF, CHW, QAR, PLN, NOK, PAB, JOD, KRW, KPW, PHP, VND, TRY, IRR, THB, MMK, KPW, IQD, AFN, MYR, NPR, AUD, NZD, XPF, ALL]  # [required] all currencies used in your app
+        
+    decimal_part:
+        precision:  2                           # number of digits for the decimal part
+        round_mode: up                          # round mode to use (up|down|even|odd)
+        #currency_class: Lexik\Bundle\CurrencyBundle\Entity\Currency  # Use your custom Currency Entity
+    #default_adapter: doctrine_currency_adapter  # service id OR tag alias, this is adapter used by the conversion service

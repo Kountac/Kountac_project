@@ -1,7 +1,0 @@
-adminAchats_index:
-    path:     /
-    defaults: { _controller: "KountacBundle:AchatsAdmin:index" }
-    
-adminAchats_delete:
-    path:     /{id}/delete
-    defaults: { _controller: "KountacBundle:AchatsAdmin:delete" }

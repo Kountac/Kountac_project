@@ -5543,7 +5543,7 @@ ul.products-list {
 	overflow: hidden;
 	padding: 0px;
 }
-@media (max-width:480px) {
+@media (max-width:1080px) {
 .product-big-image {
 	border-right: none
 }
