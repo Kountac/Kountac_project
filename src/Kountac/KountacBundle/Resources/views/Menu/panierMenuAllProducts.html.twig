@@ -1,6 +1,8 @@
-{% if euro|length != 0 %}
 {% set totalPanier = 0 %}
 {% set totalPanier2 = 0 %}
+{% set targetCurrency = device_cible.devise.code %}
+{% set amountCurrency2 = "" %}
+{% set decimal = true %}
 <div class="block sidebar-cart">
 
     {% if produits|length == 0 and commandes|length == 0 %}
@@ -19,9 +21,11 @@
             <ul>
 
                 {% for produit in produits %}
-                    {% if produit.produit2.europrix %}
-                    {% set prixReduction = 0 %}
-                    {% set prixReduction = produit.produit2.europrix - (produit.produit2.europrix * produit.produit2.reduction/100) %}
+                    {% if produit.produit2.prix %}
+                        {% set amountCurrency = produit.produit2.devise %}
+                        {% set amountCurrency2 = amountCurrency %}
+                        {% set prixReduction = 0 %}
+                        {% set prixReduction = produit.produit2.prix - (produit.produit2.prix * produit.produit2.reduction/100) %}
                     <li class="item"> 
                         <a href="{{ path('product', {'id' : produit.produit2.id}) }}" title="{{ produit.produit2.produit1.nom|capitalize }} - {{ produit.produit2.libelle.libelle|capitalize }}" class="product-image">
                             {% for image in images %}
@@ -34,7 +38,7 @@
                             <div class="access"> <a href="#" title="Retirer {{ produit.produit2.produit1.nom|capitalize }} - {{ produit.produit2.libelle.libelle|capitalize }} de votre panier" class="remove-cart"><i class="icon-close"></i></a></div>
                             <p class="product-name"> <a href="{{ path('product', {'id' : produit.produit2.id}) }}"><strong>{{ produit.produit2.produit1.nom|capitalize }} - {{ produit.produit2.libelle.libelle|capitalize }}</strong></a> </p>
                             {{ produit.produit2.produit1.description|capitalize|truncate(50, false, ' ...') }}<br>
-                            <strong>{{ panier[produit.id] }}</strong> x <span class="price">{{ prixReduction|number_format(2) }} €</span> </div>
+                            <strong>{{ panier[produit.id] }}</strong> x <span class="price">{{ prixReduction| currency_convert(targetCurrency, decimal, amountCurrency) }} {{ device_cible.symbole }}</span> </div>
                     </li>
                     {% set totalPanier = totalPanier + (prixReduction * panier[produit.id]) %}
                     {% endif %}
@@ -63,7 +67,7 @@
         </ul>
         {% if commandes|length != 0 or produits|length != 0 %}
             <div class="summary">
-                <p class="subtotal"> <span class="label">Total panier:</span> <span class="price">{{ (totalPanier + totalPanier2)|number_format(2) }} €</span> </p>
+                <p class="subtotal"> <span class="label">Total panier:</span> <span class="price">{{ (totalPanier + totalPanier2)| currency_convert(targetCurrency, decimal, amountCurrency2) }} {{ device_cible.symbole }}</span> </p>
             </div> 
             <a href="{{ path('Checkout_index1') }}" title="Finalisation de la commande">
                 <div class="cart-checkout">
@@ -73,14 +77,3 @@
         {% endif %}
     </div>
 </div>
-{% elseif cfa|length != 0 %}
-    {% include 'KountacBundle:Menu:cfa/panierMenuAllProducts.html.twig' %}
-{% elseif usa|length != 0 %}
-    {% include 'KountacBundle:Menu:usa/panierMenuAllProducts.html.twig' %}
-{% elseif livre|length != 0 %}
-    {% include 'KountacBundle:Menu:livre/panierMenuAllProducts.html.twig' %}
-{% elseif naira|length != 0 %}
-    {% include 'KountacBundle:Menu:naira/panierMenuAllProducts.html.twig' %}
-{% elseif all|length != 0 %}
-    {% include 'KountacBundle:Menu:all/panierMenuAllProducts.html.twig' %}
-{% endif %}
